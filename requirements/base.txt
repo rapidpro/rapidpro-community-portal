@@ -1,0 +1,16 @@
+psycopg2==2.5.4
+Pillow==2.7.0
+# https://www.djangoproject.com/download/1.8b2/tarball/
+Django==1.7.6
+django_compressor==1.4
+# Required by django-compressor
+django-appconf==0.6
+six==1.9.0
+
+django-treebeard==3.0
+django-modelcluster==0.5
+wagtail==0.8.6
+django-taggit==0.12.3
+django-libsass==0.2
+
+BeautifulSoup4==4.3.2
