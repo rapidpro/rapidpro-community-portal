@@ -20,7 +20,7 @@ Getting Started
 
 First clone the repository from Github and switch to the new directory::
 
-    git clone git@github.com:[ORGANIZATION]/rapidpro-community-portal.git
+    git clone git@github.com:rapidpro/rapidpro-community-portal.git
     cd rapidpro-community-portal
 
 To setup your local environment you should create a virtualenv and install the
