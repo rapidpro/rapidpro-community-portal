@@ -1,0 +1,40 @@
+html,body{
+	height:100%;
+}
+
+html[dir="rtl"] body{
+	direction:rtl;
+}
+
+.float-layout{}
+
+.float-layout > *{
+	float:left;
+	width:100%;
+}
+
+.float-layout > * > *{
+	/*set margin for liner here*/
+}
+
+html[dir="rtl"] .float-layout > *{
+	float:right;
+}
+
+.half{ width:50%; }
+.third{ width:33.33333333%; }
+.two-thirds{ width:66.66666666%; }
+.quarter{ width:25%; }
+.three-quarters{ width:75%; }
+.fifth{ width:20%; }
+.two-fifths{ width:40%; }
+.three-fifths{ width:60%; }
+.four-fifths{ width:80%; }
+.sixth{ width:16.66666666%; }
+.five-sixths{ width:83.33333333%; }
+
+.table-layout{ display:table; width:100%; }
+.table-layout > *{ display:table-row; }
+.table-layout > * > *{ display:table-cell; }
+
+.flex-layout{ display:-webkit-flex; display:-ms-flexbox; display:flex; }
