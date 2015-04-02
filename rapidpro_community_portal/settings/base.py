@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
     'wagtail.wagtailsites',
+    'demo',
 )
 
 # A sample logging configuration. The only tangible logging
