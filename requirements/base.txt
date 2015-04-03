@@ -9,7 +9,7 @@ six==1.9.0
 
 django-treebeard==3.0
 django-modelcluster==0.5
-wagtail==0.8.6
+wagtail==1.0b1
 django-taggit==0.12.3
 django-libsass==0.2
 
