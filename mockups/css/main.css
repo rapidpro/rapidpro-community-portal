@@ -30,6 +30,13 @@ nav a:hover{
 	margin:10px;
 }
 
+.button{
+	padding:0.5em;
+	text-decoration:none;
+	background-color:teal;
+	border-radius:4px;
+}
+
 .hero{
 	height:200px;
 	background-color:#bbb;
