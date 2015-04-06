@@ -2,19 +2,24 @@ html,body{
 	height:100%;
 }
 
-html[dir="rtl"] body{
-	direction:rtl;
-}
+html[dir="rtl"] body{ direction:rtl; }
 
-.float-layout{}
+.page-width{
+	width:960px;
+	margin:0 auto;
+}
 
 .float-layout > *{
 	float:left;
 	width:100%;
 }
+html[dir="rtl"] .float-layout > *{ float:right; }
+
+.right{ float:right; }
+html[dir="rtl"] .right{ float:left; }
 
 .float-layout > * > *{
-	/*set margin for liner here*/
+	/*set cushion size here*/
 }
 
 html[dir="rtl"] .float-layout > *{
@@ -32,6 +37,9 @@ html[dir="rtl"] .float-layout > *{
 .four-fifths{ width:80%; }
 .sixth{ width:16.66666666%; }
 .five-sixths{ width:83.33333333%; }
+
+.clear{ clear:both; }
+.spacer{ height:2em; }
 
 .table-layout{ display:table; width:100%; }
 .table-layout > *{ display:table-row; }

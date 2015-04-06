@@ -1,9 +1,27 @@
 /*main.css*/
 
-html,body{
-	height:100%;
+body{
+	font-size:16px;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight:200;
 }
 
 header{
 	background-color:#0C6596;
 }
+
+.logo{
+	height:2em;
+}
+
+nav a{
+	display:inline-block;
+	color:white;
+}
+
+nav a:hover{
+
+}
+
+.skip-link{ display:none; }
+.skip-link:focus{ display:block; }
