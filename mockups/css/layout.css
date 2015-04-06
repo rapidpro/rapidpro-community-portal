@@ -18,14 +18,16 @@ html[dir="rtl"] .float-layout > *{ float:right; }
 .right{ float:right; }
 html[dir="rtl"] .right{ float:left; }
 
-.float-layout > * > *{
+.cushion{
 	/*set cushion size here*/
+	/*margin:10px;*/
 }
 
 html[dir="rtl"] .float-layout > *{
 	float:right;
 }
 
+.full{ width:100%; }
 .half{ width:50%; }
 .third{ width:33.33333333%; }
 .two-thirds{ width:66.66666666%; }

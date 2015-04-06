@@ -1,3 +1,3 @@
 function autoRefresh(timeoutPeriod) {
-	setTimeout(location.reload,timeoutPeriod);
+	setTimeout("location.reload(true)",timeoutPeriod);
 }
