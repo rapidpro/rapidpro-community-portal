@@ -44,3 +44,7 @@ nav a:hover{
 	background-position: 50% 50%;
 	background-size: cover;
 }
+
+section{
+	overflow:auto;
+}
