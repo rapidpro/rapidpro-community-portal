@@ -1,7 +1,7 @@
 /*main.css*/
 
 body{
-	font-size:16px;
+	font-size:18px;
 	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight:200;
 }
@@ -16,6 +16,7 @@ header{
 footer{
 	background-color:#aaa;
 	padding-bottom:4em;
+	color:#777;
 }
 
 .logo{
