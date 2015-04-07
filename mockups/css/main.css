@@ -6,8 +6,16 @@ body{
 	font-weight:200;
 }
 
+header,footer{
+	overflow:auto;
+}
+
 header{
 	background-color:#0C6596;
+}
+footer{
+	background-color:#aaa;
+	padding-bottom:4em;
 }
 
 .logo{
@@ -44,6 +52,21 @@ nav a:hover{
 	background-position: 50% 50%;
 	background-size: cover;
 }
+
+.featured-case-study .cushion{
+	margin-top:0;
+}
+
+.call-to-action{
+	background-color:#0C6596;
+	/*background image could go here*/
+}
+
+.call-to-action .button{
+	background-color:white;
+	color:black;
+}
+
 
 section{
 	overflow:auto;
