@@ -289,7 +289,7 @@ class BlogIndexPage(Page):
 
         # Pagination
         page = request.GET.get('page')
-        paginator = Paginator(blogs, 10)  # Show 10 blogs per page
+        paginator = Paginator(blogs, 6)  # Show 6 blogs per page
         try:
             blogs = paginator.page(page)
         except PageNotAnInteger:

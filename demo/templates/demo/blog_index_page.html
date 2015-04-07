@@ -9,7 +9,9 @@
         <h4>Showing posts tagged as {{ request.GET.tag|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
     {% endif %}
 
-    <div class="list-group">
+    <section class="highlights">
+        <div class="page-width float-layout">
+        <h2 class="hidden">Highlights</h2>
         {# Uses serve method defined in models.py - allows for paging if required #}
         {# See also standard index for creating a listing with a tag #}
         {% for blog in blogs %}
@@ -17,8 +19,11 @@
         {% empty %}
             No blogs found
         {% endfor %}
-    </div>
+        </div>
+    </section>
 
+    <div class="clear"></div>
+    
     {# Pagination - uses django.core.paginator #}
     {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
     <div class="row">
