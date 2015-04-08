@@ -19,12 +19,16 @@ footer{
 	color:#777;
 }
 
+a{ text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
 .logo{
 	height:2em;
 }
 
 nav a{
 	display:inline-block;
+	padding:0 0.5em;
 	color:white;
 }
 
@@ -47,7 +51,7 @@ nav a:hover{
 }
 
 .hero{
-	height:200px;
+	height:330px;
 	background-color:#bbb;
 	background-image:url(http://placehold.it/1400x400);
 	background-position: 50% 50%;
