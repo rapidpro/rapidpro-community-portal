@@ -9,7 +9,7 @@
     {% if blog.feed_image %}      
       {% image blog.feed_image width-150 as img %}
       <a href="{% pageurl blog %}">
-        <img class="media-object" src="{{ img.url }}" />
+        <img class="full" src="{{ img.url }}" />
       </a>
     {% endif %}
     </div></div>

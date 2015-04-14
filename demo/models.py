@@ -359,6 +359,109 @@ BlogPage.promote_panels = Page.promote_panels + [
     FieldPanel('tags'),
 ]
 
+# CaseStudy index page
+
+class CaseStudyIndexPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('demo.CaseStudyIndexPage', related_name='related_links')
+
+
+class CaseStudyIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+    @property
+    def casestudies(self):
+        # Get list of live casestudy pages that are descendants of this page
+        casestudies = CaseStudyPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        casestudies = casestudies.order_by('-date')
+
+        return casestudies
+
+    def get_context(self, request):
+        # Get casestudies
+        casestudies = self.casestudies
+
+        # Filter by tag
+        tag = request.GET.get('tag')
+        if tag:
+            casestudies = casestudies.filter(tags__name=tag)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(casestudies, 6)  # Show 6 casestudies per page
+        try:
+            casestudies = paginator.page(page)
+        except PageNotAnInteger:
+            casestudies = paginator.page(1)
+        except EmptyPage:
+            casestudies = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(CaseStudyIndexPage, self).get_context(request)
+        context['casestudies'] = casestudies
+        return context
+
+CaseStudyIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+    InlinePanel(CaseStudyIndexPage, 'related_links', label="Related links"),
+]
+
+CaseStudyIndexPage.promote_panels = Page.promote_panels
+
+
+# CaseStudy page
+
+class CaseStudyPageCarouselItem(Orderable, CarouselItem):
+    page = ParentalKey('demo.CaseStudyPage', related_name='carousel_items')
+
+
+class CaseStudyPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('demo.CaseStudyPage', related_name='related_links')
+
+
+class CaseStudyPageTag(TaggedItemBase):
+    content_object = ParentalKey('demo.CaseStudyPage', related_name='tagged_items')
+
+
+class CaseStudyPage(Page):
+    body = RichTextField()
+    tags = ClusterTaggableManager(through=CaseStudyPageTag, blank=True)
+    date = models.DateField("Post date")
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    search_fields = Page.search_fields + (
+        index.SearchField('body'),
+    )
+
+    @property
+    def casestudy_index(self):
+        # Find closest ancestor which is a casestudy index
+        return self.get_ancestors().type(CaseStudyIndexPage).last()
+
+CaseStudyPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('date'),
+    FieldPanel('body', classname="full"),
+    InlinePanel(CaseStudyPage, 'carousel_items', label="Carousel items"),
+    InlinePanel(CaseStudyPage, 'related_links', label="Related links"),
+]
+
+CaseStudyPage.promote_panels = Page.promote_panels + [
+    ImageChooserPanel('feed_image'),
+    FieldPanel('tags'),
+]
 
 # Person page
 
