@@ -44,10 +44,14 @@ nav a:hover{
 }
 
 .button{
+	display:inline-block;
 	padding:0.5em;
 	text-decoration:none;
+	text-align: center;
 	background-color:teal;
+	color:white;
 	border-radius:4px;
+	box-sizing: border-box;
 }
 
 .hero{
