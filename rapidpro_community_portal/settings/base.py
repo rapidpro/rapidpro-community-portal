@@ -142,6 +142,8 @@ INSTALLED_APPS = (
     'wagtail.wagtailsites',
     # project apps
     'accounts',
+    # temporary
+    'demo',
 )
 
 AUTH_USER_MODEL = 'accounts.RapidProUser'
