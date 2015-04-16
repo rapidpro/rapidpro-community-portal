@@ -19,6 +19,6 @@ class UserTestCase(TestCase):
             self.user.get_full_name()
         )
 
-    def test_no_email(self):
+    def test_no_username(self):
         with self.assertRaises(ValueError):
-            factories.UserFactory(email='')
+            factories.UserFactory(username='')

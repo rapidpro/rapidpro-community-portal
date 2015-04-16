@@ -8,10 +8,13 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
+from accounts import urls as accounts_urls
 
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
-
+    # Overwrite wagtail hooks url registration for user URLs
+    # https://github.com/torchbox/wagtail/issues/158
+    url(r'^admin/users/', include(accounts_urls)),
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^search/', include(wagtailsearch_frontend_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),

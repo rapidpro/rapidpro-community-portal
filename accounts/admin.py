@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
@@ -14,14 +15,20 @@ class RapidProUserCreationForm(UserCreationForm):
     A form that creates a user, with no privileges, from the given email and
     password.
     """
-
-    def __init__(self, *args, **kargs):
-        super().__init__(*args, **kargs)
-        del self.fields['username']
+    username = forms.EmailField(required=True, label=_("Email"))
 
     class Meta:
         model = User
-        fields = ("email",)
+        fields = ("username",)
+
+    # workaround https://code.djangoproject.com/ticket/20188
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        try:
+            User._default_manager.get(username=username)
+        except User.DoesNotExist:
+            return username
+        raise forms.ValidationError(self.error_messages['duplicate_username'])
 
 
 class RapidProUserChangeForm(UserChangeForm):
@@ -29,10 +36,7 @@ class RapidProUserChangeForm(UserChangeForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-
-    def __init__(self, *args, **kargs):
-        super().__init__(*args, **kargs)
-        del self.fields['username']
+    username = forms.EmailField(required=True, label=_("Email"))
 
     class Meta:
         model = User
@@ -47,7 +51,7 @@ class RapidProUserAdmin(UserAdmin):
     # These override the definitions on the base UserAdmin
     # that reference the removed 'username' field
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
@@ -56,10 +60,10 @@ class RapidProUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}),
+            'fields': ('username', 'password1', 'password2')}),
     )
     form = RapidProUserChangeForm
     add_form = RapidProUserCreationForm
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
-    search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('email',)
+    list_display = ('username', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('username', 'first_name', 'last_name')
+    ordering = ('username',)
