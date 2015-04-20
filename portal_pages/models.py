@@ -24,7 +24,7 @@ class HomePageHeroImageItem(Orderable, models.Model):
     target_page = models.ForeignKey(Page)
     hero_image = models.ForeignKey(Image)
 
-HomePageHeroImageItem.content_panels = [
+HomePageHeroImageItem.panels = [
     FieldPanel('blurb'),
     PageChooserPanel('target_page'),
     ImageChooserPanel('hero_image'),
