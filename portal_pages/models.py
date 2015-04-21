@@ -137,8 +137,22 @@ CaseStudyIndexPage.promote_panels = Page.promote_panels
 class CaseStudyPage(Page):
     summary = RichTextField()
     date = models.DateField("Post date")
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    downloadable_package = models.ForeignKey(
+        'wagtaildocs.Document',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -158,9 +172,8 @@ CaseStudyPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('date'),
     FieldPanel('summary', classname="full"),
-    InlinePanel('case_study_hero_items', label='Hero Images'),
-    InlinePanel('case_study_full_case', label='Full Case Document'),
-    InlinePanel('case_study_downloadable_package', label='Downloadable Package (Your RapidPro json file)'),
+    ImageChooserPanel('hero_image'),
+    DocumentChooserPanel('downloadable_package'),
     InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
     InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
@@ -169,39 +182,6 @@ CaseStudyPage.content_panels = [
 
 CaseStudyPage.promote_panels = Page.promote_panels + [
     ImageChooserPanel('feed_image'),
-]
-
-
-class CaseStudyHeroImageItem(Orderable, models.Model):
-    casestudy_page = ParentalKey(CaseStudyPage, related_name='case_study_hero_items')
-    blurb = RichTextField()
-    target_page = models.ForeignKey(Page)
-    hero_image = models.ForeignKey(Image)
-
-CaseStudyHeroImageItem.panels = [
-    FieldPanel('blurb'),
-    PageChooserPanel('target_page'),
-    ImageChooserPanel('hero_image'),
-]
-
-
-class CaseStudyFullCase(Orderable, models.Model):
-    casestudy_page = ParentalKey(CaseStudyPage, related_name='case_study_full_case')
-    blurb = RichTextField()
-    full_case = models.ForeignKey('wagtaildocs.Document')
-
-CaseStudyFullCase.panels = [
-    DocumentChooserPanel('full_case'),
-]
-
-
-class CaseStudyDownloadablePackage(Orderable, models.Model):
-    casestudy_page = ParentalKey(CaseStudyPage, related_name='case_study_downloadable_package')
-    blurb = RichTextField()
-    downloadable_package = models.ForeignKey('wagtaildocs.Document')
-
-CaseStudyDownloadablePackage.panels = [
-    DocumentChooserPanel('downloadable_package'),
 ]
 
 
