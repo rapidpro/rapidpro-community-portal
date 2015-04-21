@@ -1,12 +1,62 @@
 from django.db import models
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailsearch import index
+from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from modelcluster.fields import ParentalKey
 
+
+"""
+The following models may be shared across multiple other models
+"""
+
+class Country(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
+        verbose_name_plural = "countries"
+
+
+class FocusArea(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
+
+
+class TechFirm(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
+
+
+"""
+Page models
+"""
+
+# Home Page
 
 class HomePage(Page):
     home_content = RichTextField()
@@ -29,3 +79,163 @@ HomePageHeroImageItem.panels = [
     PageChooserPanel('target_page'),
     ImageChooserPanel('hero_image'),
 ]
+
+
+# CaseStudy index page
+
+class CaseStudyIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+    @property
+    def casestudies(self):
+        # Get list of live casestudy pages that are descendants of this page
+        casestudies = CaseStudyPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        casestudies = casestudies.order_by('-date')
+
+        return casestudies
+
+    def get_context(self, request):
+        # Get casestudies
+        casestudies = self.casestudies
+
+        # Filter by country
+        country = request.GET.get('country')
+        if country:
+            casestudies = casestudies.filter(countries__name=country)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(casestudies, 6)  # Show 6 casestudies per page
+        try:
+            casestudies = paginator.page(page)
+        except PageNotAnInteger:
+            casestudies = paginator.page(1)
+        except EmptyPage:
+            casestudies = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(CaseStudyIndexPage, self).get_context(request)
+        context['casestudies'] = casestudies
+        return context
+
+CaseStudyIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+]
+
+CaseStudyIndexPage.promote_panels = Page.promote_panels
+
+
+# Case Study Page
+
+class CaseStudyPage(Page):
+    summary = RichTextField()
+    date = models.DateField("Post date")
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    search_fields = Page.search_fields + (
+        index.SearchField('summary'),
+    )
+
+    @property
+    def casestudy_index(self):
+        # Find closest ancestor which is a casestudy index
+        return self.get_ancestors().type(CaseStudyIndexPage).last()
+
+CaseStudyPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('date'),
+    FieldPanel('summary', classname="full"),
+    InlinePanel('case_study_hero_items', label='Hero Images'),
+    InlinePanel('case_study_full_case', label='Full Case Document'),
+    InlinePanel('case_study_downloadable_package', label='Downloadable Package (Your RapidPro json file)'),
+    InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
+    InlinePanel(CaseStudyPage, 'countries', label="Countries"),
+    InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
+    InlinePanel(CaseStudyPage, 'tech_firms', label="Tech Firms"),
+]
+
+CaseStudyPage.promote_panels = Page.promote_panels + [
+    ImageChooserPanel('feed_image'),
+]
+
+
+class CaseStudyHeroImageItem(Orderable, models.Model):
+    casestudy_page = ParentalKey(CaseStudyPage, related_name='case_study_hero_items')
+    blurb = RichTextField()
+    target_page = models.ForeignKey(Page)
+    hero_image = models.ForeignKey(Image)
+
+CaseStudyHeroImageItem.panels = [
+    FieldPanel('blurb'),
+    PageChooserPanel('target_page'),
+    ImageChooserPanel('hero_image'),
+]
+
+
+class CaseStudyFullCase(Orderable, models.Model):
+    casestudy_page = ParentalKey(CaseStudyPage, related_name='case_study_full_case')
+    blurb = RichTextField()
+    full_case = models.ForeignKey('wagtaildocs.Document')
+
+CaseStudyFullCase.panels = [
+    DocumentChooserPanel('full_case'),
+]
+
+
+class CaseStudyDownloadablePackage(Orderable, models.Model):
+    casestudy_page = ParentalKey(CaseStudyPage, related_name='case_study_downloadable_package')
+    blurb = RichTextField()
+    downloadable_package = models.ForeignKey('wagtaildocs.Document')
+
+CaseStudyDownloadablePackage.panels = [
+    DocumentChooserPanel('downloadable_package'),
+]
+
+
+# The following children of Case Study use through-model
+# Desribed in M2M issue work-around
+# https://github.com/torchbox/wagtail/issues/231
+
+class CountryCaseStudy(Orderable, models.Model):
+    country = models.ForeignKey(Country, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='countries')
+    panels = [
+        FieldPanel('country'),
+    ]
+
+
+class FocusAreaCaseStudy(Orderable, models.Model):
+    focusarea = models.ForeignKey(FocusArea, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='focus_areas')
+    panels = [
+        FieldPanel('focusarea'),
+    ]
+
+
+class OrganizationCaseStudy(Orderable, models.Model):
+    organization = models.ForeignKey(Organization, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='organizations')
+    panels = [
+        FieldPanel('organization'),
+    ]
+
+
+class TechFirmCaseStudy(Orderable, models.Model):
+    techfirm = models.ForeignKey(TechFirm, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='tech_firms')
+    panels = [
+        FieldPanel('techfirm'),
+    ]

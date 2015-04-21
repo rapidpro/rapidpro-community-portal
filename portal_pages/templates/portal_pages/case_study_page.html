@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block heading %}
+  <div class="page-header">
+
+    <div>
+      <h4>Countries<h4>
+      <p>
+      {% for country in self.countries.all %}
+        <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
+        {{ country.country.name }}
+        </a>
+      {% endfor %}
+      </p>
+    </div>
+
+    <div>
+      <h4>Focus Areas<h4>
+      <p>
+      {% for focus_area in self.focus_areas.all %}
+        <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
+        {{ focus_area.focusarea.name }}
+        </a>
+      {% endfor %}
+      </p>
+    </div>
+
+    <div>
+      <h4>Organizations<h4>
+      <p>
+      {% for organization in self.organizations.all %}
+        <a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
+        {{ organization.organization.name }}
+        </a>
+      {% endfor %}
+      </p>
+    </div>
+
+    <div>
+      <h4>Tech Firms<h4>
+      <p>
+      {% for tech_firm in self.tech_firms.all %}
+        <a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
+        {{ tech_firm.techfirm.name }}
+        </a>
+      {% endfor %}
+      </p>
+    </div>
+
+    <h2>
+      {{ self.title }}
+      {% if self.date %}<small>{{ self.date }}</small>{% endif %}
+    </h2>
+
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div>This is where we put the rest of the case study page</div>
+  <div>{{ self.summary|richtext }}</div>
+{% endblock %}
