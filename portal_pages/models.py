@@ -107,7 +107,7 @@ class CaseStudyIndexPage(Page):
         # Filter by country
         country = request.GET.get('country')
         if country:
-            casestudies = casestudies.filter(countries__name=country)
+            casestudies = casestudies.filter(countries__country__name=country)
 
         # Pagination
         page = request.GET.get('page')
@@ -144,13 +144,6 @@ class CaseStudyPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    feed_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
     downloadable_package = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
@@ -178,10 +171,6 @@ CaseStudyPage.content_panels = [
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
     InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
     InlinePanel(CaseStudyPage, 'tech_firms', label="Tech Firms"),
-]
-
-CaseStudyPage.promote_panels = Page.promote_panels + [
-    ImageChooserPanel('feed_image'),
 ]
 
 
