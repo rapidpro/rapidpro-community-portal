@@ -8,8 +8,8 @@
       </div>
     {% endif %}
 
-    {% if request.GET.tag|length %}
-        <h4>Showing posts tagged as {{ request.GET.tag|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
+    {% if request.GET.country|length %}
+        <h4>Showing posts tagged as {{ request.GET.country|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
     {% endif %}
 
     <section class="highlights">
