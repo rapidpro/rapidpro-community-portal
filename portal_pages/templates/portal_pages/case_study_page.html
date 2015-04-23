@@ -1,5 +1,28 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block extra_css %}
+{% image self.hero_image width-1000 as heroimagedata %}
+<style>
+  .hero-image
+  {
+    height: 200px;
+    background-color: #bbb;
+    width: 100%;
+    min-height: {{ heroimagedata.height }}px;
+    background-size: cover;
+    background-image: url({{ heroimagedata.url }})
+  }
+</style>
+{% endblock %}
+
+{% block hero-image %}
+<section class="hero-image" alt="{{ heroimagedata.alt }}">
+    <div class="page-width">
+        <h1>This is coming from the Case Study Page template. Do we need something here?</h1>
+    </div>
+</section>
+{% endblock %}
 
 {% block heading %}
   <div class="page-header">
