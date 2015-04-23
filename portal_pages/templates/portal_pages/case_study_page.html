@@ -17,10 +17,9 @@
 {% endblock %}
 
 {% block hero-image %}
-{% image self.hero_image width-1000 as heroimagedata %}
-<section class="hero-image" alt="{{ heroimagedata.alt }}">
+<section class="hero-image" alt="{{ self.hero_image.title }}">
     <div class="page-width">
-        <h1>{{ heroimagedata.alt }}</h1>
+        <h1>{{ self.hero_image.title }}</h1>
     </div>
 </section>
 {% endblock %}
