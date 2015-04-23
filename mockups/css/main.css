@@ -76,7 +76,20 @@ nav a:hover{
 	color:black;
 }
 
-
 section{
 	overflow:auto;
+}
+
+.tags > *{
+	display:inline-block;
+	margin-bottom: 0.25em;
+	border-radius: 0.25em;
+	background-color:#777;
+	color:white;
+	padding:1px 0.25em;
+}
+
+.tags > a:hover{
+	text-decoration: none;
+	background-color:#888;
 }
