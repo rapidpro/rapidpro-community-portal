@@ -9,17 +9,18 @@
     height: 200px;
     background-color: #bbb;
     width: 100%;
-    min-height: {{ heroimagedata.height }}px;
     background-size: cover;
-    background-image: url({{ heroimagedata.url }})
+    min-height: {{ heroimagedata.height }}px;
+    background-image: url({{ heroimagedata.url }});
   }
 </style>
 {% endblock %}
 
 {% block hero-image %}
+{% image self.hero_image width-1000 as heroimagedata %}
 <section class="hero-image" alt="{{ heroimagedata.alt }}">
     <div class="page-width">
-        <h1>This is coming from the Case Study Page template. Do we need something here?</h1>
+        <h1>{{ heroimagedata.alt }}</h1>
     </div>
 </section>
 {% endblock %}
