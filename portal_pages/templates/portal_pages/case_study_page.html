@@ -80,6 +80,13 @@
 {% endblock %}
 
 {% block content %}
-  <div>This is where we put the rest of the case study page</div>
-  <div>{{ self.summary|richtext }}</div>
+    
+    {% if self.summary %}
+      <div>{{ self.summary|richtext }}</div>
+    {% endif %}
+
+    {% if self.downloadable_package %}
+      <div><a href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a></div>
+    {% endif %}
+
 {% endblock %}
