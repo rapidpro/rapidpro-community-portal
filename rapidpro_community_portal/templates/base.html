@@ -21,7 +21,9 @@
         <link href="{% static 'css/wildcard.css' %}" type="text/css" rel="stylesheet">
         <link href="{% static 'css/layout.css' %}" type="text/css" rel="stylesheet">
         <link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/flickity.css' %}" type="text/css" rel="stylesheet">
 
+        <script type="text/javascript" src="js/flickity.js"></script>
         {% comment %}{# TODO: figure out what this is supposed to be #}
         <script type="text/javascript" src="js/uservoice.js"></script>
         {% endcomment %}
@@ -60,7 +62,9 @@
         {# TODO: replace background for class hero w/ dynamic picking of image for current page #}
         <section class="hero">
             <div class="page-width">
-                <h1>Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque.</h1>
+                <div class="cushion">
+                    <h1>Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque.</h1>
+                </div>
             </div>
         </section>
         {% endblock %}
@@ -71,5 +75,27 @@
 
         {# External javascript #}
         {% block extra_js %}{% endblock %}
+
+        <div class="spacer"></div>
+
+        {% block bottom-nav %}
+        <footer>
+            <div class="page-width">
+                <div class="cushion">
+                <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                <nav class="right">
+                    <a href="#">Learn</a>
+                    <a href="#">Connect</a>
+                    <a href="#">Stories</a>
+                    <a href="#">Develop</a>
+                    <a class="button" href="#">Free Demo</a>
+                </nav>
+                <div class="clear spacer"></div>
+                <p>Fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print</p>
+                </div>
+            </div>
+        </footer>
+        {% endblock %}
+
     </body>
 </html>

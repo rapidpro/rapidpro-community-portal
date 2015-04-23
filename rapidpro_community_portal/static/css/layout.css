@@ -48,3 +48,12 @@ html[dir="rtl"] .left{ float:right; }
 .flex-layout{ display:-webkit-flex; display:-ms-flexbox; display:flex; }
 
 .hidden{ display:none; }
+
+.transform-parent{ position:relative; }
+.transform-center{
+	position:absolute;
+	top:50%;
+	left:50%;
+	-webkit-transform:translate(-50%,-50%);
+	transform:translate(-50%,-50%);
+}
