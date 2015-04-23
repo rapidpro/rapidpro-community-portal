@@ -98,6 +98,8 @@ class CaseStudyIndexPage(Page):
         # Order by most recent date first
         casestudies = casestudies.order_by('-date')
 
+        #TODO: filter out case studies that have post dates after today's date
+
         return casestudies
 
     def get_context(self, request):

@@ -4,12 +4,8 @@
 {% block extra_css %}
 {% image self.hero_image width-1000 as heroimagedata %}
 <style>
-  .hero-image
+  .hero
   {
-    height: 200px;
-    background-color: #bbb;
-    width: 100%;
-    background-size: cover;
     min-height: {{ heroimagedata.height }}px;
     background-image: url({{ heroimagedata.url }});
   }
@@ -17,7 +13,7 @@
 {% endblock %}
 
 {% block hero-image %}
-<section class="hero-image" alt="{{ self.hero_image.title }}">
+<section class="hero" alt="{{ self.hero_image.title }}">
     <div class="page-width">
         <h1>{{ self.hero_image.title }}</h1>
     </div>
