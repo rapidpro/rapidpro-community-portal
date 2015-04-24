@@ -1,9 +1,33 @@
 {% extends 'base.html' %}
+{% load wagtailimages_tags wagtailcore_tags %}
 
 {% block hero-image %}
-<p>This is where we put home page's fancy carousel of images</p>
+    {# TODO: these hero images w/ image, link to target page, blurb, need to get assembled into some fancy carousel #}
+    {% for hitem in self.hero_items.all %}
+    <div>
+        <a href="{% pageurl hitem.target_page %}">{% image hitem.hero_image height-400 %}</a>
+        {{ hitem.blurb|richtext }}
+    </div>
+    {% endfor %}
 {% endblock %}
 
 {% block content %}
-<p>This is where we put the rest of the home page</p>
+<section class="highlights">
+    <div class="page-width float-layout">
+    {% for hlight in self.highlights.all %}
+        <div class="half float-layout">
+            <div class="third"><div class="cushion">
+                <a href="{% pageurl hlight.target_page %}">{% image hlight.icon max-140x140 %}</a>
+            </div></div>
+            <div class="two-thirds"><div class="cushion">
+                <h3><a href="{% pageurl hlight.target_page %}">{{ hlight.title }}</a></h3>
+                {{ hlight.blurb|richtext }}
+            </div></div>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+
+
+<p>Remaining sections still to be added!</p>
 {% endblock %}

@@ -2,12 +2,14 @@ from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailcore.fields import RichTextField
+from wagtail.wagtailcore.fields import RichTextField, StreamField
+from wagtail.wagtailcore import blocks
 from wagtail.wagtailimages.models import Image
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, StreamFieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 from modelcluster.fields import ParentalKey
 
 
@@ -15,8 +17,10 @@ from modelcluster.fields import ParentalKey
 The following models may be shared across multiple other models
 """
 
+
 class Country(models.Model):
     name = models.CharField(max_length=255)
+
     def __str__(self):
         return self.name
 
@@ -27,6 +31,7 @@ class Country(models.Model):
 
 class FocusArea(models.Model):
     name = models.CharField(max_length=255)
+
     def __str__(self):
         return self.name
 
@@ -36,6 +41,7 @@ class FocusArea(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=255)
+
     def __str__(self):
         return self.name
 
@@ -45,6 +51,7 @@ class Organization(models.Model):
 
 class TechFirm(models.Model):
     name = models.CharField(max_length=255)
+
     def __str__(self):
         return self.name
 
@@ -56,7 +63,6 @@ class TechFirm(models.Model):
 Page models
 """
 
-# Home Page
 
 class HomePage(Page):
     home_content = RichTextField()
@@ -65,6 +71,7 @@ HomePage.content_panels = [
     FieldPanel('title'),
     FieldPanel('home_content'),
     InlinePanel('hero_items', label='Hero Images'),
+    InlinePanel('highlights'),
 ]
 
 
@@ -81,7 +88,35 @@ HomePageHeroImageItem.panels = [
 ]
 
 
+class HighlightItem(Orderable, models.Model):
+    home_page = ParentalKey(HomePage, related_name='highlights')
+    title = models.CharField(max_length=255)
+    blurb = RichTextField()
+    icon = models.ForeignKey(Image)
+    target_page = models.ForeignKey(Page)
+
+HighlightItem.panels = [
+    FieldPanel('title'),
+    PageChooserPanel('target_page'),
+    FieldPanel('blurb'),
+    ImageChooserPanel('icon'),
+]
+
+
+class CMSPage(Page):
+    body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ])
+
+CMSPage.content_panels = [
+    FieldPanel('title'),
+    StreamFieldPanel('body'),
+]
+
 # CaseStudy index page
+
 
 class CaseStudyIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -98,7 +133,7 @@ class CaseStudyIndexPage(Page):
         # Order by most recent date first
         casestudies = casestudies.order_by('-date')
 
-        #TODO: filter out case studies that have post dates after today's date
+        # TODO: filter out case studies that have post dates after today's date
 
         return casestudies
 
