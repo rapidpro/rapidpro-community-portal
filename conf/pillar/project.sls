@@ -4,3 +4,5 @@ project_name: rapidpro_community_portal
 python_version: 3.4
 
 less_version: 2.1.0
+
+postgres_version: 9.3

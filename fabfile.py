@@ -32,7 +32,7 @@ env.master = 'CHANGEME'
 @task
 def staging():
     env.environment = 'staging'
-
+    env.master = 'rapidpro-staging.cakt.us'
 
 @task
 def production():
@@ -137,7 +137,7 @@ def setup_minion(*roles):
     # install salt minion if it's not there already
     with settings(warn_only=True):
         with hide('running', 'stdout', 'stderr'):
-            installed = run('which salt-call')
+            installed = run('which salt-minion')
     if not installed:
         # install salt-minion from PPA
         sudo('apt-get update -qq -y')
