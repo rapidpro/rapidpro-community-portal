@@ -1,36 +1,101 @@
-{% load compress %}
-{% load static from staticfiles %}
+{% load compress static wagtailuserbar %}
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-<head>
-    <meta charset="utf-8">
-    <title>{% block title %}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% block meta-description %}{% endblock %}">
-    <meta name="author" content="{% block meta-author %}{% endblock %}">
-    <meta name="keywords" content="{% block meta-keywords %}{% endblock %}">
-    {% block extra-meta %}{% endblock %}
-    {% if debug %}
-    <link rel="stylesheet/less" type="text/css" media="all" href="{% static 'less/site.less' %}">
-    <script src="{% static 'libs/less.js' %}"></script>
-    {% else %}
-    {% compress css %}
-    <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/site.less' %}">
-    {% endcompress %}
-    {% endif %}
-    {% block extra-css %}{% endblock %}
-    {% compress js %}
-    <script src="{% static 'libs/modernizr.js' %}"></script>
-    {% endcompress %}
-</head>
-<body>
-    <div class="container">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="IE=10" http-equiv="X-UA-Compatible">
+
+        <title>
+            {% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}
+            {% block title_postfix %}{% endblock %}
+        </title>
+
+        {# TODO: replace with something in our repo #}
+        <link href="http://rapidpro.io/sitestatic/brands/rapidpro/rapidpro.ico" type="image/ico" rel="shortcut icon">
+
+        <meta name="description" content="{% if self.search_description %}{{ self.search_description }}{% endif %}">
+
+        {# Caktus stylesheets #}
+        <link href="{% static 'css/wildcard.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/layout.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/flickity.css' %}" type="text/css" rel="stylesheet">
+
+        <script type="text/javascript" src="js/flickity.js"></script>
+        {% comment %}{# TODO: figure out what this is supposed to be #}
+        <script type="text/javascript" src="js/uservoice.js"></script>
+        {% endcomment %}
+
+        {% block extra_css %}{% endblock %}
+    </head>
+
+    <body>
+        {# TODO: incorporate the top menu bar somehow, commenting it out for now #}
+        {% comment %}
+        {% wagtailuserbar %}
+        {% endcomment %}
+
+        {# TODO: split out into an include #}
+        {# TODO: figure out meshing fixed/dynamic content for this #}
+        {% block top-nav %}
+        <header>
+            <div class="page-width">
+                <div class="cushion">
+                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                    <nav class="right">
+                        <a class="skip-link" href="#content">Skip Link</a>
+                        <a href="#">Learn</a>
+                        <a href="#">Connect</a>
+                        <a href="#">Stories</a>
+                        <a href="#">Develop</a>
+                        <a class="button" href="#">Free Demo</a>
+                    </nav>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </header>
+        {% endblock %}
+
+        {% block hero-image %}
+        {# TODO: replace background for class hero w/ dynamic picking of image for current page #}
+        <section class="hero">
+            <div class="page-width">
+                <div class="cushion">
+                    <h1>Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque.</h1>
+                </div>
+            </div>
+        </section>
+        {% endblock %}
+
+        {% block heading %}{% endblock %}
+
         {% block content %}{% endblock %}
-    </div>
-    {% compress js %}
-    <script src="{% static 'libs/jquery.js' %}"></script>
-    <script src="{% static 'js/site.js' %}"></script>
-    {% endcompress %}
-    {% block extra-js %}{% endblock %}
-</body>
+
+        {# External javascript #}
+        {% block extra_js %}{% endblock %}
+
+        <div class="spacer"></div>
+
+        {% block bottom-nav %}
+        <footer>
+            <div class="page-width">
+                <div class="cushion">
+                <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                <nav class="right">
+                    <a href="#">Learn</a>
+                    <a href="#">Connect</a>
+                    <a href="#">Stories</a>
+                    <a href="#">Develop</a>
+                    <a class="button" href="#">Free Demo</a>
+                </nav>
+                <div class="clear spacer"></div>
+                <p>Fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print</p>
+                </div>
+            </div>
+        </footer>
+        {% endblock %}
+
+    </body>
 </html>

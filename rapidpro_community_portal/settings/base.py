@@ -140,8 +140,13 @@ INSTALLED_APPS = (
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
     'wagtail.wagtailsites',
-    'demo',
+    # project apps
+    'accounts',
+    'portal_pages',
 )
+
+AUTH_USER_MODEL = 'accounts.RapidProUser'
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -14,10 +14,10 @@
         <h2 class="hidden">Highlights</h2>
         {# Uses serve method defined in models.py - allows for paging if required #}
         {# See also standard index for creating a listing with a tag #}
-        {% for blog in blogs %}
-            {% include "demo/includes/blog_list_item.html" %}
+        {% for casestudy in casestudies %}
+            {% include "demo/includes/case_study_list_item.html" %}
         {% empty %}
-            No blogs found
+            No case studies found
         {% endfor %}
         </div>
     </section>
@@ -28,16 +28,16 @@
     {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
     <div class="row">
         <div class="col-sm-4 previous">
-            {% if blogs.has_previous %}
-                <a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
+            {% if casestudies.has_previous %}
+                <a href="?page={{ casestudies.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
             {% endif %}
         </div>
         <div class="col-sm-4 pages">
-            Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}
+            Page {{ casestudies.number }} of {{ casestudies.paginator.num_pages }}
         </div>
         <div class="col-sm-4 next">
-            {% if blogs.has_next %}
-                <a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
+            {% if casestudies.has_next %}
+                <a href="?page={{ casestudies.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
             {% endif %}
         </div>
     </div>
