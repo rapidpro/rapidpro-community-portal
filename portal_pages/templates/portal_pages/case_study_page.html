@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block extra_css %}
+{% image self.hero_image width-1000 as heroimagedata %}
+<style>
+  .hero
+  {
+    height: 200px;
+    background-image: url({{ heroimagedata.url }});
+  }
+</style>
+{% endblock %}
+
+{% block hero-image %}
+<section class="hero" alt="{{ self.hero_image.title }}">
+    <div class="page-width">
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+  <section class="content">
+    <div class="page-width float-layout">
+      <div class="full"><div class="cushion">
+      <div>
+        <p>
+        {% for country in self.countries.all %}
+          <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
+          {{ country.country.name }}
+          </a>
+        {% endfor %}
+        </p>
+      </div>
+
+      <div>
+        <p>
+        {% for focus_area in self.focus_areas.all %}
+          <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
+          {{ focus_area.focusarea.name }}
+          </a>
+        {% endfor %}
+        </p>
+      </div>
+
+      <div>
+        <p>
+        {% for organization in self.organizations.all %}
+          <a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
+          {{ organization.organization.name }}
+          </a>
+        {% endfor %}
+        </p>
+      </div>
+
+      <div>
+        <p>
+        {% for tech_firm in self.tech_firms.all %}
+          <a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
+          {{ tech_firm.techfirm.name }}
+          </a>
+        {% endfor %}
+        </p>
+      </div>
+
+      <h2>
+        {{ self.title }}
+        {% if self.date %}<small>{{ self.date }}</small>{% endif %}
+      </h2>
+
+      {% if self.summary %}
+        <p>{{ self.summary|richtext }}</p>
+      {% endif %}
+
+      {% if self.downloadable_package %}
+        <p><a href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a></p>
+      {% endif %}
+
+      </div></div>
+    </div>
+  </section>
+{% endblock %}

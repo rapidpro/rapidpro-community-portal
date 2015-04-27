@@ -1,14 +1,29 @@
 /*main.css*/
 
 body{
-	font-size:16px;
+	font-size:18px;
 	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight:200;
+}
+
+::selection { background-color: #16b1a5; }
+::-moz-selection { background-color: #16b1a5; }
+
+header,footer{
+	overflow:auto;
 }
 
 header{
 	background-color:#0C6596;
 }
+footer{
+	background-color:#aaa;
+	padding-bottom:4em;
+	color:#777;
+}
+
+a{ text-decoration:none; }
+a:hover{ text-decoration:underline; }
 
 .logo{
 	height:2em;
@@ -16,6 +31,7 @@ header{
 
 nav a{
 	display:inline-block;
+	padding:0 0.5em;
 	color:white;
 }
 
@@ -31,16 +47,52 @@ nav a:hover{
 }
 
 .button{
+	display:inline-block;
 	padding:0.5em;
 	text-decoration:none;
+	text-align: center;
 	background-color:teal;
+	color:white;
 	border-radius:4px;
+	box-sizing: border-box;
 }
 
 .hero{
-	height:200px;
+	height:330px;
 	background-color:#bbb;
 	background-image:url(http://placehold.it/1400x400);
 	background-position: 50% 50%;
 	background-size: cover;
+}
+
+.featured-case-study .cushion{
+	margin-top:0;
+}
+
+.call-to-action{
+	background-color:#0C6596;
+	/*background image could go here*/
+}
+
+.call-to-action .button{
+	background-color:white;
+	color:black;
+}
+
+section{
+	overflow:auto;
+}
+
+.tags > *{
+	display:inline-block;
+	margin-bottom: 0.25em;
+	border-radius: 0.25em;
+	background-color:#777;
+	color:white;
+	padding:1px 0.25em;
+}
+
+.tags > a:hover{
+	text-decoration: none;
+	background-color:#888;
 }
