@@ -2,13 +2,14 @@
 {% load wagtailimages_tags wagtailcore_tags %}
 
 {% block hero-image %}
-    {# TODO: these hero images w/ image, link to target page, blurb, need to get assembled into some fancy carousel #}
+    <div class="js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true }'>
     {% for hitem in self.hero_items.all %}
-    <div>
-        <a href="{% pageurl hitem.target_page %}">{% image hitem.hero_image height-400 %}</a>
-        {{ hitem.blurb|richtext }}
-    </div>
+        <a href="{% pageurl hitem.target_page %}">
+        	{% image hitem.hero_image height-400 %}
+        	{{ hitem.blurb|richtext }}
+				</a>
     {% endfor %}
+    </div>
 {% endblock %}
 
 {% block content %}

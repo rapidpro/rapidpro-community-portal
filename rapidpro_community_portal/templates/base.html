@@ -23,10 +23,8 @@
         <link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
         <link href="{% static 'css/flickity.css' %}" type="text/css" rel="stylesheet">
 
-        <script type="text/javascript" src="js/flickity.js"></script>
-        {% comment %}{# TODO: figure out what this is supposed to be #}
-        <script type="text/javascript" src="js/uservoice.js"></script>
-        {% endcomment %}
+        <script type="text/javascript" src="{% static 'js/flickity.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/uservoice.js' %}"></script>
 
         {% block extra_css %}{% endblock %}
     </head>
