@@ -6,6 +6,9 @@ body{
 	font-weight:200;
 }
 
+::selection { background-color: #16b1a5; }
+::-moz-selection { background-color: #16b1a5; }
+
 header,footer{
 	overflow:auto;
 }
