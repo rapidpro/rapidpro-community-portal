@@ -23,35 +23,33 @@
   <section class="content">
     <div class="page-width float-layout">
       <div class="two-thirds"><div class="cushion">
-      
-      <h1>
-        {{ self.title }}
-      </h1>
-       
-			<div>
-        <div class="tags">
-        {% for country in self.countries.all %}
-          <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
-          {{ country.country.name }}
-          </a>
-        {% endfor %}
-        </div>
-        <p>{% if self.date %}<small>{{ self.date }}</small>{% endif %}</p>
-      </div>
 
-
-      {% if self.summary %}
-        <p>{{ self.summary|richtext }}</p>
-      {% endif %}
-
-      {% if self.downloadable_package %}
-        <p><a href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a></p>
-      {% endif %}
-
+				<h1>{{ self.title }}</h1>
+				
+				<div class="tags">
+					{% for country in self.countries.all %}
+						<a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
+						{{ country.country.name }}
+						</a>
+					{% endfor %}
+				</div>
+				
+				<p>{% if self.date %}<small>{{ self.date }}</small>{% endif %}</p>
+				
+				{% if self.summary %}
+					<p>{{ self.summary|richtext }}</p>
+				{% endif %}
      
       </div></div>
       
       <div class="third">
+
+				{% if self.downloadable_package %}
+					<div class="cushion">
+						<a class="button" href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a>
+					</div>
+				{% endif %}
+      
 				<div class="cushion">
 					<h2>Focus Areas</h2>
 					<div class="tags">
@@ -65,24 +63,24 @@
 
 				<div class="cushion">
 					<h2>Organizations</h2>
-					<p>
+					<ul>
 					{% for organization in self.organizations.all %}
-						<a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
+						<li><a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
 						{{ organization.organization.name }}
-						</a>
+						</a></li>
 					{% endfor %}
-					</p>
+					</ul>
 				</div>
 
 				<div class="cushion">
-					<h2>Tech Firm</h2>
-					<p>
+					<h2>Tech Firms</h2>
+					<ul>
 					{% for tech_firm in self.tech_firms.all %}
-						<a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
+						<li><a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
 						{{ tech_firm.techfirm.name }}
-						</a>
+						</a></li>
 					{% endfor %}
-					</p>
+					</ul>
 				</div>
       </div>
 
