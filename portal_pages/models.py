@@ -71,7 +71,7 @@ HomePage.content_panels = [
     FieldPanel('title'),
     FieldPanel('home_content'),
     InlinePanel('hero_items', label='Hero Images'),
-    InlinePanel('highlights'),
+    InlinePanel('highlights', label='Highlights'),
 ]
 
 
@@ -145,6 +145,21 @@ class CaseStudyIndexPage(Page):
         country = request.GET.get('country')
         if country:
             casestudies = casestudies.filter(countries__country__name=country)
+
+        # Filter by focus area
+        focus_area = request.GET.get('focus_area')
+        if focus_area:
+            casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
+
+        # Filter by organization
+        organization = request.GET.get('organization')
+        if organization:
+            casestudies = casestudies.filter(organizations__organization__name=organization)
+
+        # Filter by tech firm
+        tech_firm = request.GET.get('tech_firm')
+        if tech_firm:
+            casestudies = casestudies.filter(tech_firms__techfirm__name=tech_firm)
 
         # Pagination
         page = request.GET.get('page')
