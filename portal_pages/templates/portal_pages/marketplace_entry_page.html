@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block extra_css %}
+{% image self.branding_banner width-1000 as brandingbannerdata %}
+<style>
+  .hero
+  {
+    height: 200px;
+    background-image: url({{ brandingbannerdata.url }});
+  }
+</style>
+{% endblock %}
+
+{% block hero-image %}
+<section class="hero" alt="{{ self.branding_banner.title }}">
+  <div class="page-width">
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="page-width float-layout">
+            <div class="two-thirds"><div class="cushion">
+
+                <h1>{{ self.title }}</h1>
+
+                {% if self.marketplace_index %}
+                
+                    <div class="tags">
+                        {% for country in self.countries.all %}
+                            <a href="{% pageurl self.marketplace_index %}?country={{ country.country.name }}">
+                            {{ country.country.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
+
+                <p>{% if self.date_start %}<small>{{ self.date_start }}</small> - Present{% endif %}</p>
+                
+                {% if self.biography %}
+                    <p>{{ self.biography|richtext }}</p>
+                {% endif %}
+     
+            </div></div>
+      
+        <div class="third">
+
+            {% if self.marketplace_index %}
+
+            <div class="cushion">
+                <h2>Services</h2>
+                <div class="tags">
+                    {% for service in self.services.all %}
+                    <a href="{% pageurl self.marketplace_index %}?service={{ service.service.name }}">
+                        {{ service.service.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="cushion">
+                <h2>Expertise</h2>
+                <ul>
+                    {% for expertise in self.expertise_tags.all %}
+                        <li><a href="{% pageurl self.marketplace_index %}?organization={{ expertise.expertise.name }}">
+                        {{ expertise.expertise.name }}
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        </div>
+    </section>
+{% endblock %}
