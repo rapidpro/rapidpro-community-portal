@@ -2,15 +2,29 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-    {% if intro %}
+    {% if self.intro %}
       <div class="well">
-        {{ intro|richtext }}
+        {{ self.intro|richtext }}
       </div>
     {% endif %}
 
     {% if request.GET.country|length %}
         <h4>Showing posts tagged as {{ request.GET.country|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
     {% endif %}
+
+    {% if request.GET.focus_area|length %}
+        <h4>Showing posts tagged as {{ request.GET.focus_area|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
+    {% endif %}
+
+    {% if request.GET.organization|length %}
+        <h4>Showing posts tagged as {{ request.GET.organization|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
+    {% endif %}
+
+    {% if request.GET.tech_firm|length %}
+        <h4>Showing posts tagged as {{ request.GET.tech_firm|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
+    {% endif %}
+
+
 
     <section class="highlights">
         <div class="page-width float-layout">

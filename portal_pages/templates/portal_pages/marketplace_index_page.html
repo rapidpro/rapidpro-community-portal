@@ -2,14 +2,22 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-    {% if intro %}
+    {% if self.intro %}
       <div class="well">
-        {{ intro|richtext }}
+        {{ self.intro|richtext }}
       </div>
     {% endif %}
 
     {% if request.GET.country|length %}
         <h4>Showing posts tagged as {{ request.GET.country|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
+    {% endif %}
+
+    {% if request.GET.service|length %}
+        <h4>Showing posts tagged as {{ request.GET.service|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
+    {% endif %}
+
+    {% if request.GET.expertise|length %}
+        <h4>Showing posts tagged as {{ request.GET.expertise|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
     {% endif %}
 
     <section class="highlights">
@@ -18,14 +26,11 @@
         {# Uses serve method defined in models.py - allows for paging if required #}
         {# See also standard index for creating a listing with a tag #}
 
-        {# TODO: Fix this #}
-        {% comment %}
         {% for marketplace_entry in self.marketplace_entries %}
             {% include "portal_pages/includes/marketplace_entry_list_item.html" %}
         {% empty %}
             No marketplace entries found
         {% endfor %}
-        {% endcomment %}
 
         </div>
     </section>

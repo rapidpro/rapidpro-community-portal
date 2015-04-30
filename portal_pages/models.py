@@ -169,6 +169,8 @@ class CaseStudyIndexPage(Page):
         index.SearchField('intro'),
     )
 
+    subpage_types = ['portal_pages.CaseStudyPage']
+
     @property
     def casestudies(self):
         # Get list of live casestudy pages that are descendants of this page
@@ -316,16 +318,17 @@ class MarketplaceIndexPage(Page):
         index.SearchField('intro'),
     )
 
+    subpage_types = ['portal_pages.MarketplaceEntryPage']
+
     @property
     def marketplace_entries(self):
         # Get list of live marketplace entry pages that are descendants of this page
         marketplace_entries = MarketplaceEntryPage.objects.live().descendant_of(self)
 
         # Order by most recent date first
-        marketplace_entries = marketplace_entries.order_by('-date')
+        marketplace_entries = marketplace_entries.order_by('-date_start')
 
         # TODO: filter out marketplace entries that have post dates after today's date
-
         return marketplace_entries
 
     def get_context(self, request):
@@ -345,7 +348,7 @@ class MarketplaceIndexPage(Page):
         # Filter by expertise
         expertise = request.GET.get('expertise')
         if expertise:
-            marketplace_entries = marketplace_entries.filter(expertise__expertise__name=expertise)
+            marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
 
         # Pagination
         page = request.GET.get('page')
