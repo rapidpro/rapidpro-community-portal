@@ -2,19 +2,24 @@
 
 body{
 	font-size:18px;
-	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family:Calibri,"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight:200;
 }
 
-::selection { background-color: #16b1a5; }
-::-moz-selection { background-color: #16b1a5; }
+::selection { background-color: #F33; }
+::-moz-selection { background-color: #F33; color:white; }
+
+h1{ font-size:180%; }
+h2{ font-size:140%; }
+h3{ font-size:120%; }
+h4{ font-size:110%; }
 
 header,footer{
 	overflow:auto;
 }
 
 header{
-	background-color:#0C6596;
+	background-color:#069;
 }
 footer{
 	background-color:#aaa;
@@ -70,7 +75,7 @@ nav a:hover{
 }
 
 .call-to-action{
-	background-color:#0C6596;
+	background-color:#069;
 	/*background image could go here*/
 }
 
@@ -95,4 +100,8 @@ section{
 .tags > a:hover{
 	text-decoration: none;
 	background-color:#888;
+}
+
+ul{
+	padding-left: 1em;
 }

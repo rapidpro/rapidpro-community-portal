@@ -20,63 +20,78 @@
 {% endblock %}
 
 {% block content %}
-  <section class="content">
-    <div class="page-width float-layout">
-      <div class="full"><div class="cushion">
-      <div>
-        <p>
-        {% for country in self.countries.all %}
-          <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
-          {{ country.country.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+    <section class="content">
+        <div class="page-width float-layout">
+            <div class="two-thirds"><div class="cushion">
 
-      <div>
-        <p>
-        {% for focus_area in self.focus_areas.all %}
-          <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
-          {{ focus_area.focusarea.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+                <h1>{{ self.title }}</h1>
 
-      <div>
-        <p>
-        {% for organization in self.organizations.all %}
-          <a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
-          {{ organization.organization.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+                {% if self.casestudy_index %}
+				
+                    <div class="tags">
+                        {% for country in self.countries.all %}
+                            <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
+                            {{ country.country.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
 
-      <div>
-        <p>
-        {% for tech_firm in self.tech_firms.all %}
-          <a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
-          {{ tech_firm.techfirm.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+                {% endif %}
+				
+                <p>{% if self.date %}<small>{{ self.date }}</small>{% endif %}</p>
+				
+                {% if self.summary %}
+                    <p>{{ self.summary|richtext }}</p>
+                {% endif %}
+     
+            </div></div>
+      
+        <div class="third">
 
-      <h2>
-        {{ self.title }}
-        {% if self.date %}<small>{{ self.date }}</small>{% endif %}
-      </h2>
+            {% if self.downloadable_package %}
+                <div class="cushion">
+                    <a class="button" href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a>
+                </div>
+            {% endif %}
 
-      {% if self.summary %}
-        <p>{{ self.summary|richtext }}</p>
-      {% endif %}
+            {% if self.casestudy_index %}
 
-      {% if self.downloadable_package %}
-        <p><a href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a></p>
-      {% endif %}
+            <div class="cushion">
+                <h2>Focus Areas</h2>
+                <div class="tags">
+                    {% for focus_area in self.focus_areas.all %}
+                    <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
+                        {{ focus_area.focusarea.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
 
-      </div></div>
-    </div>
-  </section>
+            <div class="cushion">
+                <h2>Organizations</h2>
+                <ul>
+                    {% for organization in self.organizations.all %}
+                        <li><a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
+                        {{ organization.organization.name }}
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="cushion">
+                <h2>Tech Firms</h2>
+                <ul>
+                    {% for tech_firm in self.tech_firms.all %}
+                        <li><a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
+                        {{ tech_firm.techfirm.name }}
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+        </div>
+
+        </div>
+    </section>
 {% endblock %}

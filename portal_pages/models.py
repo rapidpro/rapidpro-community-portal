@@ -5,7 +5,7 @@ from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailcore import blocks
 from wagtail.wagtailimages.models import Image
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, StreamFieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, StreamFieldPanel, MultiFieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
@@ -59,6 +59,49 @@ class TechFirm(models.Model):
         ordering = ('name', )
 
 
+class Service(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
+
+
+class Expertise(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
+
+
+class ContactFields(models.Model):
+    telephone = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True)
+    address_1 = models.CharField(max_length=255, blank=True)
+    address_2 = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    country = models.ForeignKey(Country)
+    post_code = models.CharField(max_length=10, blank=True)
+
+    panels = [
+        FieldPanel('telephone'),
+        FieldPanel('email'),
+        FieldPanel('address_1'),
+        FieldPanel('address_2'),
+        FieldPanel('city'),
+        FieldPanel('country'),
+        FieldPanel('post_code'),
+    ]
+
+    class Meta:
+        abstract = True
+
+
 """
 Page models
 """
@@ -71,7 +114,7 @@ HomePage.content_panels = [
     FieldPanel('title'),
     FieldPanel('home_content'),
     InlinePanel('hero_items', label='Hero Images'),
-    InlinePanel('highlights'),
+    InlinePanel('highlights', label='Highlights'),
 ]
 
 
@@ -115,6 +158,7 @@ CMSPage.content_panels = [
     StreamFieldPanel('body'),
 ]
 
+
 # CaseStudy index page
 
 
@@ -124,6 +168,8 @@ class CaseStudyIndexPage(Page):
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
+
+    subpage_types = ['portal_pages.CaseStudyPage']
 
     @property
     def casestudies(self):
@@ -145,6 +191,21 @@ class CaseStudyIndexPage(Page):
         country = request.GET.get('country')
         if country:
             casestudies = casestudies.filter(countries__country__name=country)
+
+        # Filter by focus area
+        focus_area = request.GET.get('focus_area')
+        if focus_area:
+            casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
+
+        # Filter by organization
+        organization = request.GET.get('organization')
+        if organization:
+            casestudies = casestudies.filter(organizations__organization__name=organization)
+
+        # Filter by tech firm
+        tech_firm = request.GET.get('tech_firm')
+        if tech_firm:
+            casestudies = casestudies.filter(tech_firms__techfirm__name=tech_firm)
 
         # Pagination
         page = request.GET.get('page')
@@ -173,7 +234,7 @@ CaseStudyIndexPage.promote_panels = Page.promote_panels
 
 class CaseStudyPage(Page):
     summary = RichTextField()
-    date = models.DateField("Post date")
+    date = models.DateField("Create date")
     hero_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -244,4 +305,124 @@ class TechFirmCaseStudy(Orderable, models.Model):
     page = ParentalKey(CaseStudyPage, related_name='tech_firms')
     panels = [
         FieldPanel('techfirm'),
+    ]
+
+
+# Marketplace index page
+
+
+class MarketplaceIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+    subpage_types = ['portal_pages.MarketplaceEntryPage']
+
+    @property
+    def marketplace_entries(self):
+        # Get list of live marketplace entry pages that are descendants of this page
+        marketplace_entries = MarketplaceEntryPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        marketplace_entries = marketplace_entries.order_by('-date_start')
+
+        # TODO: filter out marketplace entries that have post dates after today's date
+        return marketplace_entries
+
+    def get_context(self, request):
+        # Get marketplace_entries
+        marketplace_entries = self.marketplace_entries
+
+        # Filter by country
+        country = request.GET.get('country')
+        if country:
+            marketplace_entries = marketplace_entries.filter(countries__country__name=country)
+
+        # Filter by service
+        service = request.GET.get('service')
+        if service:
+            marketplace_entries = marketplace_entries.filter(services__service__name=service)
+
+        # Filter by expertise
+        expertise = request.GET.get('expertise')
+        if expertise:
+            marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(marketplace_entries, 6)  # Show 6 marketplace_entries per page
+        try:
+            marketplace_entries = paginator.page(page)
+        except PageNotAnInteger:
+            marketplace_entries = paginator.page(1)
+        except EmptyPage:
+            marketplace_entries = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(MarketplaceIndexPage, self).get_context(request)
+        context['marketplace_entries'] = marketplace_entries
+        return context
+
+MarketplaceIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+]
+
+MarketplaceIndexPage.promote_panels = Page.promote_panels
+
+
+# Marketplace Entry Page
+
+
+class MarketplaceEntryPage(Page, ContactFields):
+    biography = RichTextField(blank=True)
+    date_start = models.DateField("Company Start Date")
+    branding_banner = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    @property
+    def marketplace_index(self):
+        # Find closest ancestor which is a casestudy index
+        return self.get_ancestors().type(MarketplaceIndexPage).last()
+
+MarketplaceEntryPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('date_start'),
+    FieldPanel('biography', classname="full"),
+    ImageChooserPanel('branding_banner'),
+    MultiFieldPanel(ContactFields.panels, "Contact"),
+    InlinePanel(MarketplaceEntryPage, 'services', label="Services"),
+    InlinePanel(MarketplaceEntryPage, 'expertise_tags', label="Expertise"),
+    InlinePanel(MarketplaceEntryPage, 'countries', label="Locations of Expertise"),
+]
+
+
+class CountryMarketplaceEntry(Orderable, models.Model):
+    country = models.ForeignKey(Country, related_name="+")
+    page = ParentalKey(MarketplaceEntryPage, related_name='countries')
+    panels = [
+        FieldPanel('country'),
+    ]
+
+
+class ServiceMarketplaceEntry(Orderable, models.Model):
+    service = models.ForeignKey(Service, related_name="+")
+    page = ParentalKey(MarketplaceEntryPage, related_name='services')
+    panels = [
+        FieldPanel('service'),
+    ]
+
+
+class ExpertiseMarketplaceEntry(Orderable, models.Model):
+    expertise = models.ForeignKey(Expertise, related_name="+")
+    page = ParentalKey(MarketplaceEntryPage, related_name='expertise_tags')
+    panels = [
+        FieldPanel('expertise'),
     ]
