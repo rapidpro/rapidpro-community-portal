@@ -22,3 +22,6 @@ class UserTestCase(TestCase):
     def test_no_username(self):
         with self.assertRaises(ValueError):
             factories.UserFactory(username='')
+
+    def test_access_email(self):
+        self.assertEqual(self.user.username, self.user.email)

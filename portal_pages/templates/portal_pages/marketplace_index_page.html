@@ -11,18 +11,13 @@
             <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
         {% endif %}
 
-        {% if request.GET.focus_area|length %}
-            <h4>Showing posts tagged as {{ request.GET.focus_area|safe }}</h4>
+        {% if request.GET.service|length %}
+            <h4>Showing posts tagged as {{ request.GET.service|safe }}</h4>
             <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
         {% endif %}
 
-        {% if request.GET.organization|length %}
-            <h4>Showing posts tagged as {{ request.GET.organization|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
-
-        {% if request.GET.tech_firm|length %}
-            <h4>Showing posts tagged as {{ request.GET.tech_firm|safe }}</h4>
+        {% if request.GET.expertise|length %}
+            <h4>Showing posts tagged as {{ request.GET.expertise|safe }}</h4>
             <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
         {% endif %}
 
@@ -36,11 +31,13 @@
 
         {# Uses serve method defined in models.py - allows for paging if required #}
         {# See also standard index for creating a listing with a tag #}
-        {% for casestudy in casestudies %}
-            {% include "portal_pages/includes/case_study_list_item.html" %}
+
+        {% for marketplace_entry in self.marketplace_entries %}
+            {% include "portal_pages/includes/marketplace_entry_list_item.html" %}
         {% empty %}
-            No case studies found
+            No marketplace entries found
         {% endfor %}
+
         </div>
     </section>
 
@@ -50,16 +47,16 @@
     {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
     <div class="row">
         <div class="col-sm-4 previous">
-            {% if casestudies.has_previous %}
-                <a href="?page={{ casestudies.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
+            {% if marketplace_entries.has_previous %}
+                <a href="?page={{ marketplace_entries.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
             {% endif %}
         </div>
         <div class="col-sm-4 pages">
-            Page {{ casestudies.number }} of {{ casestudies.paginator.num_pages }}
+            Page {{ marketplace_entries.number }} of {{ marketplace_entries.paginator.num_pages }}
         </div>
         <div class="col-sm-4 next">
-            {% if casestudies.has_next %}
-                <a href="?page={{ casestudies.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
+            {% if marketplace_entries.has_next %}
+                <a href="?page={{ marketplace_entries.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
             {% endif %}
         </div>
     </div>

@@ -1,0 +1,28 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{# Individual marketplace entry item in a list - used on marketplace index #}
+
+
+<div class="half float-layout">
+
+    <div class="third"><div class="cushion">    
+    {% if marketplace_entry.branding_banner %}
+      {% image marketplace_entry.branding_banner width-150 as img %}
+      <a href="{% pageurl marketplace_entry %}">
+        <img class="full" src="{{ img.url }}" />
+      </a>
+    {% endif %}
+    </div></div>
+
+    <div class="two-thirds"><div class="cushion">
+        <a href="{% pageurl marketplace_entry %}">
+        <h3>{{ marketplace_entry.title }}</h3>
+        </a>
+        <p><strong>{{ marketplace_entry.date }}</strong></p>
+        {% if marketplace_entry.search_description %}
+          <p>{{ marketplace_entry.search_description }}</p>
+        {% endif %}
+    </div></div>
+
+    </a>
+</div>
