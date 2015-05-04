@@ -1,4 +1,6 @@
-*{
+* {
+	position:relative;
+	box-sizing:border-box;
 	outline:none;
 	margin:0;
 	border:0;
