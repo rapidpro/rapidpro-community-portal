@@ -5,11 +5,13 @@ from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailcore import blocks
 from wagtail.wagtailimages.models import Image
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, StreamFieldPanel, MultiFieldPanel
+from wagtail.wagtailadmin.edit_handlers import (FieldPanel, PageChooserPanel, InlinePanel,
+    StreamFieldPanel, MultiFieldPanel)
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
+from wagtail.wagtailsnippets.models import register_snippet
 from modelcluster.fields import ParentalKey
 
 
@@ -29,8 +31,11 @@ class Country(models.Model):
         verbose_name_plural = "countries"
 
 
+@register_snippet
 class FocusArea(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
+
+    panels = [FieldPanel('name')]
 
     def __str__(self):
         return self.name
