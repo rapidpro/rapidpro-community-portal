@@ -6,7 +6,7 @@ body{
 	font-weight:200;
 }
 
-::selection { background-color: #F33; }
+::selection { background-color: #F33; color:white; }
 ::-moz-selection { background-color: #F33; color:white; }
 
 h1{ font-size:180%; }
