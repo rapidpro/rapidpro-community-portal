@@ -6,7 +6,7 @@ import yaml
 
 from fabric.api import env, execute, get, hide, lcd, local, put, require, run, settings, sudo, task
 from fabric.colors import red
-from fabric.contrib import files, project
+from fabric.contrib import files, project, console
 from fabric.contrib.console import confirm
 from fabric.utils import abort
 
@@ -24,25 +24,47 @@ VALID_ROLES = (
     'cache',
 )
 
-# FIXME: Once the master has been setup this should be set to IP of the master
-# This assumes a single master for both staging and production
-env.master = 'CHANGEME'
+
+envs = {
+    'staging': {
+        'master': '107.20.144.189',
+        'host_string': 'rapidpro-staging.cakt.us',
+
+    },
+    'production': {
+        'master': 'FIXME',
+        'host_string': 'FIXME',
+    },
+    'local': {
+        'user': 'vagrant',
+    }
+}
+
+
+def _common_env():
+    env.forward_agent = True
+    env.project = 'rapidpro_community_portal'
+    env.project_root = os.path.join('/var', 'www', env.project)
+    for key, value in envs[env.environment].items():
+        setattr(env, key, value)
 
 
 @task
 def staging():
     env.environment = 'staging'
-    env.master = 'rapidpro-staging.cakt.us'
+    _common_env()
+
 
 @task
 def production():
     env.environment = 'production'
+    _common_env()
 
 
 @task
 def vagrant():
     env.environment = 'local'
-    env.user = 'vagrant'
+    _common_env()
     # convert vagrant's ssh-config output to a dictionary
     ssh_config_output = local('vagrant ssh-config', capture=True)
     ssh_config = dict(line.split() for line in ssh_config_output.splitlines())
@@ -232,3 +254,64 @@ def deploy(loglevel=DEFAULT_SALT_LOGLEVEL):
         target = "-G 'environment:{0}'".format(env.environment)
         salt('saltutil.sync_all', target, loglevel)
         highstate(target)
+
+
+@task
+def manage_run(command):
+    """
+    Run a Django management command on the remote server.
+    """
+    require('environment')
+    # Setup the call
+    manage_sh = u"/var/www/{project}/manage.sh ".format(**env)
+    sudo(manage_sh + command, user=env.project)
+
+
+@task
+def manage_shell():
+    manage_run('shell')
+
+
+@task
+def get_db_dump(clean=False):
+    """Get db dump of remote enviroment."""
+    require('environment')
+    db_name = '%(project)s_%(environment)s' % env
+    dump_file = db_name + '.sql' % env
+    project_root = os.path.join('/var', 'www', env.project)
+    temp_file = os.path.join(project_root, dump_file)
+    flags = '-Ox'
+    if clean:
+        flags += 'c'
+    dump_command = 'pg_dump %s %s -U %s > %s' % (flags, db_name, db_name, temp_file)
+    with settings(host_string=env.host_string):
+        sudo(dump_command, user=env.project)
+        get(temp_file, dump_file)
+
+
+@task
+def reset_local_db():
+    """ Reset local database from remote host """
+    require('environment')
+    question = 'Are you sure you want to reset your local ' \
+               'database with the %(environment)s database?' % env
+    if not console.confirm(question, default=False):
+        abort('Local database reset aborted.')
+    remote_db_name = '%(project)s_%(environment)s' % env
+    db_dump_name = remote_db_name + '.sql'
+    local_db_name = env.project
+    get_db_dump()
+    with settings(warn_only=True):
+        local('dropdb %s' % local_db_name)
+    local('createdb -E UTF-8 %s' % local_db_name)
+    local('cat %s | psql %s' % (db_dump_name, local_db_name))
+
+
+@task
+def reset_local_media():
+    """ Reset local media from remote host """
+    require('environment')
+    media_source = os.path.join('/var', 'www', env.project, 'public', 'media')
+    media_target = os.path.join(PROJECT_ROOT, 'public')
+    with settings():
+        local("rsync -rvaz %s:%s %s" % (env.master, media_source, media_target))
