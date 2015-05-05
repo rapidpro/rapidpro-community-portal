@@ -372,9 +372,8 @@ class CaseStudyPage(Page):
 
     marketplace_entry = models.ForeignKey(
         'portal_pages.MarketplaceEntryPage',
-        null=False,
-        blank=False,
-        related_name="+"
+        null=True,
+        blank=True
     )
 
     @property

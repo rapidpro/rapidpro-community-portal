@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='casestudypage',
             name='marketplace_entry',
-            field=models.ForeignKey(related_name='+', to='portal_pages.MarketplaceEntryPage', default=1),
-            preserve_default=False,
+            field=models.ForeignKey(to='portal_pages.MarketplaceEntryPage', blank=True, null=True),
+            preserve_default=True,
         ),
     ]
