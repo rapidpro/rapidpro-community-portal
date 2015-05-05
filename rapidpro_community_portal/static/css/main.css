@@ -47,10 +47,6 @@ nav a:hover{
 .skip-link{ display:none; }
 .skip-link:focus{ display:block; }
 
-.cushion{
-	margin:10px;
-}
-
 .button{
 	display:inline-block;
 	padding:0.5em;
@@ -104,4 +100,24 @@ section{
 
 ul{
 	padding-left: 1em;
+}
+
+.result .icon{
+	width: 32px;
+	height: 32px;
+	background-color: #FFA500;
+	border-radius: 50%;
+	position: absolute;
+	left: 1em;
+	top:-14px;
+}
+
+.result .icon-bar{
+	height:4px;
+	background-color:orange;
+	margin-bottom:1em;
+}
+
+.filters{
+	background-color:#abc2ce;
 }
