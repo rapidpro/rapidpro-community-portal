@@ -54,16 +54,6 @@ class Organization(models.Model):
         ordering = ('name', )
 
 
-class TechFirm(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('name', )
-
-
 class Service(models.Model):
     name = models.CharField(max_length=255)
 
@@ -162,155 +152,6 @@ CMSPage.content_panels = [
     FieldPanel('title'),
     StreamFieldPanel('body'),
 ]
-
-
-# CaseStudy index page
-
-
-class CaseStudyIndexPage(Page):
-    intro = RichTextField(blank=True)
-
-    search_fields = Page.search_fields + (
-        index.SearchField('intro'),
-    )
-
-    subpage_types = ['portal_pages.CaseStudyPage']
-
-    @property
-    def casestudies(self):
-        # Get list of live casestudy pages that are descendants of this page
-        casestudies = CaseStudyPage.objects.live().descendant_of(self)
-
-        # Order by most recent date first
-        casestudies = casestudies.order_by('-date')
-
-        # TODO: filter out case studies that have post dates after today's date
-
-        return casestudies
-
-    def get_context(self, request):
-        # Get casestudies
-        casestudies = self.casestudies
-
-        # Filter by country
-        country = request.GET.get('country')
-        if country:
-            casestudies = casestudies.filter(countries__country__name=country)
-
-        # Filter by focus area
-        focus_area = request.GET.get('focus_area')
-        if focus_area:
-            casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
-
-        # Filter by organization
-        organization = request.GET.get('organization')
-        if organization:
-            casestudies = casestudies.filter(organizations__organization__name=organization)
-
-        # Filter by tech firm
-        tech_firm = request.GET.get('tech_firm')
-        if tech_firm:
-            casestudies = casestudies.filter(tech_firms__techfirm__name=tech_firm)
-
-        # Pagination
-        page = request.GET.get('page')
-        paginator = Paginator(casestudies, 6)  # Show 6 casestudies per page
-        try:
-            casestudies = paginator.page(page)
-        except PageNotAnInteger:
-            casestudies = paginator.page(1)
-        except EmptyPage:
-            casestudies = paginator.page(paginator.num_pages)
-
-        # Update template context
-        context = super(CaseStudyIndexPage, self).get_context(request)
-        context['casestudies'] = casestudies
-        return context
-
-CaseStudyIndexPage.content_panels = [
-    FieldPanel('title', classname="full title"),
-    FieldPanel('intro', classname="full"),
-]
-
-CaseStudyIndexPage.promote_panels = Page.promote_panels
-
-
-# Case Study Page
-
-class CaseStudyPage(Page):
-    summary = RichTextField()
-    date = models.DateField("Create date")
-    hero_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    downloadable_package = models.ForeignKey(
-        'wagtaildocs.Document',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-    search_fields = Page.search_fields + (
-        index.SearchField('summary'),
-    )
-
-    @property
-    def casestudy_index(self):
-        # Find closest ancestor which is a casestudy index
-        return self.get_ancestors().type(CaseStudyIndexPage).last()
-
-CaseStudyPage.content_panels = [
-    FieldPanel('title', classname="full title"),
-    FieldPanel('date'),
-    FieldPanel('summary', classname="full"),
-    ImageChooserPanel('hero_image'),
-    DocumentChooserPanel('downloadable_package'),
-    InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
-    InlinePanel(CaseStudyPage, 'countries', label="Countries"),
-    InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
-    InlinePanel(CaseStudyPage, 'tech_firms', label="Tech Firms"),
-]
-
-
-# The following children of Case Study use through-model
-# Desribed in M2M issue work-around
-# https://github.com/torchbox/wagtail/issues/231
-
-class CountryCaseStudy(Orderable, models.Model):
-    country = models.ForeignKey(Country, related_name="+")
-    page = ParentalKey(CaseStudyPage, related_name='countries')
-    panels = [
-        FieldPanel('country'),
-    ]
-
-
-class FocusAreaCaseStudy(Orderable, models.Model):
-    focusarea = models.ForeignKey(FocusArea, related_name="+")
-    page = ParentalKey(CaseStudyPage, related_name='focus_areas')
-    panels = [
-        FieldPanel('focusarea'),
-    ]
-
-
-class OrganizationCaseStudy(Orderable, models.Model):
-    organization = models.ForeignKey(Organization, related_name="+")
-    page = ParentalKey(CaseStudyPage, related_name='organizations')
-    panels = [
-        FieldPanel('organization'),
-    ]
-
-
-class TechFirmCaseStudy(Orderable, models.Model):
-    techfirm = models.ForeignKey(TechFirm, related_name="+")
-    page = ParentalKey(CaseStudyPage, related_name='tech_firms')
-    panels = [
-        FieldPanel('techfirm'),
-    ]
 
 
 # Marketplace index page
@@ -430,4 +271,153 @@ class ExpertiseMarketplaceEntry(Orderable, models.Model):
     page = ParentalKey(MarketplaceEntryPage, related_name='expertise_tags')
     panels = [
         FieldPanel('expertise'),
+    ]
+
+
+# CaseStudy index page
+
+
+class CaseStudyIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+    subpage_types = ['portal_pages.CaseStudyPage']
+
+    @property
+    def casestudies(self):
+        # Get list of live casestudy pages that are descendants of this page
+        casestudies = CaseStudyPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        casestudies = casestudies.order_by('-date')
+
+        # TODO: filter out case studies that have post dates after today's date
+
+        return casestudies
+
+    def get_context(self, request):
+        # Get casestudies
+        casestudies = self.casestudies
+
+        # Filter by country
+        country = request.GET.get('country')
+        if country:
+            casestudies = casestudies.filter(countries__country__name=country)
+
+        # Filter by focus area
+        focus_area = request.GET.get('focus_area')
+        if focus_area:
+            casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
+
+        # Filter by organization
+        organization = request.GET.get('organization')
+        if organization:
+            casestudies = casestudies.filter(organizations__organization__name=organization)
+
+        # Filter by marketplace entry
+        marketplace = request.GET.get('marketplace')
+        if marketplace:
+            casestudies = casestudies.filter(marketplace_entry__title=marketplace)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(casestudies, 6)  # Show 6 casestudies per page
+        try:
+            casestudies = paginator.page(page)
+        except PageNotAnInteger:
+            casestudies = paginator.page(1)
+        except EmptyPage:
+            casestudies = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(CaseStudyIndexPage, self).get_context(request)
+        context['casestudies'] = casestudies
+        return context
+
+CaseStudyIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+]
+
+CaseStudyIndexPage.promote_panels = Page.promote_panels
+
+
+# Case Study Page
+
+
+class CaseStudyPage(Page):
+    summary = RichTextField()
+    date = models.DateField("Create date")
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    downloadable_package = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    search_fields = Page.search_fields + (
+        index.SearchField('summary'),
+    )
+
+    marketplace_entry = models.ForeignKey(
+        'portal_pages.MarketplaceEntryPage',
+        null=True,
+        blank=True
+    )
+
+    @property
+    def casestudy_index(self):
+        # Find closest ancestor which is a casestudy index
+        return self.get_ancestors().type(CaseStudyIndexPage).last()
+
+CaseStudyPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('date'),
+    FieldPanel('summary', classname="full"),
+    FieldPanel('marketplace_entry', classname="full"),
+    ImageChooserPanel('hero_image'),
+    DocumentChooserPanel('downloadable_package'),
+    InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
+    InlinePanel(CaseStudyPage, 'countries', label="Countries"),
+    InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
+    #InlinePanel(CaseStudyPage, 'tech_firms', label="Tech Firms"),
+]
+
+
+# The following children of Case Study use through-model
+# Desribed in M2M issue work-around
+# https://github.com/torchbox/wagtail/issues/231
+
+class CountryCaseStudy(Orderable, models.Model):
+    country = models.ForeignKey(Country, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='countries')
+    panels = [
+        FieldPanel('country'),
+    ]
+
+
+class FocusAreaCaseStudy(Orderable, models.Model):
+    focusarea = models.ForeignKey(FocusArea, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='focus_areas')
+    panels = [
+        FieldPanel('focusarea'),
+    ]
+
+
+class OrganizationCaseStudy(Orderable, models.Model):
+    organization = models.ForeignKey(Organization, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='organizations')
+    panels = [
+        FieldPanel('organization'),
     ]

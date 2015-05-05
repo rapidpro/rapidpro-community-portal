@@ -78,16 +78,17 @@
                 </ul>
             </div>
 
-            <div class="cushion">
-                <h2>Tech Firms</h2>
-                <ul>
-                    {% for tech_firm in self.tech_firms.all %}
-                        <li><a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
-                        {{ tech_firm.techfirm.name }}
+            {% if self.marketplace_entry %}
+                <div class="cushion">
+                    <h2>Tech Firm</h2>
+                    <ul>
+                        <li><a href="{% pageurl self.casestudy_index %}?marketplace={{ self.marketplace_entry.title }}">
+                        {{ self.marketplace_entry.title }}
                         </a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+                    </ul>
+                </div>
+            {% endif %}
+
             {% endif %}
 
         </div>
