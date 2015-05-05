@@ -79,15 +79,14 @@
             </div>
 
             <div class="cushion">
-                <h2>Tech Firms</h2>
+                <h2>Tech Firm</h2>
                 <ul>
-                    {% for tech_firm in self.tech_firms.all %}
-                        <li><a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
-                        {{ tech_firm.techfirm.name }}
-                        </a></li>
-                    {% endfor %}
+                    <li><a href="{% pageurl self.casestudy_index %}?marketplace={{ self.marketplace_entry.title }}">
+                    {{ self.marketplace_entry.title }}
+                    </a></li>
                 </ul>
             </div>
+
             {% endif %}
 
         </div>
