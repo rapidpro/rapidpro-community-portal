@@ -78,14 +78,16 @@
                 </ul>
             </div>
 
-            <div class="cushion">
-                <h2>Tech Firm</h2>
-                <ul>
-                    <li><a href="{% pageurl self.casestudy_index %}?marketplace={{ self.marketplace_entry.title }}">
-                    {{ self.marketplace_entry.title }}
-                    </a></li>
-                </ul>
-            </div>
+            {% if self.marketplace_entry %}
+                <div class="cushion">
+                    <h2>Tech Firm</h2>
+                    <ul>
+                        <li><a href="{% pageurl self.casestudy_index %}?marketplace={{ self.marketplace_entry.title }}">
+                        {{ self.marketplace_entry.title }}
+                        </a></li>
+                    </ul>
+                </div>
+            {% endif %}
 
             {% endif %}
 
