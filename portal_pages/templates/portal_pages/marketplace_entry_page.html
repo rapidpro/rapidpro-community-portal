@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load portal_extras %}
 
 {% block extra_css %}
 {% image self.branding_banner width-1000 as brandingbannerdata %}
@@ -29,7 +30,7 @@
                 {% if self.marketplace_index %}
                 
                     <div class="tags">
-                        {% for country in self.countries.all %}
+                        {% for country in self.countries.all|make_unique:"country__name" %}
                             <a href="{% pageurl self.marketplace_index %}?country={{ country.country.name }}">
                             {{ country.country.name }}
                             </a>
@@ -53,7 +54,7 @@
             <div class="cushion">
                 <h2>Services</h2>
                 <div class="tags">
-                    {% for service in self.services.all %}
+                    {% for service in self.services.all|make_unique:"service__name" %}
                     <a href="{% pageurl self.marketplace_index %}?service={{ service.service.name }}">
                         {{ service.service.name }}
                     </a>
@@ -64,7 +65,7 @@
             <div class="cushion">
                 <h2>Expertise</h2>
                 <ul>
-                    {% for expertise in self.expertise_tags.all %}
+                    {% for expertise in self.expertise_tags.all|make_unique:"expertise__name" %}
                         <li><a href="{% pageurl self.marketplace_index %}?expertise={{ expertise.expertise.name }}">
                         {{ expertise.expertise.name }}
                         </a></li>
