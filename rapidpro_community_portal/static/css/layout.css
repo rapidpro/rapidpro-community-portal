@@ -1,12 +1,12 @@
 html,body {
-	height:100%;
+    height:100%;
 }
 
 html[dir="rtl"] body { direction:rtl; }
 
 .page-width {
-	max-width:1050px;
-	margin:0 auto;
+    max-width:1050px;
+    margin:0 auto;
 }
 
 .cushion { padding:10px; }
@@ -14,8 +14,8 @@ html[dir="rtl"] body { direction:rtl; }
 .cushion-ends { padding: 10px 0; }
 
 .float-layout > * {
-	float:left;
-	width:100%;
+    float:left;
+    width:100%;
 }
 html[dir="rtl"] .float-layout > * { float:right; }
 
@@ -48,9 +48,9 @@ html[dir="rtl"] .left { float:right; }
 .flex-layout { display:-webkit-flex; display:-ms-flexbox; display:flex; }
 
 .transform-center {
-	position:absolute;
-	top:50%;
-	left:50%;
-	-webkit-transform:translate(-50%,-50%);
-	transform:translate(-50%,-50%);
+    position:absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 }
