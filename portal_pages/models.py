@@ -105,13 +105,15 @@ Page models
 
 
 class HomePage(Page):
-    home_content = RichTextField()
+    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True)
+    featured_case_study_blurb = RichTextField(blank=True, default='')
 
 HomePage.content_panels = [
     FieldPanel('title'),
-    FieldPanel('home_content'),
     InlinePanel('hero_items', label='Hero Images'),
     InlinePanel('highlights', label='Highlights'),
+    PageChooserPanel('featured_case_study', 'portal_pages.CaseStudyPage'),
+    FieldPanel('featured_case_study_blurb'),
 ]
 
 
@@ -393,7 +395,6 @@ CaseStudyPage.content_panels = [
     InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
     InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
-    #InlinePanel(CaseStudyPage, 'tech_firms', label="Tech Firms"),
 ]
 
 
