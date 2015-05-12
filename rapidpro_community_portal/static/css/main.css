@@ -71,13 +71,13 @@ nav a:hover{
 }
 
 .call-to-action{
-	background-color:#069;
+	background-color:white;
 	/*background image could go here*/
 }
 
 .call-to-action .button{
-	background-color:white;
-	color:black;
+	background-color:#069;
+	color:white;
 }
 
 section{
@@ -121,3 +121,8 @@ ul{
 .filters{
 	background-color:#abc2ce;
 }
+
+.homepage-video{
+	background-color:#eeeeee;
+}
+

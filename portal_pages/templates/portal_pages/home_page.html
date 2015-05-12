@@ -5,9 +5,9 @@
     <div class="js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true }'>
     {% for hitem in self.hero_items.all %}
         <a href="{% pageurl hitem.target_page %}">
-        	{% image hitem.hero_image height-400 %}
-        	{{ hitem.blurb|richtext }}
-				</a>
+            {% image hitem.hero_image height-400 %}
+            {{ hitem.blurb|richtext }}
+        </a>
     {% endfor %}
     </div>
     <br><br><br>
@@ -30,6 +30,43 @@
     </div>
 </section>
 
+<div class="spacer"></div>
 
-<p>Remaining sections still to be added!</p>
+{# TODO: Determine if vimeo will certainly be video source and what CMS info is needed for this section #}
+<section class="homepage-video">
+    <div class="page-width cushion">
+        <iframe
+            src="//player.vimeo.com/video/126724744" width="960" height="336" frameborder="0"
+            webkitallowfullscreen mozallowfullscreen allowfullscreen>
+        </iframe>
+
+        <h2>Get in to the flow.</h2>
+        <p>Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis.</p>
+    </div>
+</section>
+
+<div class="spacer"></div>
+
+{% if self.featured_case_study %}
+<div class="page-width" >
+    <div class="table-layout">
+        <div>
+            <section class="featured-case-study half">
+                {% image self.featured_case_study.hero_image height-144 as img %}
+                <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
+                <a href="{% pageurl self.featured_case_study %}"><h2>{{ self.featured_case_study.title }}</h2></a>
+                {{ self.featured_case_study_blurb|richtext }}
+            </section>
+
+            <section class="call-to-action half transform-parent">
+                <div class="transform-center">
+                    <a class="button">Get started now!</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="spacer"></div>
+{% endif %}
 {% endblock %}
