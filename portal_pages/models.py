@@ -21,7 +21,9 @@ The following models may be shared across multiple other models
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
+    latitude = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    longitude = models.DecimalField(max_digits=15, decimal_places=2, default=0)
 
     def __str__(self):
         return self.name
