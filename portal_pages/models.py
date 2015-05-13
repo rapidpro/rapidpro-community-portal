@@ -21,7 +21,9 @@ The following models may be shared across multiple other models
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
+    latitude = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    longitude = models.DecimalField(max_digits=15, decimal_places=2, default=0)
 
     def __str__(self):
         return self.name
@@ -103,13 +105,15 @@ Page models
 
 
 class HomePage(Page):
-    home_content = RichTextField()
+    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True)
+    featured_case_study_blurb = RichTextField(blank=True, default='')
 
 HomePage.content_panels = [
     FieldPanel('title'),
-    FieldPanel('home_content'),
     InlinePanel('hero_items', label='Hero Images'),
     InlinePanel('highlights', label='Highlights'),
+    PageChooserPanel('featured_case_study', 'portal_pages.CaseStudyPage'),
+    FieldPanel('featured_case_study_blurb'),
 ]
 
 
@@ -391,7 +395,6 @@ CaseStudyPage.content_panels = [
     InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
     InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
-    #InlinePanel(CaseStudyPage, 'tech_firms', label="Tech Firms"),
 ]
 
 

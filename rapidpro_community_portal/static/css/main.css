@@ -1,9 +1,9 @@
 /*main.css*/
 
 body{
-	font-size:18px;
-	font-family:Calibri,"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-weight:200;
+    font-size:18px;
+    font-family:Calibri,"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight:200;
 }
 
 ::selection { background-color: #F33; color:white; }
@@ -15,29 +15,29 @@ h3{ font-size:120%; }
 h4{ font-size:110%; }
 
 header,footer{
-	overflow:auto;
+    overflow:auto;
 }
 
 header{
-	background-color:#069;
+    background-color:#069;
 }
 footer{
-	background-color:#aaa;
-	padding-bottom:4em;
-	color:#777;
+    background-color:#aaa;
+    padding-bottom:4em;
+    color:#777;
 }
 
 a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .logo{
-	height:2em;
+    height:2em;
 }
 
 nav a{
-	display:inline-block;
-	padding:0 0.5em;
-	color:white;
+    display:inline-block;
+    padding:0 0.5em;
+    color:white;
 }
 
 nav a:hover{
@@ -48,76 +48,85 @@ nav a:hover{
 .skip-link:focus{ display:block; }
 
 .button{
-	display:inline-block;
-	padding:0.5em;
-	text-decoration:none;
-	text-align: center;
-	background-color:teal;
-	color:white;
-	border-radius:4px;
-	box-sizing: border-box;
+    display:inline-block;
+    padding:0.5em;
+    text-decoration:none;
+    text-align: center;
+    background-color:teal;
+    color:white;
+    border-radius:4px;
+    box-sizing: border-box;
 }
 
 .hero{
-	height:330px;
-	background-color:#bbb;
-	background-image:url(http://placehold.it/1400x400);
-	background-position: 50% 50%;
-	background-size: cover;
+    height:330px;
+    background-color:#bbb;
+    background-image:url(http://placehold.it/1400x400);
+    background-position: 50% 50%;
+    background-size: cover;
 }
 
 .featured-case-study .cushion{
-	margin-top:0;
+    margin-top:0;
 }
 
 .call-to-action{
-	background-color:#069;
-	/*background image could go here*/
+    background-color:white;
+    /*background image could go here*/
 }
 
 .call-to-action .button{
-	background-color:white;
-	color:black;
+    background-color:#069;
+    color:white;
 }
 
 section{
-	overflow:auto;
+    overflow:auto;
 }
 
 .tags > *{
-	display:inline-block;
-	margin-bottom: 0.25em;
-	border-radius: 0.25em;
-	background-color:#777;
-	color:white;
-	padding:1px 0.25em;
+    display:inline-block;
+    margin-bottom: 0.25em;
+    border-radius: 0.25em;
+    background-color:#777;
+    color:white;
+    padding:1px 0.25em;
 }
 
 .tags > a:hover{
-	text-decoration: none;
-	background-color:#888;
+    text-decoration: none;
+    background-color:#888;
 }
 
 ul{
-	padding-left: 1em;
+    padding-left: 1em;
 }
 
 .result .icon{
-	width: 32px;
-	height: 32px;
-	background-color: #FFA500;
-	border-radius: 50%;
-	position: absolute;
-	left: 1em;
-	top:-14px;
+    width: 32px;
+    height: 32px;
+    background-color: #FFA500;
+    border-radius: 50%;
+    position: absolute;
+    left: 1em;
+    top:-14px;
 }
 
 .result .icon-bar{
-	height:4px;
-	background-color:orange;
-	margin-bottom:1em;
+    height:4px;
+    background-color:orange;
+    margin-bottom:1em;
 }
 
 .filters{
-	background-color:#abc2ce;
+    background-color:#abc2ce;
+}
+
+.homepage-video{
+    background-color:#eeeeee;
+}
+
+.rich-text p{
+    padding-top:5px;
+    padding-bottom:5px;
 }
