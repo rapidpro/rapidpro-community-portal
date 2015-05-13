@@ -27,7 +27,7 @@
                 <h1>{{ self.title }}</h1>
 
                 {% if self.casestudy_index %}
-				
+
                     <div class="tags">
                         {% for country in self.countries.all %}
                             <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
@@ -37,19 +37,20 @@
                     </div>
 
                 {% endif %}
-				
-                <p>{% if self.date %}<small>{{ self.date }}</small>{% endif %}</p>
-				
+
+                {% if self.date %}<p><small>Launched: {{ self.date }}</small></p>{% endif %}
+
                 {% if self.summary %}
                     <p>{{ self.summary|richtext }}</p>
                 {% endif %}
-     
+
             </div></div>
-      
+
         <div class="third">
 
             {% if self.downloadable_package %}
                 <div class="cushion">
+                    <h2>Import the Flow</h2>
                     <a class="button" href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a>
                 </div>
             {% endif %}
