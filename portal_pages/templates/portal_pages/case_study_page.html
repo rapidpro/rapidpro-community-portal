@@ -2,15 +2,26 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block extra_css %}
-{% image self.hero_image width-1000 as heroimagedata %}
-<style>
-  .hero
-  {
-    height: 200px;
-    background-image: url({{ heroimagedata.url }});
-  }
-</style>
+    {% if self.hero_image %}
+        {% image self.hero_image width-1000 as heroimagedata %}
+        <style>
+          .hero
+          {
+            height: 200px;
+            background-image: url({{ heroimagedata.url }});
+          }
+        </style>
+    {% else %}
+        <style>
+          .hero
+          {
+            height: 200px;
+            background-image: url(/static/images/default_banner_image.jpg);
+          }
+        </style>
+    {% endif %}
 {% endblock %}
+
 
 {% block hero-image %}
 <section class="hero" alt="{{ self.hero_image.title }}">

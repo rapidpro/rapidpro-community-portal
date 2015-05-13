@@ -11,6 +11,10 @@
       <a href="{% pageurl marketplace_entry %}">
         <img class="full" src="{{ img.url }}" />
       </a>
+    {% else %}
+        <a href="{% pageurl marketplace_entry %}">
+          <img class="full" src="/static/images/default_banner_image.jpg" />
+        </a>
     {% endif %}
     </div></div>
 
