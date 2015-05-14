@@ -82,7 +82,7 @@ class ContactFields(models.Model):
     address_1 = models.CharField(max_length=255, blank=True)
     address_2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255, blank=True)
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.SET_NULL)
     post_code = models.CharField(max_length=10, blank=True)
 
     panels = [
@@ -105,7 +105,7 @@ Page models
 
 
 class HomePage(Page):
-    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True)
+    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True, on_delete=models.SET_NULL)
     featured_case_study_blurb = RichTextField(blank=True, default='')
 
 HomePage.content_panels = [
@@ -377,7 +377,8 @@ class CaseStudyPage(Page):
     marketplace_entry = models.ForeignKey(
         'portal_pages.MarketplaceEntryPage',
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.SET_NULL
     )
 
     @property
