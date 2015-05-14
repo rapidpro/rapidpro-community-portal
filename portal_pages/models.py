@@ -19,7 +19,7 @@ from modelcluster.fields import ParentalKey
 The following models may be shared across multiple other models
 """
 
-
+@register_snippet
 class Country(models.Model):
     name = models.CharField(max_length=255, unique=True)
     latitude = models.DecimalField(max_digits=15, decimal_places=2, default=0)
@@ -45,7 +45,7 @@ class FocusArea(models.Model):
     class Meta:
         ordering = ('name', )
 
-
+@register_snippet
 class Organization(models.Model):
     name = models.CharField(max_length=255)
 
@@ -55,7 +55,7 @@ class Organization(models.Model):
     class Meta:
         ordering = ('name', )
 
-
+@register_snippet
 class Service(models.Model):
     name = models.CharField(max_length=255)
 
@@ -65,7 +65,7 @@ class Service(models.Model):
     class Meta:
         ordering = ('name', )
 
-
+@register_snippet
 class Expertise(models.Model):
     name = models.CharField(max_length=255)
 
@@ -74,6 +74,7 @@ class Expertise(models.Model):
 
     class Meta:
         ordering = ('name', )
+        verbose_name_plural = 'expertise'
 
 
 class ContactFields(models.Model):
