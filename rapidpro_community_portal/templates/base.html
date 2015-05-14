@@ -71,7 +71,13 @@
 
         {% block heading %}{% endblock %}
 
-        {% block content %}{% endblock %}
+        {% block full-content %}
+        <section class="content">
+            <div class="page-width float-layout">
+                {% block content %}{% endblock %}
+            </div>
+        </section>
+        {% endblock %}
 
         {# External javascript #}
         {% block extra_js %}{% endblock %}

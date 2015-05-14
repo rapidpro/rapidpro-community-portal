@@ -20,62 +20,57 @@
 {% endblock %}
 
 {% block content %}
-    <section class="content">
-        <div class="page-width float-layout">
-            <div class="two-thirds"><div class="cushion">
+    <div class="two-thirds"><div class="cushion">
 
-                <h1>{{ self.title }}</h1>
+        <h1>{{ self.title }}</h1>
 
-                {% if self.marketplace_index %}
-                
-                    <div class="tags">
-                        {% for country in self.countries.all %}
-                            <a href="{% pageurl self.marketplace_index %}?country={{ country.country.name }}">
-                            {{ country.country.name }}
-                            </a>
-                        {% endfor %}
-                    </div>
+        {% if self.marketplace_index %}
 
-                {% endif %}
-
-                <p>{% if self.date_start %}<small>{{ self.date_start }}</small> - Present{% endif %}</p>
-                
-                {% if self.biography %}
-                    <p>{{ self.biography|richtext }}</p>
-                {% endif %}
-     
-            </div></div>
-      
-        <div class="third">
-
-            {% if self.marketplace_index %}
-
-            <div class="cushion">
-                <h2>Services</h2>
-                <div class="tags">
-                    {% for service in self.services.all %}
-                    <a href="{% pageurl self.marketplace_index %}?service={{ service.service.name }}">
-                        {{ service.service.name }}
+            <div class="tags">
+                {% for country in self.countries.all %}
+                    <a href="{% pageurl self.marketplace_index %}?country={{ country.country.name }}">
+                    {{ country.country.name }}
                     </a>
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
 
-            <div class="cushion">
-                <h2>Expertise</h2>
-                <ul>
-                    {% for expertise in self.expertise_tags.all %}
-                        <li><a href="{% pageurl self.marketplace_index %}?expertise={{ expertise.expertise.name }}">
-                        {{ expertise.expertise.name }}
-                        </a></li>
-                    {% endfor %}
-                </ul>
+        {% endif %}
+
+        <p>{% if self.date_start %}<small>{{ self.date_start }}</small> - Present{% endif %}</p>
+
+        {% if self.biography %}
+            <p>{{ self.biography|richtext }}</p>
+        {% endif %}
+
+    </div></div>
+
+    <div class="third">
+
+        {% if self.marketplace_index %}
+
+        <div class="cushion">
+            <h2>Services</h2>
+            <div class="tags">
+                {% for service in self.services.all %}
+                <a href="{% pageurl self.marketplace_index %}?service={{ service.service.name }}">
+                    {{ service.service.name }}
+                </a>
+                {% endfor %}
             </div>
-
-            {% endif %}
-
         </div>
 
+        <div class="cushion">
+            <h2>Expertise</h2>
+            <ul>
+                {% for expertise in self.expertise_tags.all %}
+                    <li><a href="{% pageurl self.marketplace_index %}?expertise={{ expertise.expertise.name }}">
+                    {{ expertise.expertise.name }}
+                    </a></li>
+                {% endfor %}
+            </ul>
         </div>
-    </section>
+
+        {% endif %}
+
+    </div>
 {% endblock %}
