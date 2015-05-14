@@ -147,15 +147,11 @@ HighlightItem.panels = [
 
 
 class CMSPage(Page):
-    body = StreamField([
-        ('heading', blocks.CharBlock(classname="full title")),
-        ('paragraph', blocks.RichTextBlock()),
-        ('image', ImageChooserBlock()),
-    ])
+    body = RichTextField(blank=True, default='')
 
 CMSPage.content_panels = [
     FieldPanel('title'),
-    StreamFieldPanel('body'),
+    FieldPanel('body'),
 ]
 
 
