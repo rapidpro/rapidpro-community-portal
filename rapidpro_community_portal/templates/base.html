@@ -31,7 +31,7 @@
         {% if self.top_image %}
             {% image self.top_image width-1000 as topimagedata %}
             <style>
-              .top_image
+              .top-image
               {
                 height: 200px;
                 background-image: url({{ topimagedata.url }});
@@ -39,7 +39,7 @@
             </style>
         {% else %}
             <style>
-              .top_image
+              .top-image
               {
                 height: 200px;
                 background-image: url(/static/images/default_banner_image.jpg);
@@ -80,7 +80,7 @@
         {% endblock %}
 
         {% block top-image %}
-        <section class="top_image" alt="{{ self.top_image.title }}">
+        <section class="top-image" alt="{{ self.top_image.title }}">
             <div class="page-width">
             </div>
         </section>
