@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load wagtailimages_tags wagtailcore_tags %}
 
-{% block hero-image %}
+{% block top-image %}
     <div class="js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true }'>
     {% for hitem in self.hero_items.all %}
         <a href="{% pageurl hitem.target_page %}">

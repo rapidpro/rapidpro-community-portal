@@ -31,8 +31,8 @@
         {# Uses serve method defined in models.py - allows for paging if required #}
         {# See also standard index for creating a listing with a tag #}
 
-        {% for marketplace_entry in self.marketplace_entries %}
-            {% include "portal_pages/includes/marketplace_entry_list_item.html" %}
+        {% for page in self.marketplace_entries %}
+            {% include "portal_pages/includes/page_list_item.html" %}
         {% empty %}
             No marketplace entries found
         {% endfor %}

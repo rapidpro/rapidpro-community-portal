@@ -2,24 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load portal_extras %}
 
-{% block extra_css %}
-{% image self.branding_banner width-1000 as brandingbannerdata %}
-<style>
-  .hero
-  {
-    height: 200px;
-    background-image: url({{ brandingbannerdata.url }});
-  }
-</style>
-{% endblock %}
-
-{% block hero-image %}
-<section class="hero" alt="{{ self.branding_banner.title }}">
-  <div class="page-width">
-  </div>
-</section>
-{% endblock %}
-
 {% block content %}
     <div class="two-thirds"><div class="cushion">
 

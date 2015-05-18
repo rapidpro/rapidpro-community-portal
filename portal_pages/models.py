@@ -100,6 +100,22 @@ class ContactFields(models.Model):
         abstract = True
 
 
+class TopImage(models.Model):
+    top_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    panels = [
+        ImageChooserPanel('top_image'),
+    ]
+
+    class Meta:
+        abstract = True
+
 """
 Page models
 """
@@ -158,7 +174,7 @@ CMSPage.content_panels = [
 # Marketplace index page
 
 
-class MarketplaceIndexPage(Page):
+class MarketplaceIndexPage(Page, TopImage):
     intro = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
@@ -215,6 +231,7 @@ class MarketplaceIndexPage(Page):
 MarketplaceIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
+    MultiFieldPanel(TopImage.panels, "hero image"),
 ]
 
 MarketplaceIndexPage.promote_panels = Page.promote_panels
@@ -223,16 +240,9 @@ MarketplaceIndexPage.promote_panels = Page.promote_panels
 # Marketplace Entry Page
 
 
-class MarketplaceEntryPage(Page, ContactFields):
+class MarketplaceEntryPage(Page, ContactFields, TopImage):
     biography = RichTextField(blank=True)
     date_start = models.DateField("Company Start Date")
-    branding_banner = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
 
     @property
     def marketplace_index(self):
@@ -243,7 +253,7 @@ MarketplaceEntryPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('date_start'),
     FieldPanel('biography', classname="full"),
-    ImageChooserPanel('branding_banner'),
+    MultiFieldPanel(TopImage.panels, "branding banner"),
     MultiFieldPanel(ContactFields.panels, "Contact"),
     InlinePanel(MarketplaceEntryPage, 'services', label="Services"),
     InlinePanel(MarketplaceEntryPage, 'expertise_tags', label="Expertise"),
@@ -278,7 +288,7 @@ class ExpertiseMarketplaceEntry(Orderable, models.Model):
 # CaseStudy index page
 
 
-class CaseStudyIndexPage(Page):
+class CaseStudyIndexPage(Page, TopImage):
     intro = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
@@ -341,6 +351,7 @@ class CaseStudyIndexPage(Page):
 CaseStudyIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
+    MultiFieldPanel(TopImage.panels, "hero image"),
 ]
 
 CaseStudyIndexPage.promote_panels = Page.promote_panels
@@ -349,16 +360,9 @@ CaseStudyIndexPage.promote_panels = Page.promote_panels
 # Case Study Page
 
 
-class CaseStudyPage(Page):
+class CaseStudyPage(Page, TopImage):
     summary = RichTextField()
     date = models.DateField("Create date")
-    hero_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
     downloadable_package = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
@@ -388,7 +392,7 @@ CaseStudyPage.content_panels = [
     FieldPanel('date'),
     FieldPanel('summary', classname="full"),
     FieldPanel('marketplace_entry', classname="full"),
-    ImageChooserPanel('hero_image'),
+    MultiFieldPanel(TopImage.panels, "hero image"),
     DocumentChooserPanel('downloadable_package'),
     InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
