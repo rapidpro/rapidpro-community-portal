@@ -6,8 +6,8 @@
 <div class="half float-layout">
 
     <div class="third"><div class="cushion">
-    {% if casestudy.hero_image %}
-        {% image casestudy.hero_image width-150 as img %}
+    {% if casestudy.top_image %}
+        {% image casestudy.top_image width-150 as img %}
         <a href="{% pageurl casestudy %}">
           <img class="full" src="{{ img.url }}" />
         </a>

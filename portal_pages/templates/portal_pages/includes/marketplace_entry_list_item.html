@@ -6,8 +6,8 @@
 <div class="half float-layout">
 
     <div class="third"><div class="cushion">    
-    {% if marketplace_entry.branding_banner %}
-      {% image marketplace_entry.branding_banner width-150 as img %}
+    {% if marketplace_entry.top_image %}
+      {% image marketplace_entry.top_image width-150 as img %}
       <a href="{% pageurl marketplace_entry %}">
         <img class="full" src="{{ img.url }}" />
       </a>

@@ -1,36 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-
-{% block extra_css %}
-    {% if self.branding_banner %}
-        {% image self.branding_banner width-1000 as brandingbannerdata %}
-        <style>
-          .hero
-          {
-            height: 200px;
-            background-image: url({{ brandingbannerdata.url }});
-          }
-        </style>
-    {% else %}
-        <style>
-          .hero
-          {
-            height: 200px;
-            background-image: url(/static/images/default_banner_image.jpg);
-          }
-        </style>
-    {% endif %}
-{% endblock %}
-
-
-{% block hero-image %}
-<section class="hero" alt="{{ self.branding_banner.title }}">
-  <div class="page-width">
-  </div>
-</section>
-{% endblock %}
-
 {% block content %}
     <section class="content">
         <div class="page-width float-layout">

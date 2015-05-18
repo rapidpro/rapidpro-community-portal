@@ -1,4 +1,6 @@
 {% load compress static wagtailuserbar %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,6 +27,25 @@
 
         <script type="text/javascript" src="{% static 'js/flickity.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/uservoice.js' %}"></script>
+
+        {% if self.top_image %}
+            {% image self.top_image width-1000 as topimagedata %}
+            <style>
+              .top_image
+              {
+                height: 200px;
+                background-image: url({{ topimagedata.url }});
+              }
+            </style>
+        {% else %}
+            <style>
+              .top_image
+              {
+                height: 200px;
+                background-image: url(/static/images/default_banner_image.jpg);
+              }
+            </style>
+        {% endif %}
 
         {% block extra_css %}{% endblock %}
     </head>
@@ -58,13 +79,9 @@
         </header>
         {% endblock %}
 
-        {% block hero-image %}
-        {# TODO: replace background for class hero w/ dynamic picking of image for current page #}
-        <section class="hero">
+        {% block top-image %}
+        <section class="top_image" alt="{{ self.top_image.title }}">
             <div class="page-width">
-                <div class="cushion">
-                    <h1>Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque.</h1>
-                </div>
             </div>
         </section>
         {% endblock %}
