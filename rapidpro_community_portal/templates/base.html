@@ -71,7 +71,13 @@
 
         {% block heading %}{% endblock %}
 
-        {% block content %}{% endblock %}
+        {% block full-content %}
+        <section class="content">
+            <div class="page-width float-layout">
+                {% block content %}{% endblock %}
+            </div>
+        </section>
+        {% endblock %}
 
         {# External javascript #}
         {% block extra_js %}{% endblock %}
@@ -91,7 +97,7 @@
                     <a class="button" href="#">Free Demo</a>
                 </nav>
                 <div class="clear spacer"></div>
-                <p>Fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print</p>
+                <p>Copyright &copy; {% now "Y" %} UNICEF</p>
                 </div>
             </div>
         </footer>

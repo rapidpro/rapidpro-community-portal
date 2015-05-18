@@ -19,7 +19,7 @@ from modelcluster.fields import ParentalKey
 The following models may be shared across multiple other models
 """
 
-
+@register_snippet
 class Country(models.Model):
     name = models.CharField(max_length=255, unique=True)
     latitude = models.DecimalField(max_digits=15, decimal_places=2, default=0)
@@ -45,7 +45,7 @@ class FocusArea(models.Model):
     class Meta:
         ordering = ('name', )
 
-
+@register_snippet
 class Organization(models.Model):
     name = models.CharField(max_length=255)
 
@@ -55,7 +55,7 @@ class Organization(models.Model):
     class Meta:
         ordering = ('name', )
 
-
+@register_snippet
 class Service(models.Model):
     name = models.CharField(max_length=255)
 
@@ -65,7 +65,7 @@ class Service(models.Model):
     class Meta:
         ordering = ('name', )
 
-
+@register_snippet
 class Expertise(models.Model):
     name = models.CharField(max_length=255)
 
@@ -74,6 +74,7 @@ class Expertise(models.Model):
 
     class Meta:
         ordering = ('name', )
+        verbose_name_plural = 'expertise'
 
 
 class ContactFields(models.Model):
@@ -82,7 +83,7 @@ class ContactFields(models.Model):
     address_1 = models.CharField(max_length=255, blank=True)
     address_2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255, blank=True)
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.SET_NULL)
     post_code = models.CharField(max_length=10, blank=True)
 
     panels = [
@@ -105,7 +106,7 @@ Page models
 
 
 class HomePage(Page):
-    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True)
+    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True, on_delete=models.SET_NULL)
     featured_case_study_blurb = RichTextField(blank=True, default='')
 
 HomePage.content_panels = [
@@ -146,15 +147,11 @@ HighlightItem.panels = [
 
 
 class CMSPage(Page):
-    body = StreamField([
-        ('heading', blocks.CharBlock(classname="full title")),
-        ('paragraph', blocks.RichTextBlock()),
-        ('image', ImageChooserBlock()),
-    ])
+    body = RichTextField(blank=True, default='')
 
 CMSPage.content_panels = [
     FieldPanel('title'),
-    StreamFieldPanel('body'),
+    FieldPanel('body'),
 ]
 
 
@@ -377,7 +374,8 @@ class CaseStudyPage(Page):
     marketplace_entry = models.ForeignKey(
         'portal_pages.MarketplaceEntryPage',
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.SET_NULL
     )
 
     @property

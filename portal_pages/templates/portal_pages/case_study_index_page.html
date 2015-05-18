@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
-{% block content %}
-
+{% block full-content %}
     <section class="highlights">
         <div class="page-width float-layout">
 
@@ -45,7 +44,7 @@
     </section>
 
     <div class="clear"></div>
-    
+
     {# Pagination - uses django.core.paginator #}
     {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
     <div class="row">
@@ -63,5 +62,4 @@
             {% endif %}
         </div>
     </div>
-
 {% endblock %}
