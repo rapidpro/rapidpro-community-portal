@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load portal_extras %}
 
 {% block extra_css %}
 {% image self.hero_image width-1000 as heroimagedata %}
@@ -27,7 +28,7 @@
         {% if self.casestudy_index %}
 
             <div class="tags">
-                {% for country in self.countries.all %}
+                {% for country in self.countries.all|make_unique:"country__name" %}
                     <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
                     {{ country.country.name }}
                     </a>
@@ -44,7 +45,7 @@
 
     </div></div>
 
-<div class="third">
+    <div class="third">
 
     {% if self.downloadable_package %}
         <div class="cushion">
@@ -58,7 +59,7 @@
     <div class="cushion">
         <h2>Focus Areas</h2>
         <div class="tags">
-            {% for focus_area in self.focus_areas.all %}
+            {% for focus_area in self.focus_areas.all|make_unique:"focusarea__name" %}
             <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
                 {{ focus_area.focusarea.name }}
             </a>
@@ -90,4 +91,5 @@
 
     {% endif %}
     </div>
+
 {% endblock %}
