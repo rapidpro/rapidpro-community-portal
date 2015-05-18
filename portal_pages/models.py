@@ -177,7 +177,7 @@ CMSPage.content_panels = [
 # Marketplace index page
 
 
-class MarketplaceIndexPage(Page):
+class MarketplaceIndexPage(Page, TopImage):
     intro = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
@@ -234,6 +234,7 @@ class MarketplaceIndexPage(Page):
 MarketplaceIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
+    MultiFieldPanel(TopImage.panels, "hero image"),
 ]
 
 MarketplaceIndexPage.promote_panels = Page.promote_panels
@@ -290,7 +291,7 @@ class ExpertiseMarketplaceEntry(Orderable, models.Model):
 # CaseStudy index page
 
 
-class CaseStudyIndexPage(Page):
+class CaseStudyIndexPage(Page, TopImage):
     intro = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
@@ -353,6 +354,7 @@ class CaseStudyIndexPage(Page):
 CaseStudyIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
+    MultiFieldPanel(TopImage.panels, "hero image"),
 ]
 
 CaseStudyIndexPage.promote_panels = Page.promote_panels
