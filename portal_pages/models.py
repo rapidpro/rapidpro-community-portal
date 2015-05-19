@@ -83,6 +83,7 @@ class ContactFields(models.Model):
     address_1 = models.CharField(max_length=255, blank=True)
     address_2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255, blank=True)
+    state = models.CharField(max_length=255, blank=True)
     country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.SET_NULL)
     post_code = models.CharField(max_length=10, blank=True)
 
@@ -92,6 +93,7 @@ class ContactFields(models.Model):
         FieldPanel('address_1'),
         FieldPanel('address_2'),
         FieldPanel('city'),
+        FieldPanel('state'),
         FieldPanel('country'),
         FieldPanel('post_code'),
     ]

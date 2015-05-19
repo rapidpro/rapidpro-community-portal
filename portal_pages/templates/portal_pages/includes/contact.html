@@ -1,0 +1,44 @@
+
+<div class="third"><div class="cushion">
+
+    <h2>Contact</h2>
+
+    {% if contact.address_1 %}
+        <p>{{ contact.address_1 }}</p>
+    {% endif %}
+
+    {% if contact.address_2 %}
+        <p>{{ contact.address_2 }}</p>
+    {% endif %}
+
+    <p>
+        {% if contact.city %}
+            {{ contact.city }}
+        {% endif %}
+
+        {% if contact.state %}
+            {{ contact.state }}
+        {% endif %}
+    </p>
+
+    <p>
+    {% if contact.country %}
+        {{ contact.country }}
+    {% endif %}
+
+    {% if contact.post_code %}
+        {{ contact.post_code }}
+    {% endif %}
+    </p>
+
+</div></div>
+
+<div class="third"><div class="cushion">
+        {% if contact.telephone %}
+            <p>{{ contact.telephone }}</p>
+        {% endif %}
+
+        {% if contact.email %}
+            <p>{{ contact.email }}</p>
+        {% endif %}
+</div></div>

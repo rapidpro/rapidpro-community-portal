@@ -56,4 +56,9 @@
         {% endif %}
 
     </div>
+
+    {% if self.address_1 or self.telephone or self.email %}
+        {% include "portal_pages/includes/contact.html" with contact=self only %}
+    {% endif %}
+
 {% endblock %}
