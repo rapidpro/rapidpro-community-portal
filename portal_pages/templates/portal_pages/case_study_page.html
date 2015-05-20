@@ -10,6 +10,14 @@
         {% if self.casestudy_index %}
 
             <div class="tags">
+                {% for region in self.regions.all|make_unique:"region__name" %}
+                    <a href="{% pageurl self.casestudy_index %}?region={{ region.region.name }}">
+                    {{ region.region.name }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="tags">
                 {% for country in self.countries.all|make_unique:"country__name" %}
                     <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
                     {{ country.country.name }}

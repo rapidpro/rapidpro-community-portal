@@ -10,6 +10,12 @@
             <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
         {% endif %}
 
+        {% if request.GET.region|length %}
+            <h4>Showing posts tagged as {{ request.GET.region|safe }}</h4>
+            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
+        {% endif %}
+
+
         {% if request.GET.focus_area|length %}
             <h4>Showing posts tagged as {{ request.GET.focus_area|safe }}</h4>
             <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
