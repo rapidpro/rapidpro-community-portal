@@ -13,25 +13,15 @@
 
     {% if contact.city or contact.state %}
     <p>
-        {% if contact.city %}
-            {{ contact.city }}
-        {% endif %}
-
-        {% if contact.state %}
-            {{ contact.state }}
-        {% endif %}
+        {{ contact.city }}
+        {{ contact.state }}
     </p>
     {% endif %}
 
     {% if contact.country or contact.post_code %}
     <p>
-    {% if contact.country %}
         {{ contact.country }}
-    {% endif %}
-
-    {% if contact.post_code %}
         {{ contact.post_code }}
-    {% endif %}
     </p>
     {% endif %}
 
@@ -40,7 +30,6 @@
 <div class="third"><div class="cushion">
 
     <p>{{ contact.telephone }}</p>
-
     <p>{{ contact.email }}</p>
 
 </div></div>
