@@ -11,6 +11,7 @@
         <p>{{ contact.address_2 }}</p>
     {% endif %}
 
+    {% if contact.city or contact.state %}
     <p>
         {% if contact.city %}
             {{ contact.city }}
@@ -20,7 +21,9 @@
             {{ contact.state }}
         {% endif %}
     </p>
+    {% endif %}
 
+    {% if contact.country or contact.post_code %}
     <p>
     {% if contact.country %}
         {{ contact.country }}
@@ -30,15 +33,14 @@
         {{ contact.post_code }}
     {% endif %}
     </p>
+    {% endif %}
 
 </div></div>
 
 <div class="third"><div class="cushion">
-    {% if contact.telephone %}
-        <p>{{ contact.telephone }}</p>
-    {% endif %}
 
-    {% if contact.email %}
-        <p>{{ contact.email }}</p>
-    {% endif %}
+    <p>{{ contact.telephone }}</p>
+
+    <p>{{ contact.email }}</p>
+
 </div></div>
