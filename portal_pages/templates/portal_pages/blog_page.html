@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load portal_extras %}
+
+{% block content %}
+    <div class="two-thirds"><div class="cushion">
+
+        <h1>{{ self.title }}</h1>
+
+        {% if self.blog_index %}
+
+            {% if self.author %}
+                <p> by 
+                    <a href="{% pageurl self.blog_index %}?author={{ self.author.username }}">
+                        {{ self.author.get_full_name }} 
+                    </a>
+                </p>
+            {% endif %}
+
+        {% endif %}
+
+        {% if self.date %}
+            <p>{{ self.date }}</p>
+        {% endif %}
+
+        {% if self.body %}
+            <p>{{ self.body|richtext }}</p>
+        {% endif %}
+
+    </div></div>
+
+    <div class="third">
+
+        {% if self.blog_index %}
+
+            <div class="cushion">
+                <h2>Tags</h2>
+                <div class="tags">
+                    {% for tag in self.tags.all %}
+                    <a href="{% pageurl self.blog_index %}?tag={{ tag }}">
+                        {{ tag }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}
