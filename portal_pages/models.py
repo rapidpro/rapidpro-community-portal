@@ -32,6 +32,15 @@ class Country(models.Model):
         ordering = ('name', )
         verbose_name_plural = "countries"
 
+@register_snippet
+class Region(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
 
 @register_snippet
 class FocusArea(models.Model):
@@ -200,6 +209,11 @@ class MarketplaceIndexPage(Page, TopImage):
         # Get marketplace_entries
         marketplace_entries = self.marketplace_entries
 
+        # Filter by region
+        region = request.GET.get('region')
+        if region:
+            marketplace_entries = marketplace_entries.filter(regions__region__name=region)
+
         # Filter by country
         country = request.GET.get('country')
         if country:
@@ -259,7 +273,8 @@ MarketplaceEntryPage.content_panels = [
     MultiFieldPanel(ContactFields.panels, "Contact"),
     InlinePanel(MarketplaceEntryPage, 'services', label="Services"),
     InlinePanel(MarketplaceEntryPage, 'expertise_tags', label="Expertise"),
-    InlinePanel(MarketplaceEntryPage, 'countries', label="Locations of Expertise"),
+    InlinePanel(MarketplaceEntryPage, 'regions', label="Regions of Experience"),
+    InlinePanel(MarketplaceEntryPage, 'countries', label="Countries of Experience"),
 ]
 
 
@@ -268,6 +283,14 @@ class CountryMarketplaceEntry(Orderable, models.Model):
     page = ParentalKey(MarketplaceEntryPage, related_name='countries')
     panels = [
         FieldPanel('country'),
+    ]
+
+
+class RegionMarketplaceEntry(Orderable, models.Model):
+    region = models.ForeignKey(Region, related_name="+")
+    page = ParentalKey(MarketplaceEntryPage, related_name='regions')
+    panels = [
+        FieldPanel('region'),
     ]
 
 
@@ -314,6 +337,11 @@ class CaseStudyIndexPage(Page, TopImage):
     def get_context(self, request):
         # Get casestudies
         casestudies = self.casestudies
+
+        # Filter by region
+        region = request.GET.get('region')
+        if region:
+            casestudies = casestudies.filter(regions__region__name=region)
 
         # Filter by country
         country = request.GET.get('country')
@@ -397,6 +425,7 @@ CaseStudyPage.content_panels = [
     MultiFieldPanel(TopImage.panels, "hero image"),
     DocumentChooserPanel('downloadable_package'),
     InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
+    InlinePanel(CaseStudyPage, 'regions', label="Regions"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
     InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
 ]
@@ -411,6 +440,14 @@ class CountryCaseStudy(Orderable, models.Model):
     page = ParentalKey(CaseStudyPage, related_name='countries')
     panels = [
         FieldPanel('country'),
+    ]
+
+
+class RegionCaseStudy(Orderable, models.Model):
+    region = models.ForeignKey(Region, related_name="+")
+    page = ParentalKey(CaseStudyPage, related_name='regions')
+    panels = [
+        FieldPanel('region'),
     ]
 
 
