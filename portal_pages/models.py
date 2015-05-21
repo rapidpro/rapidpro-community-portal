@@ -273,8 +273,8 @@ MarketplaceEntryPage.content_panels = [
     MultiFieldPanel(ContactFields.panels, "Contact"),
     InlinePanel(MarketplaceEntryPage, 'services', label="Services"),
     InlinePanel(MarketplaceEntryPage, 'expertise_tags', label="Expertise"),
-    InlinePanel(MarketplaceEntryPage, 'regions', label="Regions of Expertise"),
-    InlinePanel(MarketplaceEntryPage, 'countries', label="Countries of Expertise"),
+    InlinePanel(MarketplaceEntryPage, 'regions', label="Regions of Experience"),
+    InlinePanel(MarketplaceEntryPage, 'countries', label="Countries of Experience"),
 ]
 
 
