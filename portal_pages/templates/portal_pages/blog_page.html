@@ -7,18 +7,6 @@
 
         <h1>{{ self.title }}</h1>
 
-        {% if self.blog_index %}
-
-            {% if self.author %}
-                <p> by 
-                    <a href="{% pageurl self.blog_index %}?author={{ self.author.username }}">
-                        {{ self.author.get_full_name }} 
-                    </a>
-                </p>
-            {% endif %}
-
-        {% endif %}
-
         {% if self.date %}
             <p>{{ self.date }}</p>
         {% endif %}

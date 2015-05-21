@@ -510,13 +510,6 @@ class BlogPage(Page, TopImage):
         index.SearchField('body'),
     )
 
-    author = models.ForeignKey(
-        RapidProUser,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
-    )
-
     @property
     def blog_index(self):
         # Find closest ancestor which is a blog index
@@ -524,7 +517,6 @@ class BlogPage(Page, TopImage):
 
 BlogPage.content_panels = [
     FieldPanel('title', classname="full title"),
-    FieldPanel('author', classname="full"),
     FieldPanel('date'),
     FieldPanel('body', classname="full"),
     MultiFieldPanel(TopImage.panels, "blog image"),
