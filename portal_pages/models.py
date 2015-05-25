@@ -127,6 +127,21 @@ class TopImage(models.Model):
     class Meta:
         abstract = True
 
+
+@register_snippet
+class DefaultTopImage(models.Model):
+    default_top_image = models.ForeignKey(
+        'wagtailimages.Image'
+    )
+
+    panels = [
+        ImageChooserPanel('default_top_image'),
+    ]
+
+    def __str__(self):
+        return self.default_top_image.title
+
+
 """
 Page models
 """

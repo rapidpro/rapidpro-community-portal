@@ -37,7 +37,12 @@
                 background-image: url({{ topimagedata.url }});
               }
             </style>
+        {# TODO: this is going to be replaced with an inclusion tag #}
+        {# in portal_extras and template/includes #}
+        {# https://docs.djangoproject.com/en/1.8/howto/custom-template-tags/#inclusion-tags #}
         {% else %}
+            {% include "portal_pages/includes/default_top_image_random.html" %}
+            <!---
             <style>
               .top-image
               {
@@ -45,16 +50,14 @@
                 background-image: url(/static/images/default_banner_image.jpg);
               }
             </style>
+            -->
         {% endif %}
 
         {% block extra_css %}{% endblock %}
     </head>
 
     <body>
-        {# TODO: incorporate the top menu bar somehow, commenting it out for now #}
-        {% comment %}
         {% wagtailuserbar %}
-        {% endcomment %}
 
         {# TODO: split out into an include #}
         {# TODO: figure out meshing fixed/dynamic content for this #}
