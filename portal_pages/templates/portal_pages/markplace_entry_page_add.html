@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.content {
+    background-color: #b0c4de;
+}
+</style>
+
+    <form action="{% url 'create_marketplace' %}" method="post">
+    {% csrf_token %}
+
+    <label for="title">Title</label><br />
+    <input type="text" name="title" id="title" /><br />
+
+    <label for="biography">Biography</label><br />
+    <textarea name="biography" id="biography"></textarea><br />
+    
+    <br />
+    {% for service in services %}
+        <input type="checkbox" name="service" id="service{{ service.id }}" value="{{ service.id }}" />
+        <label for="service{{ service.id }}">{{ service.name }}</label><br />
+    {% endfor %}
+
+    <input type="submit" value="Add" />
+    </form>
+{% endblock %}

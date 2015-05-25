@@ -8,6 +8,8 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
+from portal_pages import views
+
 from accounts import urls as accounts_urls
 
 urlpatterns = [
@@ -18,6 +20,8 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^search/', include(wagtailsearch_frontend_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+    url(r'^add-marketplace/', views.add_marketplace, name='add_marketplace'),
+    url(r'^create-marketplace/$', views.create_marketplace, name='create_marketplace'),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's serving mechanism
