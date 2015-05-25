@@ -10,11 +10,6 @@
             <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
         {% endif %}
 
-        {% if request.GET.author|length %}
-            <h4>Showing posts tagged with author {{ request.GET.author|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
-
         {% if self.intro %}
             <div>
                 {{ self.intro|richtext }}

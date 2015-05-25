@@ -466,11 +466,6 @@ class BlogIndexPage(Page):
         if tag:
             blogs = blogs.filter(tags__name=tag)
 
-        # Filter by author
-        author = request.GET.get('author')
-        if author:
-            blogs = blogs.filter(author__username=author)
-
         # Pagination
         page = request.GET.get('page')
         paginator = Paginator(blogs, 6)  # Show 6 casestudies per page
