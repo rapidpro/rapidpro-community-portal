@@ -93,3 +93,6 @@ section{
 	text-decoration: none;
 	background-color:#888;
 }
+
+.rich-text img.left,
+.rich-text img.right{ margin: 0 1em; }

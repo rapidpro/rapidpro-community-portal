@@ -130,3 +130,9 @@ ul{
     padding-top:5px;
     padding-bottom:5px;
 }
+
+.rich-text img.left{ margin: 0 1em 0 0; }
+.rich-text img.right{ margin: 0 0 0 1em; }
+/* manually override floats in rtl because the admin offers "left" and "right" explicitly */
+html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
+html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
