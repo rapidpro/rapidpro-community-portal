@@ -188,7 +188,7 @@ HighlightItem.panels = [
 ]
 
 
-class CMSPage(Page):
+class CMSPage(Page, TopImage):
     body = RichTextField(blank=True, default='')
 
 CMSPage.content_panels = [
