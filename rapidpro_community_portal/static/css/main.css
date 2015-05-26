@@ -40,8 +40,16 @@ nav a{
     color:white;
 }
 
-nav a:hover{
+nav a.selected{
+  background-color:#00517A;
+  height:2em;
+}
 
+.subnav{
+  font-size: 80%;
+  line-height: 1.75em;
+  background-color:#00517A;
+  padding: 0 15.5em;
 }
 
 .skip-link{ display:none; }
