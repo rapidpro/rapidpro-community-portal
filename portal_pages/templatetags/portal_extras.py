@@ -11,7 +11,14 @@ def make_unique(value, unique_var): # Only one argument.
     else:
         return value
 
-@register.inclusion_tag("base.html")
-def randomize_image():
-    top_image_random = DefaultTopImage.objects.order_by("?")[0]
-    return {"top_image_random": top_image_random}
+@register.assignment_tag
+def randomize_image(page):
+    if page.top_image:
+        top_image = page.top_image
+    else:
+        try:
+            top_image = DefaultTopImage.objects.order_by("?")[0].default_top_image
+        except IndexError:
+            top_image = ""
+
+    return top_image

@@ -59,9 +59,8 @@ nav a:hover{
 }
 
 .hero, .top-image {
-    height:330px;
+    height:200px;
     background-color:#bbb;
-    background-image:url(http://placehold.it/1400x400);
     background-position: 50% 50%;
     background-size: cover;
 }

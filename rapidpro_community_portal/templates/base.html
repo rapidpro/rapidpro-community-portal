@@ -1,5 +1,6 @@
 {% load compress static wagtailuserbar %}
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load portal_extras %}
 
 <!DOCTYPE html>
 <html>
@@ -27,31 +28,6 @@
 
         <script type="text/javascript" src="{% static 'js/flickity.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/uservoice.js' %}"></script>
-
-        {% if self.top_image %}
-            {% image self.top_image width-1000 as topimagedata %}
-            <style>
-              .top-image
-              {
-                height: 200px;
-                background-image: url({{ topimagedata.url }});
-              }
-            </style>
-        {# TODO: this is going to be replaced with an inclusion tag #}
-        {# in portal_extras and template/includes #}
-        {# https://docs.djangoproject.com/en/1.8/howto/custom-template-tags/#inclusion-tags #}
-        {% else %}
-            {% include "portal_pages/includes/default_top_image_random.html" %}
-            <!---
-            <style>
-              .top-image
-              {
-                height: 200px;
-                background-image: url(/static/images/default_banner_image.jpg);
-              }
-            </style>
-            -->
-        {% endif %}
 
         {% block extra_css %}{% endblock %}
     </head>
@@ -83,10 +59,23 @@
         {% endblock %}
 
         {% block top-image %}
-        <section class="top-image" alt="{{ self.top_image.title }}">
-            <div class="page-width">
-            </div>
-        </section>
+
+            {% randomize_image self as top_image %}
+
+            {% if top_image %}
+                {% image top_image width-1000 as topimagedata %}
+                <style>
+                  .top-image
+                  {
+                    background-image: url({{ topimagedata.url }});
+                  }
+                </style>
+            {% endif %}
+
+            <section class="top-image" alt="{{ self.top_image.title }}">
+                <div class="page-width">
+                </div>
+            </section>
         {% endblock %}
 
         {% block heading %}{% endblock %}
