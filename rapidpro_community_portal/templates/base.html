@@ -28,6 +28,8 @@
         <script type="text/javascript" src="{% static 'js/flickity.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/uservoice.js' %}"></script>
 
+        {% block extra_header %}{% endblock %}
+
         {% if self.top_image %}
             {% image self.top_image width-1000 as topimagedata %}
             <style>

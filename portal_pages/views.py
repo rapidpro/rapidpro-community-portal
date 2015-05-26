@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
-from .models import Service, MarketplaceEntryPage
+import random
+
+from .models import Service, MarketplaceEntryPage, MarketplaceIndexPage
 
 def add_marketplace(request):
     services = Service.objects.order_by('name')
@@ -9,14 +12,17 @@ def add_marketplace(request):
 
 def create_marketplace(request):
     # We might want to look into TestCopyPage
-    # Create a simple unpublished page to copy from? Hmm..
+    # Create an unpublished marketplace entry page
     # https://github.com/torchbox/wagtail/blob/master/wagtail/wagtailcore/tests/test_page_model.py
-    MarketplaceEntryPage.objects.create(
-        title=request.POST['title'],
-        date_start='2015-05-01',
-        biography=request.POST['biography'],
-        depth=4,
-        content_type_id=43,
-        slug="temp-%s" % request.POST['title']
-        )
-    return HttpResponseRedirect("add_marketplace")
+    marketplace_index = MarketplaceIndexPage.objects.get(id=5)  
+
+    marketplace_entry = marketplace_index.add_child(
+        instance=MarketplaceEntryPage(
+            title = request.POST['title'], 
+            slug = "marketplace-entry-%d" % random.randrange(100000,999999), 
+            date_start = "2015-05-01",
+            biography = request.POST['biography']))
+
+    marketplace_entry.unpublish()
+
+    return HttpResponseRedirect("/marketplace/")
