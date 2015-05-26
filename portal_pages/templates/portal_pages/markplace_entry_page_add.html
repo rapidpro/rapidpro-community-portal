@@ -3,8 +3,7 @@
 
 {% block extra_header %}
     <link rel="stylesheet" href="{% static 'css/hallo.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
-    <link type="text/css" href="{% static 'css/jquery-ui-bootstrap/jquery-ui-1.8.16.custom.css' %}" rel="stylesheet" />
+
     <script type="text/javascript" src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.0.custom.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/hallo.js' %}"></script>
@@ -13,13 +12,26 @@
     <script type="text/javascript" src="{% static 'js/editor.js' %}"></script>
 {% endblock %}
 
-{% block content %}
-<style>
-.content {
-    background-color: #b0c4de;
-}
-</style>
+{% block extra_css %}
+    <style>
+        .ui-button-text-only .ui-button-text {
+            padding: .4em 1em;
+        }
+        .ui-button .ui-button-text {
+            display: block;
+            line-height: normal;
+        }
+        .ui-widget {
+            font-family: Open Sans,Arial,sans-serif;
+            font-size: 1.2em;
+        }
+        .content { /* Temporarily adding background color so I can see form elements. */
+            background-color: #b0c4de;
+        }
+    </style>
+{% endblock %}
 
+{% block content %}
     <form action="{% url 'create_marketplace' %}" method="post">
     {% csrf_token %}
 
@@ -29,6 +41,9 @@
     <label for="biography">Biography</label><br />
 
     <div property="description" class="editable" contenteditable="true">
+
+        <h1>Use headers as you would like to</h1>
+
         <p>
         Enter your Marketplace Information here!
         </p>
@@ -39,7 +54,7 @@
 
       </div>
 
-    <textarea name="biography" id="biography"></textarea><br />
+    <textarea name="biography" id="biography" style="width:600px;height:400px;"></textarea><br />
     
     <br />
     {% for service in services %}
@@ -50,7 +65,6 @@
     <input type="submit" value="Add" />
     </form>
 
-
-    <div class="hallotoolbar" style="display: none; width: 690px; position: absolute; top: 16px; left: 226px;"><span class="halloformat ui-buttonset"><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-bold" class="ui-button ui-widget ui-state-default ui-button-text-only bold_button btn-large ui-corner-left" title="bold">          <span class="ui-button-text">            <i class="icon-bold"></i>          </span>        </button></span><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-italic" class="ui-button ui-widget ui-state-default ui-button-text-only italic_button btn-large ui-corner-right" title="italic">          <span class="ui-button-text">            <i class="icon-italic"></i>          </span>        </button></span></span><span class="halloheadings ui-buttonset"><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-p" class="ui-button ui-widget ui-state-default ui-button-text-only formatBlock_button btn-large ui-corner-left ui-state-active" title="p">          <span class="ui-button-text">P</span>        </button></span><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-h1" class="ui-button ui-widget ui-state-default ui-button-text-only formatBlock_button btn-large" title="h1">          <span class="ui-button-text">H1</span>        </button></span><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-h2" class="ui-button ui-widget ui-state-default ui-button-text-only formatBlock_button btn-large" title="h2">          <span class="ui-button-text">H2</span>        </button></span><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-h3" class="ui-button ui-widget ui-state-default ui-button-text-only formatBlock_button btn-large ui-corner-right" title="h3">          <span class="ui-button-text">H3</span>        </button></span></span><span class="hallolists ui-buttonset"><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-OL" class="ui-button ui-widget ui-state-default ui-button-text-only insertOrderedList_button btn-large ui-corner-left" title="OL">          <span class="ui-button-text">            <i class="icon-list-ol"></i>          </span>        </button></span><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-UL" class="ui-button ui-widget ui-state-default ui-button-text-only insertUnorderedList_button btn-large ui-corner-right" title="UL">          <span class="ui-button-text">            <i class="icon-list-ul"></i>          </span>        </button></span></span><span class="halloreundo ui-buttonset"><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-Undo" class="ui-button ui-widget ui-state-default ui-button-text-only undo_button btn-large ui-corner-left" title="Undo">          <span class="ui-button-text">            <i class="icon-undo"></i>          </span>        </button></span><span><button id="907ea9fd-6076-e578-8419-d7dfe029c301-Redo" class="ui-button ui-widget ui-state-default ui-button-text-only redo_button btn-large ui-corner-right" title="Redo">          <span class="ui-button-text">            <i class="icon-repeat"></i>          </span>        </button></span></span></div>
+    </div>
 {% endblock %}
 
