@@ -12,7 +12,12 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailsnippets.models import register_snippet
+
 from modelcluster.fields import ParentalKey
+from modelcluster.tags import ClusterTaggableManager
+from taggit.models import Tag, TaggedItemBase
+
+from accounts.models import RapidProUser
 
 
 """
@@ -480,3 +485,91 @@ class OrganizationCaseStudy(Orderable, models.Model):
     panels = [
         FieldPanel('organization'),
     ]
+
+
+# Blog index page
+
+
+class BlogIndexPage(Page, TopImage):
+    intro = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+    subpage_types = ['portal_pages.BlogPage']
+
+    @property
+    def blogs(self):
+        # Get list of live blog pages that are descendants of this page
+        blogs = BlogPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        blogs = blogs.order_by('-date')
+
+        return blogs
+
+    def get_context(self, request):
+        # Get blogs
+        blogs = self.blogs
+
+        # Filter by tag
+        tag = request.GET.get('tag')
+        if tag:
+            blogs = blogs.filter(tags__name=tag)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(blogs, 6)  # Show 6 casestudies per page
+        try:
+            blogs = paginator.page(page)
+        except PageNotAnInteger:
+            blogs = paginator.page(1)
+        except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(BlogIndexPage, self).get_context(request)
+        context['blogs'] = blogs
+        return context
+
+BlogIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+    MultiFieldPanel(TopImage.panels, "blog image"),
+]
+
+BlogIndexPage.promote_panels = Page.promote_panels
+
+
+# Blog Page
+
+
+class BlogPageTag(TaggedItemBase):
+    content_object = ParentalKey('portal_pages.BlogPage', related_name='tagged_items')
+
+
+class BlogPage(Page, TopImage):
+    body = RichTextField()
+    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    date = models.DateField("Post date")
+
+    search_fields = Page.search_fields + (
+        index.SearchField('body'),
+    )
+
+    @property
+    def blog_index(self):
+        # Find closest ancestor which is a blog index
+        return self.get_ancestors().type(BlogIndexPage).last()
+
+BlogPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('date'),
+    FieldPanel('body', classname="full"),
+    MultiFieldPanel(TopImage.panels, "blog image"),
+]
+
+BlogPage.promote_panels = Page.promote_panels + [
+    FieldPanel('tags'),
+]
