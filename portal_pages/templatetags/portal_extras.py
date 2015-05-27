@@ -1,4 +1,5 @@
 from django import template
+from ..models import DefaultTopImage
 
 register = template.Library()
 
@@ -9,3 +10,15 @@ def make_unique(value, unique_var): # Only one argument.
         return value.distinct(unique_var).order_by(unique_var)
     else:
         return value
+
+@register.assignment_tag
+def randomize_image(page):
+    if page.top_image:
+        top_image = page.top_image
+    else:
+        try:
+            top_image = DefaultTopImage.objects.order_by("?")[0].default_top_image
+        except IndexError:
+            top_image = ""
+
+    return top_image
