@@ -31,7 +31,7 @@ a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .logo{
-    height:2em;
+    height:2.4em;
 }
 
 nav a{
@@ -104,7 +104,7 @@ ul{
 .result .icon{
     width: 32px;
     height: 32px;
-    background-color: #FFA500;
+    background-color: #069;
     border-radius: 50%;
     position: absolute;
     left: 1em;
@@ -113,7 +113,7 @@ ul{
 
 .result .icon-bar{
     height:4px;
-    background-color:orange;
+    background-color:#069;
     margin-bottom:1em;
 }
 
@@ -135,3 +135,52 @@ ul{
 /* manually override floats in rtl because the admin offers "left" and "right" explicitly */
 html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
 html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
+
+input[type="search"]{
+  width:100%;
+  border-radius:4px;
+  padding: 0 2.0em 0 0.25em;
+}
+
+input[type="button"],
+input[type="submit"],
+button
+.button{
+  cursor: pointer;
+}
+
+.search input[type="submit"]{
+  position:absolute;
+  width:1.5em;
+  height:1em;
+  right:0.2em;
+  top:0.2em;
+  border-radius:3px;
+  background-color: transparent;
+  background-image: url(../images/svg/search.svg);
+  background-size: auto 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.search input[type="submit"]:hover{
+  background-color:#069;
+}
+
+.filters a{
+  background-color:rgba(0, 0, 0, 0.1);
+}
+
+.filters .active{
+  background-color:#069;
+}
+
+.filters a.active:hover{
+  background-color:#48a7d6;
+}
+
+label{
+  font-size:90%;
+  font-weight:500;
+  margin-top:0.8em;
+}
