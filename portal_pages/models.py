@@ -438,7 +438,7 @@ class OrganizationCaseStudy(Orderable, models.Model):
 # Blog index page
 
 
-class BlogIndexPage(Page):
+class BlogIndexPage(Page, TopImage):
     intro = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
@@ -484,6 +484,7 @@ class BlogIndexPage(Page):
 BlogIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
+    MultiFieldPanel(TopImage.panels, "blog image"),
 ]
 
 BlogIndexPage.promote_panels = Page.promote_panels
