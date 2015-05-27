@@ -35,6 +35,7 @@ pip_requirements:
     - requirements: {{ vars.build_path(vars.source_dir, 'requirements/production.txt') }}
 {% endif %}
     - upgrade: true
+    - find_links: {{ vars.build_path(vars.source_dir, 'requirements/sdists') }}
     - require:
       - virtualenv: venv
 
