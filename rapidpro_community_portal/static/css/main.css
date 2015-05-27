@@ -42,16 +42,16 @@ nav a{
 
 nav a.selected{
   background-color:#00517A;
-  height:2em;
+  height:1.8em;
 }
 
-.subnav{
+.sub-nav{
   font-size:80%;
   line-height:1.75em;
   background-color:#00517A;
 }
-.subnav .page-width{
-  padding:0 9em;/*130px;*/
+.sub-nav .page-width{
+  padding:0 9em;
 }
 
 .skip-link{ display:none; }
