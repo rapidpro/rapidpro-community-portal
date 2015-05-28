@@ -88,9 +88,6 @@
         </section>
         {% endblock %}
 
-        {# External javascript #}
-        {% block extra_js %}{% endblock %}
-
         <div class="spacer"></div>
 
         {% block bottom-nav %}
@@ -105,5 +102,6 @@
         </footer>
         {% endblock %}
 
+        {% block extra-js %}{% endblock %}
     </body>
 </html>

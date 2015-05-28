@@ -24,6 +24,7 @@ from accounts.models import RapidProUser
 The following models may be shared across multiple other models
 """
 
+
 @register_snippet
 class Country(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -37,6 +38,7 @@ class Country(models.Model):
         ordering = ('name', )
         verbose_name_plural = "countries"
 
+
 @register_snippet
 class Region(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -46,6 +48,7 @@ class Region(models.Model):
 
     class Meta:
         ordering = ('name', )
+
 
 @register_snippet
 class FocusArea(models.Model):
@@ -59,6 +62,7 @@ class FocusArea(models.Model):
     class Meta:
         ordering = ('name', )
 
+
 @register_snippet
 class Organization(models.Model):
     name = models.CharField(max_length=255)
@@ -69,6 +73,7 @@ class Organization(models.Model):
     class Meta:
         ordering = ('name', )
 
+
 @register_snippet
 class Service(models.Model):
     name = models.CharField(max_length=255)
@@ -78,6 +83,7 @@ class Service(models.Model):
 
     class Meta:
         ordering = ('name', )
+
 
 @register_snippet
 class Expertise(models.Model):
@@ -153,15 +159,46 @@ Page models
 
 
 class HomePage(Page):
-    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True, on_delete=models.SET_NULL)
+    featured_case_study = models.ForeignKey(
+        'portal_pages.CaseStudyPage', blank=True, null=True, on_delete=models.SET_NULL)
     featured_case_study_blurb = RichTextField(blank=True, default='')
+    youtube_video_id = models.CharField(max_length=512, blank=True, default='')
+    youtube_video_title = models.CharField(max_length=512, blank=True, default='')
+    youtube_blurb = RichTextField(blank=True, default='')
 
 HomePage.content_panels = [
-    FieldPanel('title'),
-    InlinePanel('hero_items', label='Hero Images'),
-    InlinePanel('highlights', label='Highlights'),
-    PageChooserPanel('featured_case_study', 'portal_pages.CaseStudyPage'),
-    FieldPanel('featured_case_study_blurb'),
+    MultiFieldPanel(
+        [FieldPanel('title')],
+        heading='Ttile',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [InlinePanel('hero_items')],
+        heading='Hero images',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [InlinePanel('highlights')],
+        heading='Highlights',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [
+            FieldPanel('youtube_video_id'),
+            FieldPanel('youtube_video_title'),
+            FieldPanel('youtube_blurb'),
+        ],
+        heading='Youtube video information',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [
+            PageChooserPanel('featured_case_study', 'portal_pages.CaseStudyPage'),
+            FieldPanel('featured_case_study_blurb'),
+        ],
+        heading='Featured case study',
+        classname='collapsible collapsed',
+    ),
 ]
 
 
