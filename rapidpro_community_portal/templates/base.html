@@ -39,21 +39,19 @@
         {# TODO: figure out meshing fixed/dynamic content for this #}
         {% block top-nav %}
         <header>
-            <div class="page-width">
-                <div class="cushion">
-                    <a href="/">
-                        <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
-                    </a>
-                    <nav class="right">
-                        <a class="skip-link" href="#content">Skip Link</a>
-                        <a href="#">Learn</a>
-                        <a href="#">Connect</a>
-                        <a href="/stories/">Stories</a>
-                        <a href="#">Develop</a>
-                        <a class="button" href="#">Free Demo</a>
-                    </nav>
-                    <div class="clear"></div>
-                </div>
+            <div class="page-width cushion">            
+                <a href="/">
+                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                </a>
+                <nav class="right">
+                    <a class="skip-link" href="#content">Skip Link</a>
+                    <a href="#">Learn</a>
+                    <a href="#">Connect</a>
+                    <a href="/stories/">Stories</a>
+                    <a href="#">Develop</a>
+                    <a class="button" href="#">Free Demo</a>
+                </nav>
+                <div class="clear"></div>
             </div>
         </header>
         {% endblock %}

@@ -343,6 +343,45 @@ class CaseStudyIndexPage(Page, TopImage):
     subpage_types = ['portal_pages.CaseStudyPage']
 
     @property
+    def countries(self):
+        countries = Country.objects.filter(
+            id__in = CountryCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.filter(live=True)).values("country__id"))
+        
+        return countries
+
+    @property
+    def regions(self):
+        regions = Region.objects.filter(
+            id__in = RegionCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.filter(live=True)).values("region__id"))
+        
+        return regions
+
+    @property
+    def focus_areas(self):
+        focus_areas = FocusArea.objects.filter(
+            id__in = FocusAreaCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.filter(live=True)).values("focusarea__id"))
+        
+        return focus_areas
+
+    @property
+    def organizations(self):
+        organizations = Organization.objects.filter(
+            id__in = OrganizationCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.filter(live=True)).values("organization__id"))
+        
+        return organizations
+
+    @property
+    def marketplace_entries(self):
+        marketplace_entries = MarketplaceEntryPage.objects.filter(
+            id__in = CaseStudyPage.objects.filter(live=True).values("marketplace_entry__id"))
+        
+        return marketplace_entries
+
+    @property
     def casestudies(self):
         # Get list of live casestudy pages that are descendants of this page
         casestudies = CaseStudyPage.objects.live().descendant_of(self)
@@ -361,27 +400,47 @@ class CaseStudyIndexPage(Page, TopImage):
         # Filter by region
         region = request.GET.get('region')
         if region:
-            casestudies = casestudies.filter(regions__region__name=region)
+            if region[0] == ",":
+                region = region[1:]
+            region_list = region.split(",")
+            for region in region_list:
+                casestudies = casestudies.filter(regions__region__name=region)
 
         # Filter by country
         country = request.GET.get('country')
         if country:
-            casestudies = casestudies.filter(countries__country__name=country)
+            if country[0] == ",":
+                country = country[1:]
+            country_list = country.split(",")
+            for country in country_list:
+                casestudies = casestudies.filter(countries__country__name=country)
 
         # Filter by focus area
         focus_area = request.GET.get('focus_area')
         if focus_area:
-            casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
+            if focus_area[0] == ",":
+                focus_area = focus_area[1:]
+            focus_area_list = focus_area.split(",")
+            for focus_area in focus_area_list:
+                casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
 
         # Filter by organization
         organization = request.GET.get('organization')
         if organization:
-            casestudies = casestudies.filter(organizations__organization__name=organization)
+            if organization[0] == ",":
+                organization = organization[1:]
+            organization_list = organization.split(",")
+            for organization in organization_list:
+                casestudies = casestudies.filter(organizations__organization__name=organization)
 
         # Filter by marketplace entry
         marketplace = request.GET.get('marketplace')
         if marketplace:
-            casestudies = casestudies.filter(marketplace_entry__title=marketplace)
+            if marketplace[0] == ",":
+                marketplace = marketplace[1:]
+            marketplace_list = marketplace.split(",")
+            for marketplace in marketplace_list:
+                casestudies = casestudies.filter(marketplace_entry__title=marketplace)
 
         # Pagination
         page = request.GET.get('page')

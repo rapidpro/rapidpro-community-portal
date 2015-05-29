@@ -3,25 +3,26 @@
 
 {# Individual page item in a list - used on casestudy index and marketplace index #}
 
+{% randomize_image page as top_image %}
 
-<div class="half float-layout">
+<div class="half float-layout result cushion">
 
-    <div class="third"><div class="cushion">
-        {% randomize_image page as top_image %}
-
-        {% if top_image %}
-            {% image top_image fill-320x200 as img %}
-            <a href="{% pageurl page %}">
-              <img class="full" src="{{ img.url }}" />
-            </a>
-        {% endif %}
-    </div></div>
-
-    <div class="two-thirds"><div class="cushion">
+    {% if top_image %}
+        {% image top_image fill-320x60 as img %}
         <a href="{% pageurl page %}">
-        <h3>{{ page.title }}</h3>
+            <img class="full" src="{{ img.url }}">
         </a>
-    </div></div>
+    {% endif %}
 
-    </a>
+
+    <div class="icon-bar">
+        <img class="icon" src="/static/images/svg/permalink.svg">
+    </div>
+    
+    <p>
+        <a href="{% pageurl page %}"><strong>{{ page.title }}</strong></a>         
+        {{ page.summary|striptags|truncatechars:100 }}
+        {{ page.biography|striptags|truncatechars:100 }}
+        {{ page.body|striptags|truncatechars:100 }}
+    </p>
 </div>

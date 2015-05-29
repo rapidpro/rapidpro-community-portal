@@ -11,6 +11,17 @@ def make_unique(value, unique_var): # Only one argument.
     else:
         return value
 
+@register.filter
+def remove_from_string(value, value_to_remove): 
+    """Remove a value from a list of values, ie. in order to unselect a Country from a filter of Countries"""
+    if value.find("," + value_to_remove) >= 0:
+        value = value.replace("," + value_to_remove, "")
+    elif value.find(value_to_remove) >= 0:
+        value = value.replace(value_to_remove, "")
+
+    return value
+
+
 @register.assignment_tag
 def randomize_image(page):
     if page.top_image:
