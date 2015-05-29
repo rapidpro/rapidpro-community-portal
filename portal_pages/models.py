@@ -169,7 +169,7 @@ class HomePage(Page):
 HomePage.content_panels = [
     MultiFieldPanel(
         [FieldPanel('title')],
-        heading='Ttile',
+        heading='Title',
         classname='collapsible collapsed',
     ),
     MultiFieldPanel(
