@@ -5,26 +5,6 @@
     <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
 {% endblock %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
-    <style>
-        .ui-button-text-only .ui-button-text {
-            padding: .4em 1em;
-        }
-        .ui-button .ui-button-text {
-            display: block;
-            line-height: normal;
-        }
-        .ui-widget {
-            font-family: Open Sans,Arial,sans-serif;
-            font-size: 1.2em;
-        }
-        .content { /* Temporarily adding background color so I can see form elements. */
-            background-color: #b0c4de;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
     <form action="{% url 'create_marketplace' %}" method="post">
     {% csrf_token %}
