@@ -2,14 +2,7 @@
 {% load static %}
 
 {% block extra_header %}
-    <link rel="stylesheet" href="{% static 'css/hallo.css' %}" />
-
-    <script type="text/javascript" src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.0.custom.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/hallo.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/showdown.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/to-markdown.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/editor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
 {% endblock %}
 
 {% block extra_css %}
@@ -40,20 +33,6 @@
 
     <label for="biography">Biography</label><br />
 
-    <div property="description" class="editable" contenteditable="true">
-
-        <h1>Use headers as you would like to</h1>
-
-        <p>
-        Enter your Marketplace Information here!
-        </p>
-
-        <p>
-        Make sure you fill out all the information you want displayed on the portal.
-        </p>
-
-      </div>
-
     <textarea name="biography" id="biography" style="width:600px;height:400px;"></textarea><br />
     
     <br />
@@ -67,4 +46,23 @@
 
     </div>
 {% endblock %}
+
+{% block extra_js %}
+    <script>
+        tinymce.init({
+            menubar : false,
+            toolbar: [
+            "undo redo | styleselect | bold italic bullist numlist "
+            ],
+            style_formats: [
+                {title: 'P', block: 'p'},
+                {title: 'H2', block: 'h2'},
+                {title: 'H3', block: 'h3'},
+                {title: 'H4', block: 'h4'},
+                {title: 'H5', block: 'h5'},
+            ],
+            selector:'textarea'});
+    </script>
+{% endblock %}
+
 

@@ -36,7 +36,7 @@ def format_biography(biography):
     biography_formatted = biography
 
     # Need to find a utility that turns markdown into html
-    
+    """
     while(biography_formatted.find("### ") >= 0):                                             
         h3_begin = biography_formatted.find("### ")
         h3_end = biography_formatted.find("\r\n\r\n", h3_begin)
@@ -54,15 +54,14 @@ def format_biography(biography):
     
     # while(biography_formatted.find("**") >= 0):                                             
     #    biography_formatted = biography_formatted.replace("**", "<b>")
-    """
+    
     while(biography_formatted.find("_") >= 0):                                             
         i_begin = biography_formatted.find("_")
         i_end = biography_formatted.find("_", i_begin+1)
         biography_formatted = biography_formatted[0:i_begin] + "<i>" + biography_formatted[i_begin+1:i_end] + "</i>" + biography_formatted[i_end+4:len(biography_formatted)]
-    """
-
+    
     biography_formatted = biography_formatted.replace("*   ", "</ul></li><ul><li>")
 
     biography_formatted = biography_formatted.replace("\r\n", "") # Strip out any remaining carriage returns
-
+    """
     return biography_formatted
