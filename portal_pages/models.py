@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField, StreamField
@@ -282,7 +283,7 @@ class MarketplaceEntryPage(Page, ContactFields, TopImage):
 
     @property
     def marketplace_index(self):
-        # Find closest ancestor which is a casestudy index
+        # Find closest ancestor which is a marketplace index
         return self.get_ancestors().type(MarketplaceIndexPage).last()
 
 MarketplaceEntryPage.content_panels = [
@@ -441,6 +442,12 @@ class CaseStudyIndexPage(Page, TopImage):
             marketplace_list = marketplace.split(",")
             for marketplace in marketplace_list:
                 casestudies = casestudies.filter(marketplace_entry__title=marketplace)
+
+        # Search by search query
+        if request.POST:
+            search_query = request.POST['search']
+            if search_query:
+                casestudies = casestudies.filter(Q(summary__contains=search_query) | Q(title__contains=search_query))
 
         # Pagination
         page = request.GET.get('page')
