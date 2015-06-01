@@ -97,6 +97,14 @@ section{
     background-color:#888;
 }
 
+.tagsheader {
+    background-image: url(/static/images/svg/permalink.svg);
+    background-repeat: no-repeat;
+    height: 32px;
+    padding-left: 32px;
+    cursor: pointer;
+}
+
 ul{
     padding-left: 1em;
 }

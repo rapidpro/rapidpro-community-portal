@@ -21,89 +21,124 @@
                             <a href=" {% pageurl self %} ">Clear all filters</a>
                         </div>
 
-                        <label>Countries</label>
-                        <div class="tags">
-                            {% for country in self.countries %}
-                                {% if country.name in request.GET.country %}
-                                    <a class="active" 
-                                        href="?country={{ request.GET.country|remove_from_string:country.name }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ country.name }}
-                                    </a>
-                                {% else %}
-                                    <a 
-                                        href="?country={{ request.GET.country }},{{ country.name }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ country.name }}
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
+                        <div class="tagsheader countries">
+                           Countries
                         </div>
 
-                        <label>Region</label>
-                        <div class="tags">
-                            {% for region in self.regions %}
-                                {% if region.name in request.GET.region %}
-                                    <a class="active" 
-                                        href="?region={{ request.GET.region|remove_from_string:region.name }}&country={{ request.GET.country }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ region.name }}
-                                    </a>
-                                {% else %}
-                                    <a 
-                                        href="?region={{ request.GET.region }},{{ region.name }}&country={{ request.GET.country }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ region.name }}
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
+                        {% if request.GET.country %}
+                            <div class="tags countries uncollapsed">
+                        {% else %}
+                            <div class="tags countries collapsed">
+                        {% endif %}
+                        {% for country in self.countries %}
+                            {% if country.name in request.GET.country %}
+                                <a class="active" 
+                                    href="?country={{ request.GET.country|remove_from_string:country.name }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ country.name }}
+                                </a>
+                            {% else %}
+                                <a 
+                                    href="?country={{ request.GET.country }},{{ country.name }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ country.name }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
                         </div>
 
-                        <label>Focus Areas</label>
-                        <div class="tags">
-                            {% for focus_area in self.focus_areas %}
-                                {% if focus_area.name in request.GET.focus_area %}
-                                    <a class="active" 
-                                        href="?focus_area={{ request.GET.focus_area|remove_from_string:focus_area.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ focus_area.name }}
-                                    </a>
-                                {% else %}
-                                    <a 
-                                        href="?focus_area={{ request.GET.focus_area }},{{ focus_area.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ focus_area.name }}
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
+                        <div class="tagsheader regions">
+                            Regions
                         </div>
 
-                        <label>Organization</label>
-                        <div class="tags">
-                            {% for organization in self.organizations %}
-                                {% if organization.name in request.GET.organization %}
-                                    <a class="active" 
-                                        href="?organization={{ request.GET.organization|remove_from_string:organization.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ organization.name }}
-                                    </a>
-                                {% else %}
-                                    <a 
-                                        href="?organization={{ request.GET.organization }},{{ organization.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&marketplace={{ request.GET.marketplace }}">
-                                        {{ organization.name }}
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
+                        {% if request.GET.region %}
+                            <div class="tags regions uncollapsed">
+                        {% else %}
+                            <div class="tags regions collapsed">
+                        {% endif %}
+                        {% for region in self.regions %}
+                            {% if region.name in request.GET.region %}
+                                <a class="active" 
+                                    href="?region={{ request.GET.region|remove_from_string:region.name }}&country={{ request.GET.country }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ region.name }}
+                                </a>
+                            {% else %}
+                                <a 
+                                    href="?region={{ request.GET.region }},{{ region.name }}&country={{ request.GET.country }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ region.name }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
                         </div>
 
-                        <label>Marketplace</label>
-                        <div class="tags">
-                            {% for marketplace in self.marketplace_entries %}
-                                {% if marketplace.title in request.GET.marketplace %}
-                                    <a class="active" 
-                                        href="?marketplace={{ request.GET.marketplace|remove_from_string:marketplace.title }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}">
-                                        {{ marketplace.title }}
-                                    </a>
-                                {% else %}
-                                    <a 
-                                        href="?marketplace={{ request.GET.marketplace }},{{ marketplace.title }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}">
-                                        {{ marketplace.title }}
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
+                        <div class="tagsheader focus_areas">
+                            Focus Areas
+                        </div>
+
+                        {% if request.GET.focus_area %}
+                            <div class="tags focus_areas uncollapsed">
+                        {% else %}
+                            <div class="tags focus_areas collapsed">
+                        {% endif %}
+                        {% for focus_area in self.focus_areas %}
+                            {% if focus_area.name in request.GET.focus_area %}
+                                <a class="active" 
+                                    href="?focus_area={{ request.GET.focus_area|remove_from_string:focus_area.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ focus_area.name }}
+                                </a>
+                            {% else %}
+                                <a 
+                                    href="?focus_area={{ request.GET.focus_area }},{{ focus_area.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ focus_area.name }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+
+                        <div class="tagsheader organizations">
+                            Organizations
+                        </div>
+
+                        {% if request.GET.organization %}
+                            <div class="tags organizations uncollapsed">
+                        {% else %}
+                            <div class="tags organizations collapsed">
+                        {% endif %}
+                        {% for organization in self.organizations %}
+                            {% if organization.name in request.GET.organization %}
+                                <a class="active" 
+                                    href="?organization={{ request.GET.organization|remove_from_string:organization.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ organization.name }}
+                                </a>
+                            {% else %}
+                                <a 
+                                    href="?organization={{ request.GET.organization }},{{ organization.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&marketplace={{ request.GET.marketplace }}">
+                                    {{ organization.name }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+
+                        <div class="tagsheader marketplace">
+                            Marketplace
+                        </div>
+
+                        {% if request.GET.marketplace %}
+                            <div class="tags marketplace uncollapsed">
+                        {% else %}
+                            <div class="tags marketplace collapsed">
+                        {% endif %}
+                        {% for marketplace in self.marketplace_entries %}
+                            {% if marketplace.title in request.GET.marketplace %}
+                                <a class="active" 
+                                    href="?marketplace={{ request.GET.marketplace|remove_from_string:marketplace.title }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}">
+                                    {{ marketplace.title }}
+                                </a>
+                            {% else %}
+                                <a 
+                                    href="?marketplace={{ request.GET.marketplace }},{{ marketplace.title }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}">
+                                    {{ marketplace.title }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
                         </div>
 
                     </div>
@@ -151,4 +186,26 @@
     <div class="spacer"></div>
 
     
+{% endblock %}
+
+{% block extra_js %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $(".collapsed").hide();
+    $(".tagsheader").click(function(e){ // toggle tag collapse/uncollapse
+        tagtype = $(e.target).attr("class").split(" ")[1]; // ie. countries
+        if ($(".tags."+tagtype).hasClass("uncollapsed")) {
+            $(".tags."+tagtype).hide("500");
+            $(".tags."+tagtype).removeClass("uncollapsed");
+            $(".tags."+tagtype).addClass("collapsed");
+        }
+        else {
+            $(".tags."+tagtype).show("500");
+            $(".tags."+tagtype).removeClass("collapsed");
+            $(".tags."+tagtype).addClass("uncollapsed");
+        }
+    });
+});
+</script>
 {% endblock %}
