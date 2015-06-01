@@ -47,17 +47,6 @@ nav a:hover{
 .skip-link{ display:none; }
 .skip-link:focus{ display:block; }
 
-.button{
-    display:inline-block;
-    padding:0.5em;
-    text-decoration:none;
-    text-align: center;
-    background-color:teal;
-    color:white;
-    border-radius:4px;
-    box-sizing: border-box;
-}
-
 .hero, .top-image {
     height:330px;
     background-color:#bbb;
