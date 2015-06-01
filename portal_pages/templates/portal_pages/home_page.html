@@ -18,10 +18,10 @@
         <div class="page-width float-layout">
         {% for hlight in self.highlights.all %}
             <div class="half float-layout">
-                <div class="third"><div class="cushion">
-                    <a href="{% pageurl hlight.target_page %}">{% image hlight.icon max-140x140 %}</a>
+                <div class="permanent third"><div class="cushion">
+                    <a class="fit-child" href="{% pageurl hlight.target_page %}">{% image hlight.icon max-140x140 %}</a>
                 </div></div>
-                <div class="two-thirds"><div class="cushion">
+                <div class="permanent two-thirds"><div class="cushion">
                     <h3><a href="{% pageurl hlight.target_page %}">{{ hlight.title }}</a></h3>
                     {{ hlight.blurb|richtext }}
                 </div></div>
