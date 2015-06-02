@@ -95,8 +95,10 @@ class ContactFields(models.Model):
     state = models.CharField(max_length=255, blank=True)
     country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.SET_NULL)
     post_code = models.CharField(max_length=10, blank=True)
+    website = models.CharField(max_length=255, blank=True)
 
     panels = [
+        FieldPanel('website'),
         FieldPanel('telephone'),
         FieldPanel('email'),
         FieldPanel('address_1'),

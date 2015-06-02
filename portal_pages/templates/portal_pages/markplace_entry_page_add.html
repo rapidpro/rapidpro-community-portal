@@ -3,38 +3,117 @@
 
 {% block extra_header %}
     <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/multiple-select/jquery.multiple.select.js' %}"></script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/multiple-select.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block content %}
+<div class="page-width float-layout"><div class="cushion">
+
     <form action="{% url 'create_marketplace' %}" method="post">
     {% csrf_token %}
 
-    <label for="title">Title</label><br />
-    <input type="text" name="title" id="title" /><br />
+    <div class="two-thirds"><div class="cushion">
 
-    <label for="biography">Biography</label><br />
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" />   
 
-    <textarea name="biography" id="biography" style="width:600px;height:400px;"></textarea><br />
+        <label for="biography">Biography</label>
+        <textarea name="biography" id="biography" style="height:200px;"></textarea><br />
+
+        <label for="title">Services</label>
+        <select id="services" name="services" multiple="multiple">
+            {% for service in services %}
+                <option value="{{ service.id }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="title">Expertise</label>
+        <select id="expertise" name="expertise" multiple="multiple">
+            {% for expertise in expertise_list %}
+                <option value="{{ expertise.id }}">{{ expertise.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="title">Regions of Experience</label>
+        <select id="regions_experience" name="regions_experience" multiple="multiple">
+            {% for region in regions %}
+                <option value="{{ region.id }}">{{ region.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="title">Countries of Experience</label>
+        <select id="countries_experience" name="countries_experience" multiple="multiple">
+            {% for country in countries %}
+                <option value="{{ country.id }}">{{ country.name }}</option>
+            {% endfor %}
+        </select>
     
-    <br />
-    {% for service in services %}
-        <input type="checkbox" name="service" id="service{{ service.id }}" value="{{ service.id }}" />
-        <label for="service{{ service.id }}">{{ service.name }}</label><br />
-    {% endfor %}
+        <label for="established">Established Year</label>
+        <select id="established" name="established">
+            {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
 
-    <input type="submit" value="Add" />
+        <h3>Contact Information</h3>
+
+        <label for="website">Website</label>
+        <input type="text" name="website" id="website" /> 
+
+        <label for="telephone">Telephone</label>
+        <input type="text" name="telephone" id="telephone" /> 
+
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" /> 
+
+        <label for="address_1">Address 1</label>
+        <input type="text" name="address_1" id="address_1" /> 
+
+        <label for="address_2">Address 2</label>
+        <input type="text" name="address_2" id="address_2" /> 
+
+        <label for="city">City</label>
+        <input type="text" name="city" id="city" /> 
+
+        <label for="state">State</label>
+        <input type="text" name="state" id="state" />
+
+        <label for="country">Country</label>
+        <select id="country" name="country" >
+            {% for country in countries %}
+                <option value="{{ country.id }}">{{ country.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="post_code">Zip/Post Code</label>
+        <input type="text" name="post_code" id="post_code" /> 
+
+        <input type="submit" value="Add" />  
+    
+    </div></div>
     </form>
 
-    </div>
+</div></div>
+
 {% endblock %}
 
 {% block extra_js %}
     <script>
+        $('#services').multipleSelect({filter: true, position: 'top'});
+        $('#expertise').multipleSelect({filter: true, position: 'top'});
+        $('#regions_experience').multipleSelect({filter: true, position: 'top'});
+        $('#countries_experience').multipleSelect({filter: true, position: 'top'});
+
         tinymce.init({
             menubar : false,
             plugins: ["link, image"],
             toolbar: [
-            "undo redo | styleselect | bold italic bullist numlist | link image"
+            "undo redo | styleselect | bold italic bullist numlist | link" 
             ],
             content_css : "/static/css/main.css",
             style_formats: [
