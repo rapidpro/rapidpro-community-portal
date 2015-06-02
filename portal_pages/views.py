@@ -24,58 +24,59 @@ def create_marketplace(request):
     # Create an unpublished marketplace entry page
     # Found source for this on the following file
     # https://github.com/torchbox/wagtail/blob/master/wagtail/wagtailcore/tests/test_page_model.py
+
+    marketplace_index = MarketplaceIndexPage.objects.live().first()
     
-    marketplace_index = MarketplaceIndexPage.objects.get(id=5)
-    
-    biography = sanitize_html(request.POST['biography'])
-    slug = "marketplace-entry-%d" % random.randrange(100000,999999)
+    if marketplace_index: 
+        biography = sanitize_html(request.POST['biography'])
+        slug = "marketplace-entry-%d" % random.randrange(100000,999999)
 
-    if request.POST['country']:
-        country = Country.objects.get(id=request.POST['country'])
-    else:
-        country = None
+        if request.POST['country']:
+            country = Country.objects.get(id=request.POST['country'])
+        else:
+            country = None
 
-    marketplace_entry = marketplace_index.add_child(
-        instance=MarketplaceEntryPage(
-            title = request.POST['title'], 
-            slug = slug, 
-            date_start = request.POST['established']+"-01-01",
-            biography = biography,
-            telephone = request.POST['telephone'],
-            email = request.POST['email'],
-            address_1 = request.POST['address_1'],
-            address_2 = request.POST['address_2'],
-            city = request.POST['city'],
-            state = request.POST['state'],
-            country = country,
-            post_code = request.POST['post_code'],
-            website = request.POST['website']
-            ))
+        marketplace_entry = marketplace_index.add_child(
+            instance=MarketplaceEntryPage(
+                title = request.POST['title'], 
+                slug = slug, 
+                date_start = request.POST['established']+"-01-01",
+                biography = biography,
+                telephone = request.POST['telephone'],
+                email = request.POST['email'],
+                address_1 = request.POST['address_1'],
+                address_2 = request.POST['address_2'],
+                city = request.POST['city'],
+                state = request.POST['state'],
+                country = country,
+                post_code = request.POST['post_code'],
+                website = request.POST['website']
+                ))
 
-    if marketplace_entry:
+        if marketplace_entry:
 
-        marketplace_entry.unpublish()
+            marketplace_entry.unpublish()
 
-        for service in request.POST.getlist('services'):
-            ServiceMarketplaceEntry.objects.create(
-                service = Service.objects.get(id=service),
-                page = marketplace_entry
-            )
-        for expertise in request.POST.getlist('expertise'):
-            ExpertiseMarketplaceEntry.objects.create(
-                expertise = Expertise.objects.get(id=expertise),
-                page = marketplace_entry
-            )
-        for region in request.POST.getlist('regions_experience'):
-            RegionMarketplaceEntry.objects.create(
-                region = Region.objects.get(id=region),
-                page = marketplace_entry
-            )
-        for country in request.POST.getlist('countries_experience'):
-            CountryMarketplaceEntry.objects.create(
-                country = Country.objects.get(id=country),
-                page = marketplace_entry
-            )        
+            for service in request.POST.getlist('services'):
+                ServiceMarketplaceEntry.objects.create(
+                    service = Service.objects.get(id=service),
+                    page = marketplace_entry
+                )
+            for expertise in request.POST.getlist('expertise'):
+                ExpertiseMarketplaceEntry.objects.create(
+                    expertise = Expertise.objects.get(id=expertise),
+                    page = marketplace_entry
+                )
+            for region in request.POST.getlist('regions_experience'):
+                RegionMarketplaceEntry.objects.create(
+                    region = Region.objects.get(id=region),
+                    page = marketplace_entry
+                )
+            for country in request.POST.getlist('countries_experience'):
+                CountryMarketplaceEntry.objects.create(
+                    country = Country.objects.get(id=country),
+                    page = marketplace_entry
+                )        
 
     return HttpResponseRedirect("/marketplace/")
 
