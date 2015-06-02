@@ -98,9 +98,11 @@ section{
 }
 
 .tagsheader {
-    background-image: url(/static/images/svg/permalink.svg);
+    background-image: url(../images/svg/listing.svg);
+    background-size:auto 15px;
+    background-position: 0.5em 50%;
     background-repeat: no-repeat;
-    height: 32px;
+    line-height: 32px;
     padding-left: 32px;
     cursor: pointer;
 }
