@@ -63,7 +63,12 @@ html[dir="rtl"] .clear { clear:both; float:none; }
 	-ms-flex-flow:row wrap;
 	flex-flow:row wrap;
 }
-.flex-layout > * { flex:auto; width:20em; }
+.flex-layout > * {
+    -ms-flex:auto;
+    -webkit-flex:auto;
+    flex:auto;
+    width:20em;
+}
 
 .transform-center {
 	position:absolute;
