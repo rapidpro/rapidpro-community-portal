@@ -31,7 +31,8 @@ a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .logo{
-    height:2.4em;
+    width:154px;
+    height:43px;
 }
 
 nav a{
