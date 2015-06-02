@@ -1,4 +1,7 @@
 {% load compress static wagtailuserbar %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load portal_extras %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,8 +15,7 @@
             {% block title_postfix %}{% endblock %}
         </title>
 
-        {# TODO: replace with something in our repo #}
-        <link href="http://rapidpro.io/sitestatic/brands/rapidpro/rapidpro.ico" type="image/ico" rel="shortcut icon">
+        <link href="{% static 'images/rapidpro.ico' %}" type="image/ico" rel="shortcut icon">
 
         <meta name="description" content="{% if self.search_description %}{{ self.search_description }}{% endif %}">
 
@@ -22,6 +24,7 @@
         <link href="{% static 'css/layout.css' %}" type="text/css" rel="stylesheet">
         <link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
         <link href="{% static 'css/flickity.css' %}" type="text/css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic" type="text/css" rel="stylesheet">
 
         <script type="text/javascript" src="{% static 'js/flickity.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/uservoice.js' %}"></script>
@@ -30,10 +33,7 @@
     </head>
 
     <body>
-        {# TODO: incorporate the top menu bar somehow, commenting it out for now #}
-        {% comment %}
         {% wagtailuserbar %}
-        {% endcomment %}
 
         {# TODO: split out into an include #}
         {# TODO: figure out meshing fixed/dynamic content for this #}
@@ -41,12 +41,14 @@
         <header>
             <div class="page-width">
                 <div class="cushion">
-                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                    <a href="/">
+                        <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                    </a>
                     <nav class="right">
                         <a class="skip-link" href="#content">Skip Link</a>
                         <a href="#">Learn</a>
                         <a href="#">Connect</a>
-                        <a href="#">Stories</a>
+                        <a href="/stories/">Stories</a>
                         <a href="#">Develop</a>
                         <a class="button" href="#">Free Demo</a>
                     </nav>
@@ -56,23 +58,35 @@
         </header>
         {% endblock %}
 
-        {% block hero-image %}
-        {# TODO: replace background for class hero w/ dynamic picking of image for current page #}
-        <section class="hero">
-            <div class="page-width">
-                <div class="cushion">
-                    <h1>Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque.</h1>
+        {% block top-image %}
+
+            {% randomize_image self as top_image %}
+
+            {% if top_image %}
+                {% image top_image width-1000 as topimagedata %}
+                <style>
+                  .top-image
+                  {
+                    background-image: url({{ topimagedata.url }});
+                  }
+                </style>
+            {% endif %}
+
+            <section class="top-image" alt="{{ self.top_image.title }}">
+                <div class="page-width">
                 </div>
-            </div>
-        </section>
+            </section>
         {% endblock %}
 
         {% block heading %}{% endblock %}
 
-        {% block content %}{% endblock %}
-
-        {# External javascript #}
-        {% block extra_js %}{% endblock %}
+        {% block full-content %}
+        <section class="content">
+            <div class="page-width float-layout">
+                {% block content %}{% endblock %}
+            </div>
+        </section>
+        {% endblock %}
 
         <div class="spacer"></div>
 
@@ -80,20 +94,14 @@
         <footer>
             <div class="page-width">
                 <div class="cushion">
-                <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
-                <nav class="right">
-                    <a href="#">Learn</a>
-                    <a href="#">Connect</a>
-                    <a href="#">Stories</a>
-                    <a href="#">Develop</a>
-                    <a class="button" href="#">Free Demo</a>
-                </nav>
-                <div class="clear spacer"></div>
-                <p>Fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print fine print</p>
+                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                    <div class="clear spacer"></div>
+                    <p>Copyright &copy; {% now "Y" %} UNICEF</p>
                 </div>
             </div>
         </footer>
         {% endblock %}
 
+        {% block extra-js %}{% endblock %}
     </body>
 </html>

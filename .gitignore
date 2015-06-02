@@ -14,3 +14,4 @@ public/media/
 conf/pillar/*/deploy
 secrets.sls*
 *.log
+*.sql

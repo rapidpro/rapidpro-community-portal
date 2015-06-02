@@ -1,34 +1,90 @@
 {% extends 'base.html' %}
 {% load wagtailimages_tags wagtailcore_tags %}
 
-{% block hero-image %}
+{% block top-image %}
     <div class="js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true }'>
     {% for hitem in self.hero_items.all %}
         <a href="{% pageurl hitem.target_page %}">
-        	{% image hitem.hero_image height-400 %}
-        	{{ hitem.blurb|richtext }}
-				</a>
+            {% image hitem.hero_image height-400 %}
+            {{ hitem.blurb|richtext }}
+        </a>
     {% endfor %}
     </div>
+    <br><br><br>
 {% endblock %}
 
-{% block content %}
-<section class="highlights">
-    <div class="page-width float-layout">
-    {% for hlight in self.highlights.all %}
-        <div class="half float-layout">
-            <div class="third"><div class="cushion">
-                <a href="{% pageurl hlight.target_page %}">{% image hlight.icon max-140x140 %}</a>
-            </div></div>
-            <div class="two-thirds"><div class="cushion">
-                <h3><a href="{% pageurl hlight.target_page %}">{{ hlight.title }}</a></h3>
-                {{ hlight.blurb|richtext }}
-            </div></div>
+{% block full-content %}
+    <section class="highlights">
+        <div class="page-width flex-layout">
+        {% for hlight in self.highlights.all %}
+            <div class="half float-layout">
+                <div class="permanent third"><div class="cushion">
+                    <a class="fit-child" href="{% pageurl hlight.target_page %}">{% image hlight.icon max-140x140 %}</a>
+                </div></div>
+                <div class="permanent two-thirds"><div class="cushion">
+                    <h3><a href="{% pageurl hlight.target_page %}">{{ hlight.title }}</a></h3>
+                    {{ hlight.blurb|richtext }}
+                </div></div>
+            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
+    </section>
+
+    <div class="spacer"></div>
+
+    {% if self.youtube_video_id %}
+    <section class="homepage-video">
+        <div class="page-width cushion" id="homepage-video">
+            <div id="homepage-video-player"></div>
+            <h2>{{ self.youtube_video_title }}</h2>
+            {{ self.youtube_blurb|richtext }}
+        </div>
+    </section>
+    {% endif %}
+
+    <div class="spacer"></div>
+
+    {% if self.featured_case_study %}
+    <div class="page-width" >
+        <div class="table-layout">
+            <div>
+                <section class="featured-case-study half">
+                    {% image self.featured_case_study.top_image height-144 as img %}
+                    <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
+                    <a href="{% pageurl self.featured_case_study %}"><h2>{{ self.featured_case_study.title }}</h2></a>
+                    {{ self.featured_case_study_blurb|richtext }}
+                </section>
+
+                <section class="call-to-action half transform-parent">
+                    <div class="transform-center">
+                        <a class="button">Get started now!</a>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
-</section>
+    {% endif %}
+{% endblock %}
 
+{% block extra-js %}
+    {% if self.youtube_video_id %}
+    <script>
+        // This code loads the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
 
-<p>Remaining sections still to be added!</p>
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // This function creates an <iframe> (and YouTube player)
+        // after the API code downloads.
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('homepage-video-player', {
+            height: '336',
+            videoId: '{{ self.youtube_video_id }}'
+            });
+        }
+    </script>
+    {% endif %}
 {% endblock %}

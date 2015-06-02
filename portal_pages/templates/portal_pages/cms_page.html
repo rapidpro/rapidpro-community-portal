@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load wagtailcore_tags %}
 
 {% block content %}
-    {{ self.body }}
+    <div class="spacer"></div>
+    {{ self.body|richtext }}
 {% endblock %}
