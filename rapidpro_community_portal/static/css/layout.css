@@ -55,7 +55,15 @@ html[dir="rtl"] .clear { clear:both; float:none; }
 .table-layout > * { display:table-row; }
 .table-layout > * > * { display:table-cell; }
 
-.flex-layout { display:-webkit-flex; display:-ms-flexbox; display:flex; }
+.flex-layout {
+	display:-webkit-flex;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-flex-flow:row wrap;
+	-ms-flex-flow:row wrap;
+	flex-flow:row wrap;
+}
+.flex-layout > * { flex:auto; width:20em; }
 
 .transform-center {
 	position:absolute;
