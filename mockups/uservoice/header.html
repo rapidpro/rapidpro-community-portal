@@ -1,0 +1,23 @@
+<header class="uvContainer uvMasthead {% if site.background_color == 'fff' || site.background_color == 'ffffff' %}uvMasthead-white{% endif %}">
+  <div class="uvRow">
+    <div class="uvCol-6">
+      <div class="uvMastheadWrapper">
+        {% if site.has_logo %}
+          <a class="uvMastheadHomeLink" href="{{ site.path }}" title="{{ site.title }}">
+            <img class="uvMastheadLogo" src="{{ site.logo_url }}" alt="{{ site.organization.name }}">
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="uvCol-6">
+      <div class="uvMastheadWrapper">
+        <nav>
+            <a href="#">Learn</a>
+            <a href="#">Connect</a>
+            <a href="/stories/">Stories</a>
+            <a href="#">Develop</a>
+            <a class="button" href="#">Free Demo</a>
+        </nav>
+    </div>
+  </div>
+</header>
