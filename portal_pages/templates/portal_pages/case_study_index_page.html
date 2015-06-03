@@ -46,7 +46,6 @@
                             {% display_filter_list "marketplace" "marketplace" self.marketplace_entries "country,region,focus_area,marketplace" %}
                         {% endif %}
 
-
                     </div>
                 </div>
 
@@ -69,20 +68,17 @@
 
                     {# Pagination - uses django.core.paginator #}
                     {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
-                    <div class="row">
-                        <div class="col-sm-4 previous">
-                            {% if casestudies.has_previous %}
-                                <a href="?page={{ casestudies.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
-                            {% endif %}
-                        </div>
-                        <div class="col-sm-4 pages">
-                            Page {{ casestudies.number }} of {{ casestudies.paginator.num_pages }}
-                        </div>
-                        <div class="col-sm-4 next">
-                            {% if casestudies.has_next %}
-                                <a href="?page={{ casestudies.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
-                            {% endif %}
-                        </div>
+                    <div class="two-thirds">&nbsp;</div>
+                    <div class="third">
+                        {% if casestudies.has_previous %}
+                            <a href="?page={{ casestudies.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
+                        {% endif %}
+
+                        Page {{ casestudies.number }} of {{ casestudies.paginator.num_pages }}
+
+                        {% if casestudies.has_next %}
+                            <a href="?page={{ casestudies.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
+                        {% endif %}
                     </div>
 
                 </div>
