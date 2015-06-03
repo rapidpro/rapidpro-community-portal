@@ -286,6 +286,10 @@ class MarketplaceEntryPage(Page, ContactFields, TopImage):
         # Find closest ancestor which is a marketplace index
         return self.get_ancestors().type(MarketplaceIndexPage).last()
 
+    @property
+    def name(self):
+        return self.title
+
 MarketplaceEntryPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('date_start'),
@@ -347,7 +351,7 @@ class CaseStudyIndexPage(Page, TopImage):
     def countries(self):
         countries = Country.objects.filter(
             id__in = CountryCaseStudy.objects.filter(
-                page__in=CaseStudyPage.objects.filter(live=True)).values("country__id"))
+                page__in=CaseStudyPage.objects.live()).values("country__id"))
         
         return countries
 
@@ -355,7 +359,7 @@ class CaseStudyIndexPage(Page, TopImage):
     def regions(self):
         regions = Region.objects.filter(
             id__in = RegionCaseStudy.objects.filter(
-                page__in=CaseStudyPage.objects.filter(live=True)).values("region__id"))
+                page__in=CaseStudyPage.objects.live()).values("region__id"))
         
         return regions
 
@@ -363,7 +367,7 @@ class CaseStudyIndexPage(Page, TopImage):
     def focus_areas(self):
         focus_areas = FocusArea.objects.filter(
             id__in = FocusAreaCaseStudy.objects.filter(
-                page__in=CaseStudyPage.objects.filter(live=True)).values("focusarea__id"))
+                page__in=CaseStudyPage.objects.live()).values("focusarea__id"))
         
         return focus_areas
 
@@ -371,14 +375,14 @@ class CaseStudyIndexPage(Page, TopImage):
     def organizations(self):
         organizations = Organization.objects.filter(
             id__in = OrganizationCaseStudy.objects.filter(
-                page__in=CaseStudyPage.objects.filter(live=True)).values("organization__id"))
+                page__in=CaseStudyPage.objects.live()).values("organization__id"))
         
         return organizations
 
     @property
     def marketplace_entries(self):
         marketplace_entries = MarketplaceEntryPage.objects.filter(
-            id__in = CaseStudyPage.objects.filter(live=True).values("marketplace_entry__id"))
+            id__in = CaseStudyPage.objects.live().values("marketplace_entry__id"))
         
         return marketplace_entries
 
@@ -447,7 +451,7 @@ class CaseStudyIndexPage(Page, TopImage):
         if request.POST:
             search_query = request.POST['search']
             if search_query:
-                casestudies = casestudies.filter(Q(summary__contains=search_query) | Q(title__contains=search_query))
+                casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
 
         # Pagination
         page = request.GET.get('page')

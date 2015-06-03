@@ -25,29 +25,7 @@
                             <a href=" {% pageurl self %} ">Clear all filters</a>
                         </div>
 
-                        <div class="tagsheader countries">
-                           Countries
-                        </div>
-
-                        {% if request.GET.country %}
-                            <div class="tags countries uncollapsed">
-                        {% else %}
-                            <div class="tags countries collapsed">
-                        {% endif %}
-                        {% for country in self.countries %}
-                            {% if country.name in request.GET.country %}
-                                <a class="active" 
-                                    href="?country={{ request.GET.country|remove_from_string:country.name }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ country.name }}
-                                </a>
-                            {% else %}
-                                <a 
-                                    href="?country={{ request.GET.country }},{{ country.name }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ country.name }}
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                        </div>
+                        {% display_filter_list "country" "countries" self.countries "region,focus_area,organization,marketplace" %}
 
                         <div class="tagsheader regions">
                             Regions

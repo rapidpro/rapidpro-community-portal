@@ -98,7 +98,7 @@ section{
 }
 
 .tagsheader {
-    background-image: url(/static/images/svg/permalink.svg);
+    background-image: url(../images/svg/permalink.svg);
     background-repeat: no-repeat;
     height: 32px;
     padding-left: 32px;

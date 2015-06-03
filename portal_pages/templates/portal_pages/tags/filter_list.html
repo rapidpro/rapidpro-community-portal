@@ -1,0 +1,22 @@
+{% load portal_extras %}
+
+<!--
+request.tagsheader: ie. countries
+request.tags_header_title: ie. Countries
+collapse_state: uncollapsed or collapsed
+-->
+
+<div class="tagsheader {{ request.tags_header }}">
+   {{ request.tags_header_title }}
+</div>
+
+<div class="tags {{ request.tags_header }} {{ request.collapse_state }}">
+
+    {% for link_item in request.link_items %}
+        <a class="{{ link_item.class }}" 
+            href="{{ link_item.href }}">
+            {{ link_item.name }}
+        </a>
+    {% endfor %}
+
+</div>
