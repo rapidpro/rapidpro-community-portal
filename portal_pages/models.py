@@ -405,8 +405,6 @@ class CaseStudyIndexPage(Page, TopImage):
         # Filter by region
         region = request.GET.get('region')
         if region:
-            if region[0] == ",":
-                region = region[1:]
             region_list = region.split(",")
             for region in region_list:
                 casestudies = casestudies.filter(regions__region__name=region)
@@ -414,8 +412,6 @@ class CaseStudyIndexPage(Page, TopImage):
         # Filter by country
         country = request.GET.get('country')
         if country:
-            if country[0] == ",":
-                country = country[1:]
             country_list = country.split(",")
             for country in country_list:
                 casestudies = casestudies.filter(countries__country__name=country)
@@ -423,8 +419,6 @@ class CaseStudyIndexPage(Page, TopImage):
         # Filter by focus area
         focus_area = request.GET.get('focus_area')
         if focus_area:
-            if focus_area[0] == ",":
-                focus_area = focus_area[1:]
             focus_area_list = focus_area.split(",")
             for focus_area in focus_area_list:
                 casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
@@ -432,8 +426,6 @@ class CaseStudyIndexPage(Page, TopImage):
         # Filter by organization
         organization = request.GET.get('organization')
         if organization:
-            if organization[0] == ",":
-                organization = organization[1:]
             organization_list = organization.split(",")
             for organization in organization_list:
                 casestudies = casestudies.filter(organizations__organization__name=organization)
@@ -441,8 +433,6 @@ class CaseStudyIndexPage(Page, TopImage):
         # Filter by marketplace entry
         marketplace = request.GET.get('marketplace')
         if marketplace:
-            if marketplace[0] == ",":
-                marketplace = marketplace[1:]
             marketplace_list = marketplace.split(",")
             for marketplace in marketplace_list:
                 casestudies = casestudies.filter(marketplace_entry__title=marketplace)

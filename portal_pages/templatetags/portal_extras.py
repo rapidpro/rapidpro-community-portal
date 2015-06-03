@@ -39,12 +39,13 @@ def display_filter_list(context, filter_type, tags_header, items, request_list):
         if item.name in request_vars:
             item_class = "active"
             # Remove this active item in the list to toggle filter off
-            request_vars_list = request_vars.lstrip(",").split(",")
+            request_vars_list = request_vars.lstrip(",").split(",") # Strip out any leading comma
             request_vars_list.remove(item.name)
             item_href="?" + filter_type + "=" + ",".join(request_vars_list)
         else:
             item_class = ""
-            item_href="?" + filter_type + "=" + request_vars + "," + item.name
+            request_vars_string = (request_vars + "," + item.name).lstrip(",") # Strip out any leading comma
+            item_href="?" + filter_type + "=" + request_vars_string
 
         for request_item in request_list.split(","):
             if context.request.GET.get(request_item, ""):
