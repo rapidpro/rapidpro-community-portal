@@ -25,7 +25,7 @@ def remove_from_string(value, value_to_remove):
 def display_filter_list(context, filter_type, tags_header, items, request_list):
 
     context.request.tags_header = tags_header # ie. countries
-    context.request.tags_header_title = tags_header.title() # ie. countries
+    context.request.tags_header_title = tags_header.title() # ie. Countries
     
     request_vars = context.request.GET.get(filter_type,"")
 
@@ -39,7 +39,7 @@ def display_filter_list(context, filter_type, tags_header, items, request_list):
     for request_item in request_list.split(","):
         addl_filters_string = addl_filters_string + "&" + request_item + "=" + context.request.GET.get(request_item, "")
 
-    if request_vars: # ie. Afghanistan,China
+    if request_vars: # Collapse the div if no filters are currently active for this filter
         context.request.collapse_state = "uncollapsed"
     else:
         context.request.collapse_state = "collapsed"
@@ -64,7 +64,6 @@ def display_filter_list(context, filter_type, tags_header, items, request_list):
         # Append all the other filter variables to the URL string
         if addl_filters_string:
             item_href = item_href + addl_filters_string
-
 
         context.request.link_items.append({"class": item_class, "href": item_href, "name": item.name})
     

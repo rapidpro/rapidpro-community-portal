@@ -1,67 +1,116 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
+{% load portal_extras %}
 
 {% block full-content %}
-    <section class="highlights">
-        <div class="page-width float-layout">
+    <section class="content page-width">
+        <h1 class="cushion">{{ self.title }}</h1>
+            <div class="float-layout">
+                <div class="quarter cushion">
+                    <div class="filters cushion">
+                        <label>Search</label>
+                        <form action="?country={{ request.GET.country }}&region={{ request.GET.region }}&service={{ request.GET.service }}&expertise={{ request.GET.expertise }};" method="post">
+                            {% csrf_token %}
+                            <div class="search">
+                                {% if request.POST.search %}
+                                    <input type="search" name="search" id="search" 
+                                        value="{{ request.POST.search }}">
+                                {% elif request.GET.search %}
+                                    <input type="search" name="search" id="search" 
+                                        value="{{ request.GET.search }}">
+                                {% else %}
+                                    <input type="search" name="search" id="search" 
+                                        value="">
+                                {% endif %}
+                                <input type="submit" value=" ">
+                            </div>
+                        </form>
+                        <div class="clear"></div>
 
-        {% if request.GET.country|length %}
-            <h4>Showing posts tagged as {{ request.GET.country|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        <label>Filters</label>
+                        <div class="tags">
+                            <a href=" {% pageurl self %} ">Clear all filters</a>
+                        </div>
 
-        {% if request.GET.region|length %}
-            <h4>Showing posts tagged as {{ request.GET.region|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        {% if self.countries %}
+                            {% display_filter_list "country" "countries" self.countries "region,service,expertise" %}
+                        {% endif %}
 
-        {% if request.GET.service|length %}
-            <h4>Showing posts tagged as {{ request.GET.service|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        {% if self.regions %}
+                            {% display_filter_list "region" "regions" self.regions "country,service,expertise" %}
+                        {% endif %}
 
-        {% if request.GET.expertise|length %}
-            <h4>Showing posts tagged as {{ request.GET.expertise|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        {% if self.services %}
+                            {% display_filter_list "service" "services" self.services "country,region,expertise" %}
+                        {% endif %}
 
-        {% if self.intro %}
-            <div>
-                {{ self.intro|richtext }}
-            </div>
-        {% endif %}
+                        {% if self.expertise_tags %}
+                            {% display_filter_list "expertise" "expertise_tags" self.expertise_tags "country,region,service" %}
+                        {% endif %}
 
-        <h2 class="hidden">Highlights</h2>
+                    </div>
+                </div>
 
-        {# Uses serve method defined in models.py - allows for paging if required #}
-        {# See also standard index for creating a listing with a tag #}
+                <div class="three-quarters float-layout">
 
-        {% for page in marketplace_entries %}
-            {% include "portal_pages/includes/page_list_item.html" %}
-        {% empty %}
-            No marketplace entries found
-        {% endfor %}
+                    {% if self.intro %}
+                        <div>
+                            {{ self.intro|richtext }}
+                        </div>
+                    {% endif %}
 
+                    {# Uses serve method defined in models.py - allows for paging if required #}
+                    {# See also standard index for creating a listing with a tag #}
+
+                    {% for page in marketplace_entries %}
+                        {% include "portal_pages/includes/page_list_item.html" %}
+                    {% empty %}
+                        No marketplace entries found
+                    {% endfor %}
+
+                    {# Pagination - uses django.core.paginator #}
+                    {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
+                    <div class="two-thirds">&nbsp;</div>
+                    <div class="third">
+                        {% if marketplace_entries.has_previous %}
+                            <a href="?page={{ marketplace_entries.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
+                        {% endif %}
+
+                    Page {{ marketplace_entries.number }} of {{ marketplace_entries.paginator.num_pages }}
+
+                    {% if marketplace_entries.has_next %}
+                        <a href="?page={{ marketplace_entries.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
+                    {% endif %}
+
+                    </div>
+
+                </div>
         </div>
     </section>
 
-    <div class="clear"></div>
-    {# Pagination - uses django.core.paginator #}
-    {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
-    <div class="row">
-        <div class="col-sm-4 previous">
-            {% if marketplace_entries.has_previous %}
-                <a href="?page={{ marketplace_entries.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
-            {% endif %}
-        </div>
-        <div class="col-sm-4 pages">
-            Page {{ marketplace_entries.number }} of {{ marketplace_entries.paginator.num_pages }}
-        </div>
-        <div class="col-sm-4 next">
-            {% if marketplace_entries.has_next %}
-                <a href="?page={{ marketplace_entries.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
-            {% endif %}
-        </div>
-    </div>
+    <div class="spacer"></div>
 
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $(".collapsed").hide();
+    $(".tagsheader").click(function(e){ // toggle tag collapse/uncollapse
+        tagtype = $(e.target).attr("class").split(" ")[1]; // ie. countries
+        if ($(".tags."+tagtype).hasClass("uncollapsed")) {
+            $(".tags."+tagtype).hide("500");
+            $(".tags."+tagtype).removeClass("uncollapsed");
+            $(".tags."+tagtype).addClass("collapsed");
+        }
+        else {
+            $(".tags."+tagtype).show("500");
+            $(".tags."+tagtype).removeClass("collapsed");
+            $(".tags."+tagtype).addClass("uncollapsed");
+        }
+    });
+});
+</script>
 {% endblock %}

@@ -265,22 +265,41 @@ class MarketplaceIndexPage(Page, TopImage):
         # Filter by region
         region = request.GET.get('region')
         if region:
-            marketplace_entries = marketplace_entries.filter(regions__region__name=region)
+            region_list = region.split(",")
+            for region in region_list:
+                marketplace_entries = marketplace_entries.filter(regions__region__name=region)
 
         # Filter by country
         country = request.GET.get('country')
         if country:
-            marketplace_entries = marketplace_entries.filter(countries__country__name=country)
+            country_list = country.split(",")
+            for country in country_list:
+                marketplace_entries = marketplace_entries.filter(countries__country__name=country)
 
         # Filter by service
         service = request.GET.get('service')
         if service:
-            marketplace_entries = marketplace_entries.filter(services__service__name=service)
+            service_list = service.split(",")
+            for service in service_list:
+                marketplace_entries = marketplace_entries.filter(services__service__name=service)
 
         # Filter by expertise
         expertise = request.GET.get('expertise')
         if expertise:
-            marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
+            expertise_list = expertise.split(",")
+            for expertise in expertise_list:
+                marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
+
+        # Search by search query
+        if request.POST:
+            search_query = request.POST['search']
+            if search_query:
+                marketplace_entries = marketplace_entries.filter(Q(biography__icontains=search_query) | Q(title__icontains=search_query))
+
+        elif request.GET.get('search'):
+            search_query = request.GET.get('search', '')
+            if search_query:
+                marketplace_entries = marketplace_entries.filter(Q(biography__icontains=search_query) | Q(title__icontains=search_query))
 
         # Pagination
         page = request.GET.get('page')
