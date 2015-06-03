@@ -28,7 +28,17 @@ def display_filter_list(context, filter_type, tags_header, items, request_list):
     context.request.tags_header_title = tags_header.title() # ie. countries
     
     request_vars = context.request.GET.get(filter_type,"")
-    print(request_vars)
+
+    search_query = ""
+    if context.request.POST.get("search", ""):
+        search_query =  "&search=" + context.request.POST.get("search", "")
+    elif context.request.GET.get("search", ""):
+        search_query = "&search=" + context.request.GET.get("search", "")
+
+    addl_filters_string = ""
+    for request_item in request_list.split(","):
+        addl_filters_string = addl_filters_string + "&" + request_item + "=" + context.request.GET.get(request_item, "")
+
     if request_vars: # ie. Afghanistan,China
         context.request.collapse_state = "uncollapsed"
     else:
@@ -47,9 +57,14 @@ def display_filter_list(context, filter_type, tags_header, items, request_list):
             request_vars_string = (request_vars + "," + item.name).lstrip(",") # Strip out any leading comma
             item_href="?" + filter_type + "=" + request_vars_string
 
-        for request_item in request_list.split(","):
-            if context.request.GET.get(request_item, ""):
-                item_href = item_href + "&" + request_item + "=" + context.request.GET.get(request_item, "")
+        # Append the search query to the string
+        if search_query:
+            item_href = item_href + search_query
+
+        # Append all the other filter variables to the URL string
+        if addl_filters_string:
+            item_href = item_href + addl_filters_string
+
 
         context.request.link_items.append({"class": item_class, "href": item_href, "name": item.name})
     

@@ -216,6 +216,38 @@ class MarketplaceIndexPage(Page, TopImage):
     subpage_types = ['portal_pages.MarketplaceEntryPage']
 
     @property
+    def countries(self):
+        countries = Country.objects.filter(
+            id__in = CountryMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("country__id"))
+
+        return countries
+
+    @property
+    def regions(self):
+        regions = Region.objects.filter(
+            id__in = RegionMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("region__id"))
+
+        return regions
+
+    @property
+    def services(self):
+        services = Service.objects.filter(
+            id__in = ServiceMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("service__id"))
+
+        return services
+
+    @property
+    def expertise_tags(self):
+        expertise_tags = Expertise.objects.filter(
+            id__in = ExpertiseMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("expertise__id"))
+
+        return expertise_tags
+
+    @property
     def marketplace_entries(self):
         # Get list of live marketplace entry pages that are descendants of this page
         marketplace_entries = MarketplaceEntryPage.objects.live().descendant_of(self)
@@ -394,8 +426,6 @@ class CaseStudyIndexPage(Page, TopImage):
         # Order by most recent date first
         casestudies = casestudies.order_by('-date')
 
-        # TODO: filter out case studies that have post dates after today's date
-
         return casestudies
 
     def get_context(self, request):
@@ -440,6 +470,11 @@ class CaseStudyIndexPage(Page, TopImage):
         # Search by search query
         if request.POST:
             search_query = request.POST['search']
+            if search_query:
+                casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
+
+        elif request.GET.get('search'):
+            search_query = request.GET.get('search', '')
             if search_query:
                 casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
 

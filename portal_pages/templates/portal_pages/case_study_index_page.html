@@ -13,8 +13,16 @@
                         <form action="?country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }};" method="post">
                             {% csrf_token %}
                             <div class="search">
-                                <input type="search" name="search" id="search" 
-                                    value="{{ request.POST.search }}">
+                                {% if request.POST.search %}
+                                    <input type="search" name="search" id="search" 
+                                        value="{{ request.POST.search }}">
+                                {% elif request.GET.search %}
+                                    <input type="search" name="search" id="search" 
+                                        value="{{ request.GET.search }}">
+                                {% else %}
+                                    <input type="search" name="search" id="search" 
+                                        value="">
+                                {% endif %}
                                 <input type="submit" value=" ">
                             </div>
                         </form>
