@@ -27,101 +27,14 @@
 
                         {% display_filter_list "country" "countries" self.countries "region,focus_area,organization,marketplace" %}
 
-                        <div class="tagsheader regions">
-                            Regions
-                        </div>
+                        {% display_filter_list "region" "regions" self.regions "country,focus_area,organization,marketplace" %}
 
-                        {% if request.GET.region %}
-                            <div class="tags regions uncollapsed">
-                        {% else %}
-                            <div class="tags regions collapsed">
-                        {% endif %}
-                        {% for region in self.regions %}
-                            {% if region.name in request.GET.region %}
-                                <a class="active" 
-                                    href="?region={{ request.GET.region|remove_from_string:region.name }}&country={{ request.GET.country }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ region.name }}
-                                </a>
-                            {% else %}
-                                <a 
-                                    href="?region={{ request.GET.region }},{{ region.name }}&country={{ request.GET.country }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ region.name }}
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                        </div>
+                        {% display_filter_list "focus_area" "focus_areas" self.focus_areas "country,region,organization,marketplace" %}
 
-                        <div class="tagsheader focus_areas">
-                            Focus Areas
-                        </div>
+                        {% display_filter_list "organization" "organizations" self.organizations "country,region,focus_area,marketplace" %}
 
-                        {% if request.GET.focus_area %}
-                            <div class="tags focus_areas uncollapsed">
-                        {% else %}
-                            <div class="tags focus_areas collapsed">
-                        {% endif %}
-                        {% for focus_area in self.focus_areas %}
-                            {% if focus_area.name in request.GET.focus_area %}
-                                <a class="active" 
-                                    href="?focus_area={{ request.GET.focus_area|remove_from_string:focus_area.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ focus_area.name }}
-                                </a>
-                            {% else %}
-                                <a 
-                                    href="?focus_area={{ request.GET.focus_area }},{{ focus_area.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&organization={{ request.GET.organization }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ focus_area.name }}
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                        </div>
+                        {% display_filter_list "marketplace" "marketplace" self.marketplace_entries "country,region,focus_area,marketplace" %}
 
-                        <div class="tagsheader organizations">
-                            Organizations
-                        </div>
-
-                        {% if request.GET.organization %}
-                            <div class="tags organizations uncollapsed">
-                        {% else %}
-                            <div class="tags organizations collapsed">
-                        {% endif %}
-                        {% for organization in self.organizations %}
-                            {% if organization.name in request.GET.organization %}
-                                <a class="active" 
-                                    href="?organization={{ request.GET.organization|remove_from_string:organization.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ organization.name }}
-                                </a>
-                            {% else %}
-                                <a 
-                                    href="?organization={{ request.GET.organization }},{{ organization.name }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&marketplace={{ request.GET.marketplace }}">
-                                    {{ organization.name }}
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                        </div>
-
-                        <div class="tagsheader marketplace">
-                            Marketplace
-                        </div>
-
-                        {% if request.GET.marketplace %}
-                            <div class="tags marketplace uncollapsed">
-                        {% else %}
-                            <div class="tags marketplace collapsed">
-                        {% endif %}
-                        {% for marketplace in self.marketplace_entries %}
-                            {% if marketplace.title in request.GET.marketplace %}
-                                <a class="active" 
-                                    href="?marketplace={{ request.GET.marketplace|remove_from_string:marketplace.title }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}">
-                                    {{ marketplace.title }}
-                                </a>
-                            {% else %}
-                                <a 
-                                    href="?marketplace={{ request.GET.marketplace }},{{ marketplace.title }}&country={{ request.GET.country }}&region={{ request.GET.region }}&focus_area={{ request.GET.focus_area }}&organization={{ request.GET.organization }}">
-                                    {{ marketplace.title }}
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                        </div>
 
                     </div>
                 </div>
