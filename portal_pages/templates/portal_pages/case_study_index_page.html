@@ -25,15 +25,26 @@
                             <a href=" {% pageurl self %} ">Clear all filters</a>
                         </div>
 
-                        {% display_filter_list "country" "countries" self.countries "region,focus_area,organization,marketplace" %}
 
-                        {% display_filter_list "region" "regions" self.regions "country,focus_area,organization,marketplace" %}
+                        {% if self.countries %}
+                            {% display_filter_list "country" "countries" self.countries "region,focus_area,organization,marketplace" %}
+                        {% endif %}
 
-                        {% display_filter_list "focus_area" "focus_areas" self.focus_areas "country,region,organization,marketplace" %}
+                        {% if self.regions %}
+                            {% display_filter_list "region" "regions" self.regions "country,focus_area,organization,marketplace" %}
+                        {% endif %}
 
-                        {% display_filter_list "organization" "organizations" self.organizations "country,region,focus_area,marketplace" %}
+                        {% if self.focus_areas %}
+                            {% display_filter_list "focus_area" "focus_areas" self.focus_areas "country,region,organization,marketplace" %}
+                        {% endif %}
 
-                        {% display_filter_list "marketplace" "marketplace" self.marketplace_entries "country,region,focus_area,marketplace" %}
+                        {% if self.organizations %}
+                            {% display_filter_list "organization" "organizations" self.organizations "country,region,focus_area,marketplace" %}
+                        {% endif %}
+
+                        {% if self.marketplace_entries %}
+                            {% display_filter_list "marketplace" "marketplace" self.marketplace_entries "country,region,focus_area,marketplace" %}
+                        {% endif %}
 
 
                     </div>
