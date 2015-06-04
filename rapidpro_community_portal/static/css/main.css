@@ -40,8 +40,18 @@ nav a{
     color:white;
 }
 
-nav a:hover{
+nav a.selected{
+  background-color:#00517A;
+  height:1.8em;
+}
 
+.sub-nav{
+  font-size:80%;
+  line-height:1.75em;
+  background-color:#00517A;
+}
+.sub-nav .page-width{
+  padding:0 9em;
 }
 
 .skip-link{ display:none; }
@@ -193,4 +203,10 @@ label{
   font-size:90%;
   font-weight:500;
   margin-top:0.8em;
+}
+
+hr{
+    width:75%;
+    border-bottom:solid 2px #ddd;
+    margin: 20px auto;
 }
