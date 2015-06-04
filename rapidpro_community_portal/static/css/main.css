@@ -184,3 +184,9 @@ label{
   font-weight:500;
   margin-top:0.8em;
 }
+
+hr{
+    width:75%;
+    border-bottom:solid 2px #ddd;
+    margin: 20px auto;
+}
