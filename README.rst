@@ -27,7 +27,7 @@ To setup your local environment you should create a virtualenv and install the
 necessary requirements::
 
     mkvirtualenv rapidpro-community-portal -p /usr/bin/python3.4
-    $VIRTUAL_ENV/bin/pip install -r $PWD/requirements/dev.txt
+    $VIRTUAL_ENV/bin/pip install --find-links=file://$PWD/requirements/sdists -r $PWD/requirements/dev.txt
 
 Then create a local settings file and set your ``DJANGO_SETTINGS_MODULE`` to use it::
 

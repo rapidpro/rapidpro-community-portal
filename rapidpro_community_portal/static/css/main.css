@@ -31,7 +31,7 @@ a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .logo{
-    height:2em;
+    height:2.4em;
 }
 
 nav a{
@@ -40,17 +40,26 @@ nav a{
     color:white;
 }
 
-nav a:hover{
+nav a.selected{
+  background-color:#00517A;
+  height:1.8em;
+}
 
+.sub-nav{
+  font-size:80%;
+  line-height:1.75em;
+  background-color:#00517A;
+}
+.sub-nav .page-width{
+  padding:0 9em;
 }
 
 .skip-link{ display:none; }
 .skip-link:focus{ display:block; }
 
 .hero, .top-image {
-    height:330px;
+    height:200px;
     background-color:#bbb;
-    background-image:url(http://placehold.it/1400x400);
     background-position: 50% 50%;
     background-size: cover;
 }
@@ -94,7 +103,7 @@ ul{
 .result .icon{
     width: 32px;
     height: 32px;
-    background-color: #FFA500;
+    background-color: #069;
     border-radius: 50%;
     position: absolute;
     left: 1em;
@@ -103,7 +112,7 @@ ul{
 
 .result .icon-bar{
     height:4px;
-    background-color:orange;
+    background-color:#069;
     margin-bottom:1em;
 }
 
@@ -118,4 +127,65 @@ ul{
 .rich-text p{
     padding-top:5px;
     padding-bottom:5px;
+}
+
+.rich-text img.left{ margin: 0 1em 0 0; }
+.rich-text img.right{ margin: 0 0 0 1em; }
+/* manually override floats in rtl because the admin offers "left" and "right" explicitly */
+html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
+html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
+
+input[type="search"]{
+  width:100%;
+  border-radius:4px;
+  padding: 0 2.0em 0 0.25em;
+}
+
+input[type="button"],
+input[type="submit"],
+button
+.button{
+  cursor: pointer;
+}
+
+.search input[type="submit"]{
+  position:absolute;
+  width:1.5em;
+  height:1em;
+  right:0.2em;
+  top:0.2em;
+  border-radius:3px;
+  background-color: transparent;
+  background-image: url(../images/svg/search.svg);
+  background-size: auto 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.search input[type="submit"]:hover{
+  background-color:#069;
+}
+
+.filters a{
+  background-color:rgba(0, 0, 0, 0.1);
+}
+
+.filters .active{
+  background-color:#069;
+}
+
+.filters a.active:hover{
+  background-color:#48a7d6;
+}
+
+label{
+  font-size:90%;
+  font-weight:500;
+  margin-top:0.8em;
+}
+
+hr{
+    width:75%;
+    border-bottom:solid 2px #ddd;
+    margin: 20px auto;
 }

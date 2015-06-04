@@ -12,12 +12,18 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailsnippets.models import register_snippet
+
 from modelcluster.fields import ParentalKey
+from modelcluster.tags import ClusterTaggableManager
+from taggit.models import Tag, TaggedItemBase
+
+from accounts.models import RapidProUser
 
 
 """
 The following models may be shared across multiple other models
 """
+
 
 @register_snippet
 class Country(models.Model):
@@ -32,6 +38,7 @@ class Country(models.Model):
         ordering = ('name', )
         verbose_name_plural = "countries"
 
+
 @register_snippet
 class Region(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -41,6 +48,7 @@ class Region(models.Model):
 
     class Meta:
         ordering = ('name', )
+
 
 @register_snippet
 class FocusArea(models.Model):
@@ -54,6 +62,7 @@ class FocusArea(models.Model):
     class Meta:
         ordering = ('name', )
 
+
 @register_snippet
 class Organization(models.Model):
     name = models.CharField(max_length=255)
@@ -64,6 +73,7 @@ class Organization(models.Model):
     class Meta:
         ordering = ('name', )
 
+
 @register_snippet
 class Service(models.Model):
     name = models.CharField(max_length=255)
@@ -73,6 +83,7 @@ class Service(models.Model):
 
     class Meta:
         ordering = ('name', )
+
 
 @register_snippet
 class Expertise(models.Model):
@@ -129,21 +140,67 @@ class TopImage(models.Model):
     class Meta:
         abstract = True
 
+
+@register_snippet
+class DefaultTopImage(models.Model):
+    default_top_image = models.ForeignKey(
+        'wagtailimages.Image'
+    )
+
+    panels = [
+        ImageChooserPanel('default_top_image'),
+    ]
+
+    def __str__(self):
+        return self.default_top_image.title
+
+
 """
 Page models
 """
 
 
 class HomePage(Page):
-    featured_case_study = models.ForeignKey('portal_pages.CaseStudyPage', blank=True, null=True, on_delete=models.SET_NULL)
+    featured_case_study = models.ForeignKey(
+        'portal_pages.CaseStudyPage', blank=True, null=True, on_delete=models.SET_NULL)
     featured_case_study_blurb = RichTextField(blank=True, default='')
+    youtube_video_id = models.CharField(max_length=512, blank=True, default='')
+    youtube_video_title = models.CharField(max_length=512, blank=True, default='')
+    youtube_blurb = RichTextField(blank=True, default='')
 
 HomePage.content_panels = [
-    FieldPanel('title'),
-    InlinePanel('hero_items', label='Hero Images'),
-    InlinePanel('highlights', label='Highlights'),
-    PageChooserPanel('featured_case_study', 'portal_pages.CaseStudyPage'),
-    FieldPanel('featured_case_study_blurb'),
+    MultiFieldPanel(
+        [FieldPanel('title')],
+        heading='Title',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [InlinePanel('hero_items')],
+        heading='Hero images',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [InlinePanel('highlights')],
+        heading='Highlights',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [
+            FieldPanel('youtube_video_id'),
+            FieldPanel('youtube_video_title'),
+            FieldPanel('youtube_blurb'),
+        ],
+        heading='Youtube video information',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [
+            PageChooserPanel('featured_case_study', 'portal_pages.CaseStudyPage'),
+            FieldPanel('featured_case_study_blurb'),
+        ],
+        heading='Featured case study',
+        classname='collapsible collapsed',
+    ),
 ]
 
 
@@ -175,7 +232,7 @@ HighlightItem.panels = [
 ]
 
 
-class CMSPage(Page):
+class CMSPage(Page, TopImage):
     body = RichTextField(blank=True, default='')
 
 CMSPage.content_panels = [
@@ -467,3 +524,91 @@ class OrganizationCaseStudy(Orderable, models.Model):
     panels = [
         FieldPanel('organization'),
     ]
+
+
+# Blog index page
+
+
+class BlogIndexPage(Page, TopImage):
+    intro = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+    subpage_types = ['portal_pages.BlogPage']
+
+    @property
+    def blogs(self):
+        # Get list of live blog pages that are descendants of this page
+        blogs = BlogPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        blogs = blogs.order_by('-date')
+
+        return blogs
+
+    def get_context(self, request):
+        # Get blogs
+        blogs = self.blogs
+
+        # Filter by tag
+        tag = request.GET.get('tag')
+        if tag:
+            blogs = blogs.filter(tags__name=tag)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(blogs, 6)  # Show 6 casestudies per page
+        try:
+            blogs = paginator.page(page)
+        except PageNotAnInteger:
+            blogs = paginator.page(1)
+        except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(BlogIndexPage, self).get_context(request)
+        context['blogs'] = blogs
+        return context
+
+BlogIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+    MultiFieldPanel(TopImage.panels, "blog image"),
+]
+
+BlogIndexPage.promote_panels = Page.promote_panels
+
+
+# Blog Page
+
+
+class BlogPageTag(TaggedItemBase):
+    content_object = ParentalKey('portal_pages.BlogPage', related_name='tagged_items')
+
+
+class BlogPage(Page, TopImage):
+    body = RichTextField()
+    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    date = models.DateField("Post date")
+
+    search_fields = Page.search_fields + (
+        index.SearchField('body'),
+    )
+
+    @property
+    def blog_index(self):
+        # Find closest ancestor which is a blog index
+        return self.get_ancestors().type(BlogIndexPage).last()
+
+BlogPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('date'),
+    FieldPanel('body', classname="full"),
+    MultiFieldPanel(TopImage.panels, "blog image"),
+]
+
+BlogPage.promote_panels = Page.promote_panels + [
+    FieldPanel('tags'),
+]
