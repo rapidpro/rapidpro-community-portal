@@ -38,23 +38,30 @@
         {# TODO: split out into an include #}
         {# TODO: figure out meshing fixed/dynamic content for this #}
         {% block top-nav %}
-        <header>
-            <div class="page-width">
-                <div class="cushion">
-                    <a href="/">
-                        <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
-                    </a>
-                    <nav class="right">
-                        <a class="skip-link" href="#content">Skip Link</a>
-                        <a href="#">Learn</a>
-                        <a href="#">Connect</a>
-                        <a href="/stories/">Stories</a>
-                        <a href="#">Develop</a>
-                        <a class="button" href="#">Free Demo</a>
-                    </nav>
-                    <div class="clear"></div>
-                </div>
+        <header class="main-nav">
+            <div class="page-width cushion">
+                <a href="/">
+                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                </a>
+                <nav class="right">
+                    <a class="skip-link" href="#content">Skip Link</a>
+                    <a href="#">Learn</a>
+                    <a class="selected" href="#">Connect</a>
+                    <a href="/stories/">Stories</a>
+                    <a href="#">Develop</a>
+                    <a class="button" href="#">Free Demo</a>
+                </nav>
+                <div class="clear"></div>
             </div>
+        </header>
+        <header class="sub-nav">
+          <div class="page-width">
+            <nav class="right">
+              <a href="test">Example A</a>
+              <a href="test">Example B</a>
+              <a href="test">Etc Etc</a>
+            </nav>
+          </div>
         </header>
         {% endblock %}
 
