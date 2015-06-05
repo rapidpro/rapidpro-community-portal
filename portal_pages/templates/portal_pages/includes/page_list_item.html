@@ -13,9 +13,9 @@
             <img class="full" src="{{ img.url }}">
         </a>
     {% endif %}
-    
+
     <p>
-        <a href="{% pageurl page %}"><strong>{{ page.title }}</strong></a>         
+        <a href="{% pageurl page %}"><strong>{{ page.title }}</strong></a>
         {{ page.summary|striptags|truncatechars:100 }}
         {{ page.biography|striptags|truncatechars:100 }}
         {{ page.body|striptags|truncatechars:100 }}
