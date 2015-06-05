@@ -32,7 +32,7 @@
         {% block extra_css %}{% endblock %}
     </head>
 
-    <body>
+    <body onload="loadSubNav('');">
         {% wagtailuserbar %}
 
         {# TODO: split out into an include #}
@@ -45,9 +45,12 @@
                 </a>
                 <nav class="right">
                     <a class="skip-link" href="#content">Skip Link</a>
-                    <a href="#">Learn</a>
-                    <a class="selected" href="#">Connect</a>
-                    <a href="/stories/">Stories</a>
+                    <a href="javascript:loadSubNav('learn');">Learn</a>
+                    <a href="javascript:loadSubNav('connect')">Connect</a>
+                    <a href="/stories/" 
+                        {% if "/stories/" in request.path %}class="selected"{% endif %}>
+                        Stories
+                    </a>
                     <a href="#">Develop</a>
                     <a class="button" href="#">Free Demo</a>
                 </nav>
@@ -56,10 +59,7 @@
         </header>
         <header class="sub-nav">
           <div class="page-width">
-            <nav class="right">
-              <a href="#">Example A</a>
-              <a href="#">Example B</a>
-              <a href="#">Etc Etc</a>
+            <nav id="subnav_right" class="right">
             </nav>
           </div>
         </header>
@@ -109,6 +109,39 @@
         </footer>
         {% endblock %}
 
-        {% block extra-js %}{% endblock %}
+        {% block nav-js %}
+            <script>
+                function loadSubNav(subnavType) {
+                    
+                    alert(subnavType);
+
+                    switch(subnavType) {
+                        case "learn":
+                            subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
+                            subnavLinksArray = ["knowledge/", "videos/", "online_courses/"];
+                            break;
+                        case "connect":
+                            subnavHeadersArray = ["User Forum", "Blog"];
+                            subnavLinksArray = ["forum/", "blog/"];
+                            break;
+                        default:
+                            subnavHeadersArray = [];
+
+                            subnavLinksArray = [];
+
+                    }
+                    subnavHTML = "";
+                    
+                    for (var i = 0; i < subnavHeadersArray.length; i++) {
+                        subnavHTML = subnavHTML + "<a href='#'>" + subnavHeadersArray[i] + "</a>"
+                    //    subnavHTML = subnavHTML + "<a href='" subnavLinksArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
+                    }
+                    document.getElementById("subnav_right").innerHTML = subnavHTML;
+                }
+            </script>
+        {% endblock %}
+
+        {% block extra-js %}        
+        {% endblock %}
     </body>
 </html>

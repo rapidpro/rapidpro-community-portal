@@ -41,8 +41,11 @@ nav a{
 }
 
 nav a.selected{
-  background-color:#00517A;
-  height:1.8em;
+    background-color: #00517A;
+    padding: 0.5em;
+    text-align: center;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .sub-nav{
