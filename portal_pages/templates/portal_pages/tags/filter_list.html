@@ -1,12 +1,12 @@
 {% load portal_extras %}
 
-<div class="tagsheader {{ request.tags_header }}">
-   {{ request.tags_header_title }}
+<div class="tagsheader {{ tags_header }}">
+   {{ tags_header_title }}
 </div>
 
-<div class="tags {{ request.tags_header }} {{ request.collapse_state }}">
+<div class="tags {{ tags_header }} {{ collapse_state }}">
 
-    {% for link_item in request.link_items %}
+    {% for link_item in link_items %}
         <a class="{{ link_item.class }}" 
             href="{{ link_item.href }}">
             {{ link_item.name }}

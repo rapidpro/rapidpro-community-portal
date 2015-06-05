@@ -72,6 +72,8 @@ class Organization(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = 'organisation'
+        verbose_name_plural = 'organisations'
         ordering = ('name', )
 
 
@@ -255,7 +257,7 @@ class MarketplaceIndexPage(Page, TopImage):
     @property
     def countries(self):
         countries = Country.objects.filter(
-            id__in = CountryMarketplaceEntry.objects.filter(
+            id__in=CountryMarketplaceEntry.objects.filter(
                 page__in=MarketplaceEntryPage.objects.live()).values("country__id"))
 
         return countries
@@ -263,7 +265,7 @@ class MarketplaceIndexPage(Page, TopImage):
     @property
     def regions(self):
         regions = Region.objects.filter(
-            id__in = RegionMarketplaceEntry.objects.filter(
+            id__in=RegionMarketplaceEntry.objects.filter(
                 page__in=MarketplaceEntryPage.objects.live()).values("region__id"))
 
         return regions
@@ -271,7 +273,7 @@ class MarketplaceIndexPage(Page, TopImage):
     @property
     def services(self):
         services = Service.objects.filter(
-            id__in = ServiceMarketplaceEntry.objects.filter(
+            id__in=ServiceMarketplaceEntry.objects.filter(
                 page__in=MarketplaceEntryPage.objects.live()).values("service__id"))
 
         return services
@@ -279,7 +281,7 @@ class MarketplaceIndexPage(Page, TopImage):
     @property
     def expertise_tags(self):
         expertise_tags = Expertise.objects.filter(
-            id__in = ExpertiseMarketplaceEntry.objects.filter(
+            id__in=ExpertiseMarketplaceEntry.objects.filter(
                 page__in=MarketplaceEntryPage.objects.live()).values("expertise__id"))
 
         return expertise_tags
@@ -328,15 +330,10 @@ class MarketplaceIndexPage(Page, TopImage):
                 marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
 
         # Search by search query
-        if request.POST:
-            search_query = request.POST['search']
-            if search_query:
-                marketplace_entries = marketplace_entries.filter(Q(biography__icontains=search_query) | Q(title__icontains=search_query))
-
-        elif request.GET.get('search'):
-            search_query = request.GET.get('search', '')
-            if search_query:
-                marketplace_entries = marketplace_entries.filter(Q(biography__icontains=search_query) | Q(title__icontains=search_query))
+        search_query = request.GET.get('search', '')
+        if search_query:
+            marketplace_entries = marketplace_entries.filter(
+                Q(biography__icontains=search_query) | Q(title__icontains=search_query))
 
         # Pagination
         page = request.GET.get('page')
@@ -368,6 +365,10 @@ MarketplaceIndexPage.promote_panels = Page.promote_panels
 class MarketplaceEntryPage(Page, ContactFields, TopImage):
     biography = RichTextField(blank=True)
     date_start = models.DateField("Company Start Date")
+
+    class Meta:
+        verbose_name = "marketplace"
+        verbose_name_plural = "marketplace"
 
     @property
     def marketplace_index(self):
@@ -438,40 +439,35 @@ class CaseStudyIndexPage(Page, TopImage):
     @property
     def countries(self):
         countries = Country.objects.filter(
-            id__in = CountryCaseStudy.objects.filter(
+            id__in=CountryCaseStudy.objects.filter(
                 page__in=CaseStudyPage.objects.live()).values("country__id"))
-        
         return countries
 
     @property
     def regions(self):
         regions = Region.objects.filter(
-            id__in = RegionCaseStudy.objects.filter(
+            id__in=RegionCaseStudy.objects.filter(
                 page__in=CaseStudyPage.objects.live()).values("region__id"))
-        
         return regions
 
     @property
     def focus_areas(self):
         focus_areas = FocusArea.objects.filter(
-            id__in = FocusAreaCaseStudy.objects.filter(
+            id__in=FocusAreaCaseStudy.objects.filter(
                 page__in=CaseStudyPage.objects.live()).values("focusarea__id"))
-        
         return focus_areas
 
     @property
     def organizations(self):
         organizations = Organization.objects.filter(
-            id__in = OrganizationCaseStudy.objects.filter(
+            id__in=OrganizationCaseStudy.objects.filter(
                 page__in=CaseStudyPage.objects.live()).values("organization__id"))
-        
         return organizations
 
     @property
     def marketplace_entries(self):
-        marketplace_entries = MarketplaceEntryPage.objects.filter(
-            id__in = CaseStudyPage.objects.live().values("marketplace_entry__id"))
-        
+        marketplace_entries = MarketplaceEntryPage.objects.live().filter(
+            id__in=CaseStudyPage.objects.live().values("marketplace_entry__id"))
         return marketplace_entries
 
     @property
@@ -510,7 +506,7 @@ class CaseStudyIndexPage(Page, TopImage):
                 casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
 
         # Filter by organization
-        organization = request.GET.get('organization')
+        organization = request.GET.get('organisation')
         if organization:
             organization_list = organization.split(",")
             for organization in organization_list:
@@ -524,15 +520,9 @@ class CaseStudyIndexPage(Page, TopImage):
                 casestudies = casestudies.filter(marketplace_entry__title=marketplace)
 
         # Search by search query
-        if request.POST:
-            search_query = request.POST['search']
-            if search_query:
-                casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
-
-        elif request.GET.get('search'):
-            search_query = request.GET.get('search', '')
-            if search_query:
-                casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
+        search_query = request.GET.get('search', '')
+        if search_query:
+            casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
 
         # Pagination
         page = request.GET.get('page')
@@ -598,7 +588,7 @@ CaseStudyPage.content_panels = [
     InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
     InlinePanel(CaseStudyPage, 'regions', label="Regions"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
-    InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
+    InlinePanel(CaseStudyPage, 'organizations', label="Organisations"),
 ]
 
 
@@ -631,7 +621,7 @@ class FocusAreaCaseStudy(Orderable, models.Model):
 
 
 class OrganizationCaseStudy(Orderable, models.Model):
-    organization = models.ForeignKey(Organization, related_name="+")
+    organization = models.ForeignKey(Organization, verbose_name='organisation', related_name="+")
     page = ParentalKey(CaseStudyPage, related_name='organizations')
     panels = [
         FieldPanel('organization'),

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "portal_pages/search_filter_base.html" %}
 {% load wagtailcore_tags %}
 {% load portal_extras %}
 
@@ -9,19 +9,13 @@
                 <div class="quarter cushion">
                     <div class="filters cushion">
                         <label>Search</label>
-                        <form action="?country={{ request.GET.country }}&region={{ request.GET.region }}&service={{ request.GET.service }}&expertise={{ request.GET.expertise }};" method="post">
-                            {% csrf_token %}
+                        <form action="." method="get">
                             <div class="search">
-                                {% if request.POST.search %}
-                                    <input type="search" name="search" id="search" 
-                                        value="{{ request.POST.search }}">
-                                {% elif request.GET.search %}
-                                    <input type="search" name="search" id="search" 
-                                        value="{{ request.GET.search }}">
-                                {% else %}
-                                    <input type="search" name="search" id="search" 
-                                        value="">
-                                {% endif %}
+                                <input type="search" name="search" id="search" value="{{ request.GET.search }}">
+                                <input type="hidden" name="country" id="country" value="{{ request.GET.country }}">
+                                <input type="hidden" name="region" id="region" value="{{ request.GET.region }}">
+                                <input type="hidden" name="service" id="service" value="{{ request.GET.service }}">
+                                <input type="hidden" name="expertise" id="expertise" value="{{ request.GET.expertise }}">
                                 <input type="submit" value=" ">
                             </div>
                         </form>
@@ -33,19 +27,19 @@
                         </div>
 
                         {% if self.countries %}
-                            {% display_filter_list "country" "countries" self.countries "region,service,expertise" %}
+                            {% display_filter_list self.countries "region,service,expertise" %}
                         {% endif %}
 
                         {% if self.regions %}
-                            {% display_filter_list "region" "regions" self.regions "country,service,expertise" %}
+                            {% display_filter_list self.regions "country,service,expertise" %}
                         {% endif %}
 
                         {% if self.services %}
-                            {% display_filter_list "service" "services" self.services "country,region,expertise" %}
+                            {% display_filter_list self.services "country,region,expertise" %}
                         {% endif %}
 
                         {% if self.expertise_tags %}
-                            {% display_filter_list "expertise" "expertise_tags" self.expertise_tags "country,region,service" %}
+                            {% display_filter_list self.expertise_tags "country,region,service" %}
                         {% endif %}
 
                     </div>
@@ -69,21 +63,10 @@
                     {% endfor %}
 
                     {# Pagination - uses django.core.paginator #}
-                    {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
                     <div class="two-thirds">&nbsp;</div>
                     <div class="third">
-                        {% if marketplace_entries.has_previous %}
-                            <a href="?page={{ marketplace_entries.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
-                        {% endif %}
-
-                    Page {{ marketplace_entries.number }} of {{ marketplace_entries.paginator.num_pages }}
-
-                    {% if marketplace_entries.has_next %}
-                        <a href="?page={{ marketplace_entries.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
-                    {% endif %}
-
-                    </div>
-
+                        {% include "portal_pages/includes/pagination_nav.html" with items=marketplace_entries %}
+                   </div>
                 </div>
         </div>
     </section>
@@ -91,26 +74,4 @@
     <div class="spacer"></div>
 
 
-{% endblock %}
-
-{% block extra_js %}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-    $(".collapsed").hide();
-    $(".tagsheader").click(function(e){ // toggle tag collapse/uncollapse
-        tagtype = $(e.target).attr("class").split(" ")[1]; // ie. countries
-        if ($(".tags."+tagtype).hasClass("uncollapsed")) {
-            $(".tags."+tagtype).hide("500");
-            $(".tags."+tagtype).removeClass("uncollapsed");
-            $(".tags."+tagtype).addClass("collapsed");
-        }
-        else {
-            $(".tags."+tagtype).show("500");
-            $(".tags."+tagtype).removeClass("collapsed");
-            $(".tags."+tagtype).addClass("uncollapsed");
-        }
-    });
-});
-</script>
 {% endblock %}
