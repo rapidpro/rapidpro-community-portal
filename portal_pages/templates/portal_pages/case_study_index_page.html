@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="three-quarters float-layout">
+                <div class="three-quarters">
 
                     {% if self.intro %}
                         <div>
@@ -59,6 +59,7 @@
                         </div>
                     {% endif %}
 
+                    <div class="flex-layout">
                     {# Uses serve method defined in models.py - allows for paging if required #}
                     {# See also standard index for creating a listing with a tag #}
                     {% for page in casestudies %}
@@ -66,6 +67,7 @@
                     {% empty %}
                         <strong>No case studies found</strong>
                     {% endfor %}
+                    </div>
 
                     {# Pagination - uses django.core.paginator #}
                     <div class="two-thirds">&nbsp;</div>
