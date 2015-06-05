@@ -47,11 +47,10 @@
                     <a class="skip-link" href="#content">Skip Link</a>
                     <a href="javascript:loadSubNav('learn');">Learn</a>
                     <a href="javascript:loadSubNav('connect')">Connect</a>
-                    <a href="/stories/" 
-                        {% if "/stories/" in request.path %}class="selected"{% endif %}>
+                    <a id="nav_stories" href="/stories/">
                         Stories
                     </a>
-                    <a href="#">Develop</a>
+                    <a href="https://github.com/rapidpro/">Develop</a>
                     <a class="button" href="#">Free Demo</a>
                 </nav>
                 <div class="clear"></div>
@@ -112,9 +111,8 @@
         {% block nav-js %}
             <script>
                 function loadSubNav(subnavType) {
-                    
-                    alert(subnavType);
-
+                    subnavHeadersArray = [];
+                    subnavLinksArray = [];
                     switch(subnavType) {
                         case "learn":
                             subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
@@ -125,16 +123,14 @@
                             subnavLinksArray = ["forum/", "blog/"];
                             break;
                         default:
-                            subnavHeadersArray = [];
-
-                            subnavLinksArray = [];
+                            if (window.location.pathname.indexOf("/stories/")) {
+                                document.getElementById('nav_stories').className = 'selected';
+                            }
 
                     }
-                    subnavHTML = "";
-                    
+                    subnavHTML = "<a href='#'></a>";
                     for (var i = 0; i < subnavHeadersArray.length; i++) {
-                        subnavHTML = subnavHTML + "<a href='#'>" + subnavHeadersArray[i] + "</a>"
-                    //    subnavHTML = subnavHTML + "<a href='" subnavLinksArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
+                        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
                     }
                     document.getElementById("subnav_right").innerHTML = subnavHTML;
                 }
