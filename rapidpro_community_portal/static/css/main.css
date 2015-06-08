@@ -31,6 +31,7 @@ a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .logo{
+    display:block;
     width:154px;
     height:43px;
     background-image: url(../images/svg/rapidpro_logo_optimized.svg);
