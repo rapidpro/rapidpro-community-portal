@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField, StreamField
@@ -71,6 +72,8 @@ class Organization(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = 'organisation'
+        verbose_name_plural = 'organisations'
         ordering = ('name', )
 
 
@@ -252,6 +255,38 @@ class MarketplaceIndexPage(Page, TopImage):
     subpage_types = ['portal_pages.MarketplaceEntryPage']
 
     @property
+    def countries(self):
+        countries = Country.objects.filter(
+            id__in=CountryMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("country__id"))
+
+        return countries
+
+    @property
+    def regions(self):
+        regions = Region.objects.filter(
+            id__in=RegionMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("region__id"))
+
+        return regions
+
+    @property
+    def services(self):
+        services = Service.objects.filter(
+            id__in=ServiceMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("service__id"))
+
+        return services
+
+    @property
+    def expertise_tags(self):
+        expertise_tags = Expertise.objects.filter(
+            id__in=ExpertiseMarketplaceEntry.objects.filter(
+                page__in=MarketplaceEntryPage.objects.live()).values("expertise__id"))
+
+        return expertise_tags
+
+    @property
     def marketplace_entries(self):
         # Get list of live marketplace entry pages that are descendants of this page
         marketplace_entries = MarketplaceEntryPage.objects.live().descendant_of(self)
@@ -269,22 +304,36 @@ class MarketplaceIndexPage(Page, TopImage):
         # Filter by region
         region = request.GET.get('region')
         if region:
-            marketplace_entries = marketplace_entries.filter(regions__region__name=region)
+            region_list = region.split(",")
+            for region in region_list:
+                marketplace_entries = marketplace_entries.filter(regions__region__name=region)
 
         # Filter by country
         country = request.GET.get('country')
         if country:
-            marketplace_entries = marketplace_entries.filter(countries__country__name=country)
+            country_list = country.split(",")
+            for country in country_list:
+                marketplace_entries = marketplace_entries.filter(countries__country__name=country)
 
         # Filter by service
         service = request.GET.get('service')
         if service:
-            marketplace_entries = marketplace_entries.filter(services__service__name=service)
+            service_list = service.split(",")
+            for service in service_list:
+                marketplace_entries = marketplace_entries.filter(services__service__name=service)
 
         # Filter by expertise
         expertise = request.GET.get('expertise')
         if expertise:
-            marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
+            expertise_list = expertise.split(",")
+            for expertise in expertise_list:
+                marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
+
+        # Search by search query
+        search_query = request.GET.get('search', '')
+        if search_query:
+            marketplace_entries = marketplace_entries.filter(
+                Q(biography__icontains=search_query) | Q(title__icontains=search_query))
 
         # Pagination
         page = request.GET.get('page')
@@ -317,10 +366,18 @@ class MarketplaceEntryPage(Page, ContactFields, TopImage):
     biography = RichTextField(blank=True)
     date_start = models.DateField("Company Start Date")
 
+    class Meta:
+        verbose_name = "marketplace"
+        verbose_name_plural = "marketplace"
+
     @property
     def marketplace_index(self):
-        # Find closest ancestor which is a casestudy index
+        # Find closest ancestor which is a marketplace index
         return self.get_ancestors().type(MarketplaceIndexPage).last()
+
+    @property
+    def name(self):
+        return self.title
 
 MarketplaceEntryPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -380,14 +437,46 @@ class CaseStudyIndexPage(Page, TopImage):
     subpage_types = ['portal_pages.CaseStudyPage']
 
     @property
+    def countries(self):
+        countries = Country.objects.filter(
+            id__in=CountryCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.live()).values("country__id"))
+        return countries
+
+    @property
+    def regions(self):
+        regions = Region.objects.filter(
+            id__in=RegionCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.live()).values("region__id"))
+        return regions
+
+    @property
+    def focus_areas(self):
+        focus_areas = FocusArea.objects.filter(
+            id__in=FocusAreaCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.live()).values("focusarea__id"))
+        return focus_areas
+
+    @property
+    def organizations(self):
+        organizations = Organization.objects.filter(
+            id__in=OrganizationCaseStudy.objects.filter(
+                page__in=CaseStudyPage.objects.live()).values("organization__id"))
+        return organizations
+
+    @property
+    def marketplace_entries(self):
+        marketplace_entries = MarketplaceEntryPage.objects.live().filter(
+            id__in=CaseStudyPage.objects.live().values("marketplace_entry__id"))
+        return marketplace_entries
+
+    @property
     def casestudies(self):
         # Get list of live casestudy pages that are descendants of this page
         casestudies = CaseStudyPage.objects.live().descendant_of(self)
 
         # Order by most recent date first
         casestudies = casestudies.order_by('-date')
-
-        # TODO: filter out case studies that have post dates after today's date
 
         return casestudies
 
@@ -398,27 +487,42 @@ class CaseStudyIndexPage(Page, TopImage):
         # Filter by region
         region = request.GET.get('region')
         if region:
-            casestudies = casestudies.filter(regions__region__name=region)
+            region_list = region.split(",")
+            for region in region_list:
+                casestudies = casestudies.filter(regions__region__name=region)
 
         # Filter by country
         country = request.GET.get('country')
         if country:
-            casestudies = casestudies.filter(countries__country__name=country)
+            country_list = country.split(",")
+            for country in country_list:
+                casestudies = casestudies.filter(countries__country__name=country)
 
         # Filter by focus area
         focus_area = request.GET.get('focus_area')
         if focus_area:
-            casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
+            focus_area_list = focus_area.split(",")
+            for focus_area in focus_area_list:
+                casestudies = casestudies.filter(focus_areas__focusarea__name=focus_area)
 
         # Filter by organization
-        organization = request.GET.get('organization')
+        organization = request.GET.get('organisation')
         if organization:
-            casestudies = casestudies.filter(organizations__organization__name=organization)
+            organization_list = organization.split(",")
+            for organization in organization_list:
+                casestudies = casestudies.filter(organizations__organization__name=organization)
 
         # Filter by marketplace entry
         marketplace = request.GET.get('marketplace')
         if marketplace:
-            casestudies = casestudies.filter(marketplace_entry__title=marketplace)
+            marketplace_list = marketplace.split(",")
+            for marketplace in marketplace_list:
+                casestudies = casestudies.filter(marketplace_entry__title=marketplace)
+
+        # Search by search query
+        search_query = request.GET.get('search', '')
+        if search_query:
+            casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
 
         # Pagination
         page = request.GET.get('page')
@@ -484,7 +588,7 @@ CaseStudyPage.content_panels = [
     InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
     InlinePanel(CaseStudyPage, 'regions', label="Regions"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
-    InlinePanel(CaseStudyPage, 'organizations', label="Organizations"),
+    InlinePanel(CaseStudyPage, 'organizations', label="Organisations"),
 ]
 
 
@@ -517,7 +621,7 @@ class FocusAreaCaseStudy(Orderable, models.Model):
 
 
 class OrganizationCaseStudy(Orderable, models.Model):
-    organization = models.ForeignKey(Organization, related_name="+")
+    organization = models.ForeignKey(Organization, verbose_name='organisation', related_name="+")
     page = ParentalKey(CaseStudyPage, related_name='organizations')
     panels = [
         FieldPanel('organization'),
