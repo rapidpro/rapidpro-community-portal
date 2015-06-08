@@ -9,6 +9,7 @@
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="IE=10" http-equiv="X-UA-Compatible">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
 
         <title>
             {% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}
@@ -40,9 +41,7 @@
 
         <header class="main-nav">
             <div class="page-width cushion">
-                <a href="/">
-                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
-                </a>
+                <a href="/" alt="RapidPro" class="logo left"></a>
                 <nav class="right">
                     <a class="skip-link" href="#content">Skip Link</a>
                     <a href="#">Learn</a>
@@ -101,7 +100,7 @@
         <footer>
             <div class="page-width">
                 <div class="cushion">
-                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                    <div alt="RapidPro" class="logo left"></div>
                     <div class="clear spacer"></div>
                     <p>Copyright &copy; {% now "Y" %} UNICEF</p>
                 </div>
