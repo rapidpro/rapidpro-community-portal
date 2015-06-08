@@ -24,19 +24,19 @@ html[dir="rtl"] .right { float:left; }
 .left { float:left; }
 html[dir="rtl"] .left { float:right; }
 
+.full { width:100%; }
 @media (min-width: 700px) {
-	.full { width:100%; }
-	.half { width:50%; }
-	.third { width:33.33333333%; }
-	.two-thirds { width:66.66666666%; }
-	.quarter { width:25%; }
-	.three-quarters { width:75%; }
-	.fifth { width:20%; }
-	.two-fifths { width:40%; }
-	.three-fifths { width:60%; }
-	.four-fifths { width:80%; }
-	.sixth { width:16.66666666%; }
-	.five-sixths { width:83.33333333%; }
+	.half { width:50%; max-width:50%; }
+	.third { width:33.33333333%; max-width:33.33333333%; }
+	.two-thirds { width:66.66666666%; max-width:66.66666666%; }
+	.quarter { width:25%; max-width:25% }
+	.three-quarters { width:75%; max-width:75%; }
+	.fifth { width:20%; max-width:20%; }
+	.two-fifths { width:40%; max-width:40%; }
+	.three-fifths { width:60%; max-width:60%; }
+	.four-fifths { width:80%; max-width:80%; }
+	.sixth { width:16.66666666%; max-width:16.66666666%; }
+	.five-sixths { width:83.33333333%; max-width:83.33333333%; }
 }
 
 .permanent.half { width:50%; }
