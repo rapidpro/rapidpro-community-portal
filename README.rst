@@ -60,3 +60,15 @@ the ``deploy`` command::
 
 New requirements or South migrations are detected by parsing the VCS changes and
 will be installed/run automatically.
+
+
+UserVoice Templates
+------------------------
+
+Sign on to http://rapidpro1.uservoice.com/
+Click Admin Console (next to the user avatar)
+Click Web Portal (from the gear)
+Click Appearance and features
+Click HTML/CSS/Javascript
+
+Only the CSS and the Header are modified. Backup changes in mockups/uservoice

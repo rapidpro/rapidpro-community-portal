@@ -4,6 +4,10 @@ body{
     font-weight:200;
 }
 
+.main-header{
+  background-color:#069;
+}
+
 .cushion{
     padding:15px;
 }
