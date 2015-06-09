@@ -31,7 +31,13 @@ a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .logo{
-    height:2.4em;
+    display:block;
+    width:154px;
+    height:43px;
+    background-image: url(../images/svg/rapidpro_logo_optimized.svg);
+    background-size: auto 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
 }
 
 nav a{
@@ -108,6 +114,16 @@ section{
 .tags > a:hover{
     text-decoration: none;
     background-color:#888;
+}
+
+.tagsheader {
+    background-image: url(../images/svg/listing.svg);
+    background-size:auto 15px;
+    background-position: 0.5em 50%;
+    background-repeat: no-repeat;
+    line-height: 32px;
+    padding-left: 32px;
+    cursor: pointer;
 }
 
 ul{

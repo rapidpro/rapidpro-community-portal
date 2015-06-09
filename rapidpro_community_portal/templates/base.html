@@ -9,6 +9,7 @@
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="IE=10" http-equiv="X-UA-Compatible">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
 
         <title>
             {% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}
@@ -27,7 +28,6 @@
         <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic" type="text/css" rel="stylesheet">
 
         <script type="text/javascript" src="{% static 'js/flickity.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/uservoice.js' %}"></script>
 
         {% block extra_css %}{% endblock %}
     </head>
@@ -76,7 +76,7 @@
         <footer>
             <div class="page-width">
                 <div class="cushion">
-                    <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
+                    <div alt="RapidPro" class="logo left"></div>
                     <div class="clear spacer"></div>
                     <p>Copyright &copy; {% now "Y" %} UNICEF</p>
                 </div>
@@ -88,7 +88,7 @@
             <script type="text/javascript" src="{% static 'js/subnav.js' %}"></script>
         {% endblock %}
 
-        {% block extra-js %}        
+        {% block extra-js %}
         {% endblock %}
     </body>
 </html>
