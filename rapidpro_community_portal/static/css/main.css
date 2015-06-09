@@ -27,7 +27,10 @@ footer{
     color:#777;
 }
 
-a{ text-decoration:none; }
+a{
+  text-decoration:none;
+  color: #006699;
+}
 a:hover{ text-decoration:underline; }
 
 .logo{
@@ -68,7 +71,7 @@ nav a.selected{
     padding:0.5em;
     text-decoration:none;
     text-align: center;
-    background-color:teal;
+    background-color:#45B0E5;
     color:white;
     border-radius:4px;
     box-sizing: border-box;
