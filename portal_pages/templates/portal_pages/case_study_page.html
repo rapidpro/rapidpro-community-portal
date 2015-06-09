@@ -59,20 +59,20 @@
 
     <div class="cushion">
         <h2>Organisations</h2>
-        <ul>
+        <div class="tags">
             {% for organization in self.organizations.all %}
-                <li><a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
+                <a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
                 {{ organization.organization.name }}
-                </a></li>
+                </a>
             {% endfor %}
-        </ul>
+        </div>
     </div>
 
     {% if self.marketplace_entry %}
         <div class="cushion">
             <h2>Tech Firm</h2>
             <ul>
-                <li><a href="{% pageurl self.casestudy_index %}?marketplace={{ self.marketplace_entry.title }}">
+                <li><a href="/marketplace/{{ self.marketplace_entry.slug }}">
                 {{ self.marketplace_entry.title }}
                 </a></li>
             </ul>
