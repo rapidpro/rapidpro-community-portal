@@ -1,71 +1,84 @@
-{% extends "base.html" %}
+{% extends "portal_pages/search_filter_base.html" %}
 {% load wagtailcore_tags %}
+{% load portal_extras %}
 
 {% block full-content %}
-    <section class="highlights">
-        <div class="page-width float-layout">
+    <section class="content page-width">
+        <h1 class="cushion">{{ self.title }}</h1>
+            <div class="float-layout">
+                <div class="quarter cushion">
+                    <div class="filters cushion">
 
-        {% if request.GET.country|length %}
-            <h4>Showing posts tagged as {{ request.GET.country|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        <label>Search</label>
+                        <form action="." method="get">
+                            <div class="search">
+                                <input type="search" name="search" id="search" value="{{ request.GET.search }}">
+                                <input type="hidden" name="country" id="country" value="{{ request.GET.country }}">
+                                <input type="hidden" name="region" id="region" value="{{ request.GET.region }}">
+                                <input type="hidden" name="focus_area" id="focus_area" value="{{ request.GET.focus_area }}">
+                                <input type="hidden" name="organisation" id="organisation" value="{{ request.GET.organisation }}">
+                                <input type="hidden" name="marketplace" id="marketplace" value="{{ request.GET.marketplace }}">
+                                <input type="submit" value=" ">
+                            </div>
+                        </form>
+                        <div class="clear"></div>
 
-        {% if request.GET.region|length %}
-            <h4>Showing posts tagged as {{ request.GET.region|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        <label>Filters</label>
+                        <div class="tags">
+                            <a href=" {% pageurl self %} ">Clear all filters</a>
+                        </div>
 
+                        {% if self.countries %}
+                            {% display_filter_list self.countries "region,focus_area,organisation,marketplace" %}
+                        {% endif %}
 
-        {% if request.GET.focus_area|length %}
-            <h4>Showing posts tagged as {{ request.GET.focus_area|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        {% if self.regions %}
+                            {% display_filter_list self.regions "country,focus_area,organisation,marketplace" %}
+                        {% endif %}
 
-        {% if request.GET.organization|length %}
-            <h4>Showing posts tagged as {{ request.GET.organization|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        {% if self.focus_areas %}
+                            {% display_filter_list self.focus_areas "country,region,organisation,marketplace" %}
+                        {% endif %}
 
-        {% if request.GET.marketplace|length %}
-            <h4>Showing posts tagged as {{ request.GET.marketplace|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        {% if self.organizations %}
+                            {% display_filter_list self.organizations "country,region,focus_area,marketplace" %}
+                        {% endif %}
 
-        {% if self.intro %}
-            <div>
-                {{ self.intro|richtext }}
-            </div>
-        {% endif %}
+                        {% if self.marketplace_entries %}
+                            {% display_filter_list self.marketplace_entries "country,region,focus_area,organisation" %}
+                        {% endif %}
 
-        <h2 class="hidden">Highlights</h2>
+                    </div>
+                </div>
 
-        {# Uses serve method defined in models.py - allows for paging if required #}
-        {# See also standard index for creating a listing with a tag #}
-        {% for page in casestudies %}
-            {% include "portal_pages/includes/page_list_item.html" %}
-        {% empty %}
-            No case studies found
-        {% endfor %}
+                <div class="three-quarters">
+
+                    {% if self.intro %}
+                        <div class="cushion">
+                            {{ self.intro|richtext }}
+                        </div>
+                    {% endif %}
+
+                    <div class="flex-layout">
+                    {# Uses serve method defined in models.py - allows for paging if required #}
+                    {# See also standard index for creating a listing with a tag #}
+                    {% for page in casestudies %}
+                        {% include "portal_pages/includes/page_list_item.html" %}
+                    {% empty %}
+                        <strong>No case studies found</strong>
+                    {% endfor %}
+                    </div>
+
+                    {# Pagination - uses django.core.paginator #}
+                    <div class="two-thirds">&nbsp;</div>
+                    <div class="third">
+                        {% include "portal_pages/includes/pagination_nav.html" with items=casestudies %}
+                    </div>
+
+                </div>
         </div>
     </section>
 
-    <div class="clear"></div>
+    <div class="spacer"></div>
 
-    {# Pagination - uses django.core.paginator #}
-    {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
-    <div class="row">
-        <div class="col-sm-4 previous">
-            {% if casestudies.has_previous %}
-                <a href="?page={{ casestudies.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
-            {% endif %}
-        </div>
-        <div class="col-sm-4 pages">
-            Page {{ casestudies.number }} of {{ casestudies.paginator.num_pages }}
-        </div>
-        <div class="col-sm-4 next">
-            {% if casestudies.has_next %}
-                <a href="?page={{ casestudies.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
-            {% endif %}
-        </div>
-    </div>
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_header %}
+{% block extra-header %}
     <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="{% static 'js/multiple-select/jquery.multiple.select.js' %}"></script>
 {% endblock %}
 
-{% block extra_css %}
+{% block extra-css %}
     <link href="{% static 'css/multiple-select.css' %}" rel="stylesheet"/>
 {% endblock %}
 
@@ -94,7 +94,7 @@
         <input type="text" name="post_code" id="post_code" /> 
 
         <input type="submit" value="Add" />  
-    
+
     </div></div>
     </form>
 
@@ -102,7 +102,7 @@
 
 {% endblock %}
 
-{% block extra_js %}
+{% block extra-js %}
     <script>
         $('#services').multipleSelect({filter: true, position: 'top'});
         $('#expertise').multipleSelect({filter: true, position: 'top'});

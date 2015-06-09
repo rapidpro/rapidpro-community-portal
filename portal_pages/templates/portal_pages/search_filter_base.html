@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block extra-js %}
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'js/search-filter.js' %}"></script>
+{% endblock %}

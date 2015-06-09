@@ -27,7 +27,7 @@
 
         {% endif %}
 
-        <p>{% if self.date_start %}<small>{{ self.date_start }}</small> - Present{% endif %}</p>
+        {% if self.date_start %}<p>Established {{ self.date_start.year }}{% endif %}</p>
 
         {% if self.biography %}
             <p>{{ self.biography|richtext }}</p>
