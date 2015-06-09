@@ -45,13 +45,13 @@
                 </a>
                 <nav class="right">
                     <a class="skip-link" href="#content">Skip Link</a>
-                    <a href="javascript:loadSubNav('learn');">Learn</a>
-                    <a href="javascript:loadSubNav('connect')">Connect</a>
+                    <a id="nav_learn" href="javascript:loadSubNav('learn');">Learn</a>
+                    <a id ="nav_connect" href="javascript:loadSubNav('connect')">Connect</a>
                     <a id="nav_stories" href="/stories/">
                         Stories
                     </a>
-                    <a href="https://github.com/rapidpro/">Develop</a>
-                    <a class="button" href="#">Free Demo</a>
+                    <a id="nav_develop" target="_blank" href="https://github.com/rapidpro/">Develop</a>
+                    <a id="nav_freedemo" target="_blank" class="button" href="#">Free Demo</a>
                 </nav>
                 <div class="clear"></div>
             </div>
@@ -112,27 +112,40 @@
             <script>
                 function loadSubNav(subnavType) {
                     subnavHeadersArray = [];
-                    subnavLinksArray = [];
+                    subnavLinksArray = [];                    
+                    if(window.location.pathname == "/stories/") {
+                        clearAllNavClasses();
+                        document.getElementById('nav_stories').className = 'selected';
+                        subnavHeadersArray = [];
+                        subnavLinksArray = [];
+                        subnavTargetArray = [];
+                    }
                     switch(subnavType) {
                         case "learn":
                             subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
-                            subnavLinksArray = ["knowledge/", "videos/", "online_courses/"];
+                            subnavLinksArray = ["http://rapidpro1.uservoice.com/knowledgebase", "videos/", "online_courses/"];
+                            subnavTargetArray = ["_blank", "_blank", "_blank"];
+                            clearAllNavClasses();
+                            document.getElementById('nav_learn').className = 'selected';                           
                             break;
                         case "connect":
                             subnavHeadersArray = ["User Forum", "Blog"];
                             subnavLinksArray = ["forum/", "blog/"];
+                            subnavTargetArray = ["_blank", ""];
+                            clearAllNavClasses();
+                            document.getElementById('nav_connect').className = 'selected';
                             break;
-                        default:
-                            if (window.location.pathname.indexOf("/stories/")) {
-                                document.getElementById('nav_stories').className = 'selected';
-                            }
-
                     }
                     subnavHTML = "<a href='#'></a>";
                     for (var i = 0; i < subnavHeadersArray.length; i++) {
-                        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
+                        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "' target='" + subnavTargetArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
                     }
                     document.getElementById("subnav_right").innerHTML = subnavHTML;
+                }
+                function clearAllNavClasses() {
+                    document.getElementById('nav_learn').className = '';
+                    document.getElementById('nav_connect').className = '';
+                    document.getElementById('nav_stories').className = '';
                 }
             </script>
         {% endblock %}
