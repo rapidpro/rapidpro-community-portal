@@ -77,4 +77,5 @@ html[dir="rtl"] .clear { clear:both; float:none; }
 	-ms-transform:translate(-50%, -50%);
 	-webkit-transform:translate(-50%,-50%);
 	-moz-transform:translate(-50%, -50%);
+  transform:translate(-50%, -50%);
 }
