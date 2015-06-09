@@ -64,18 +64,22 @@ html[dir="rtl"] .clear { clear:both; float:none; }
 	flex-flow:row wrap;
 }
 .flex-layout > * {
-    -ms-flex:auto;
-    -webkit-flex:auto;
-    flex:auto;
-    width:20em;
+	-ms-flex:auto;
+	-webkit-flex:auto;
+	flex:auto;
+	width:20em;
+}
+
+.transform-parent{
+	overflow:hidden;
 }
 
 .transform-center {
 	position:absolute;
-  top:50%;
-  left:50%;
+	top:50%;
+	left:50%;
 	-ms-transform:translate(-50%, -50%);
 	-webkit-transform:translate(-50%,-50%);
 	-moz-transform:translate(-50%, -50%);
-  transform:translate(-50%, -50%);
+	transform:translate(-50%, -50%);
 }

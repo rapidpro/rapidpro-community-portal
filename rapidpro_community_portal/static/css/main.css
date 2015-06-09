@@ -102,10 +102,6 @@ nav a.selected{
     color:white;
 }
 
-section{
-    overflow:auto;
-}
-
 .tags > *{
     display:inline-block;
     margin-bottom: 0.25em;
