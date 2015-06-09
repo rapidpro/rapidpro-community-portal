@@ -1,37 +1,27 @@
-function loadSubNav(subnavType) {
-    subnavHeadersArray = [];
-    subnavLinksArray = [];                    
-    if(window.location.pathname == "/stories/") {
-        clearAllNavClasses();
-        document.getElementById('nav_stories').className = 'selected';
-        subnavHeadersArray = [];
-        subnavLinksArray = [];
-        subnavTargetArray = [];
+var parentElements = [
+    document.getElementById('parent_learn'),
+    document.getElementById('parent_connect')
+];
+
+var subnavElements = [
+    document.getElementById('subnav_learn'),
+    document.getElementById('subnav_connect')
+];
+
+console.log('subnavvv');
+
+function subNav(id,parent) {
+    for(var i = 0; i< subnavElements.length; i++) {
+        console.log(subnavElements[i].id);
+        if(subnavElements[i].id === 'subnav_' + id){
+            subnavElements[i].classList.remove('hidden');
+        }else{
+            subnavElements[i].classList.add('hidden');
+        }
     }
-    switch(subnavType) {
-        case "learn":
-            subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
-            subnavLinksArray = ["http://rapidpro1.uservoice.com/knowledgebase", "videos/", "online_courses/"];
-            subnavTargetArray = ["_blank", "_blank", "_blank"];
-            clearAllNavClasses();
-            document.getElementById('nav_learn').className = 'selected';                           
-            break;
-        case "connect":
-            subnavHeadersArray = ["User Forum", "Blog"];
-            subnavLinksArray = ["forum/", "blog/"];
-            subnavTargetArray = ["_blank", ""];
-            clearAllNavClasses();
-            document.getElementById('nav_connect').className = 'selected';
-            break;
+    for(var i = 0; i< parentElements.length; i++) {
+        parentElements[i].classList.remove('selected');
     }
-    subnavHTML = "<a href='#'></a>";
-    for (var i = 0; i < subnavHeadersArray.length; i++) {
-        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "' target='" + subnavTargetArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
-    }
-    document.getElementById("subnav_right").innerHTML = subnavHTML;
-}
-function clearAllNavClasses() {
-    document.getElementById('nav_learn').className = '';
-    document.getElementById('nav_connect').className = '';
-    document.getElementById('nav_stories').className = '';
+    console.log(parent);
+    parent.classList.add('selected');
 }

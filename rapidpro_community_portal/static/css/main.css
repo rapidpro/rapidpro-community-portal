@@ -32,6 +32,9 @@ a{
   color: #006699;
 }
 a:hover{ text-decoration:underline; }
+a[onclick]{
+    cursor: pointer;
+}
 
 .logo{
     display:block;
@@ -60,6 +63,7 @@ nav a.selected{
 .sub-nav{
   font-size:80%;
   line-height:1.75em;
+  height:1.75em;
   background-color:#00517A;
 }
 .sub-nav .page-width{
