@@ -1,12 +1,10 @@
-{% load static %}
+{% load static from staticfiles %}
 
 {# Navigation header: on the base template #}
 
 <header class="main-nav">
     <div class="page-width cushion">
-        <a href="/">
-            <img alt="RapidPro" src="{% static 'images/svg/rapidpro_logo_optimized.svg' %}" class="logo left">
-        </a>
+        <a href="/" class="logo left"></a>
         <nav class="right">
             <a class="skip-link" href="#content">Skip Link</a>
             <a id="nav_learn" href="javascript:loadSubNav('learn');">Learn</a>
