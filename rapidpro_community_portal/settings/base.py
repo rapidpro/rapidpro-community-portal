@@ -8,7 +8,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('RapidPro Dev Team', 'rapidpro-team@caktusgroup.com'),
 )
 
 DATABASES = {
