@@ -205,3 +205,12 @@ hr{
     border-bottom:solid 2px #ddd;
     margin: 20px auto;
 }
+
+.errorlabel {
+    display: inline-block;
+    margin-bottom: 0.25em;
+    border-radius: 0.25em;
+    background-color: #FCBABA;
+    padding: 1px 0.25em;
+    width:100%;
+}

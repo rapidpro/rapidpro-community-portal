@@ -8,16 +8,20 @@
 {% block content %}
 <div class="page-width float-layout"><div class="cushion">
 
-    <form action="{% url 'create_marketplace' %}" method="post">
+    <form action="{% url 'create_marketplace' %}" method="post" onsubmit="return checkFormAndSubmit();">
     {% csrf_token %}
 
     <div class="two-thirds"><div class="cushion">
 
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title" />   
+        <label for="title" id="lblTitle">Company Name *</label>
+        <input type="text" name="title" id="title" />
 
-        <label for="biography">Biography</label>
+        <label for="biography" id="lblBiography">Biography *</label>
         <textarea name="biography" id="biography" style="height:200px;"></textarea><br />
+
+        <label for="top_image">Banner Image</label>
+        ...
+        <!-- TODO: Add Banner Image upload field -->
 
         <label for="title">Services</label>
         <select id="services" name="services" multiple="multiple" data-placeholder="Select Services">
@@ -87,10 +91,14 @@
         <label for="post_code">Zip/Post Code</label>
         <input type="text" name="post_code" id="post_code" /> 
 
+        <div id="requiredFields" class="errorlabel" style="display:none;">
+            Please fill in all required* fields.
+        </div><br />
+
         <input type="submit" value="Add" />  
 
     </div></div>
-    </form>
+    </form>    
 
 </div></div>
 
@@ -123,6 +131,32 @@
                 {title: 'H6', block: 'h6'},
             ],
             selector:'textarea'});
+
+        function checkFormAndSubmit() {
+            formPass = 1;
+
+            //Clear out the error labels
+            $("#lblTitle").removeClass("errorlabel");
+            $("#lblBiography").removeClass("errorlabel");
+            $("#requiredFields").hide();
+            //Check for required fields
+            if ($("#title").val() == "") {
+                $("#lblTitle").addClass("errorlabel");
+                formPass = 0;
+            }
+            if (tinymce.get("biography").getContent() == "") { 
+                $("#lblBiography").addClass("errorlabel");
+                formPass = 0;
+            }
+            if (formPass) {                
+                return true;
+            }
+            else {
+                $("#requiredFields").show("500");
+                return false;
+            }
+        }
+
     </script>
 {% endblock %}
 
