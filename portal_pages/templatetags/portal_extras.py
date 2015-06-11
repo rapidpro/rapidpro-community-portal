@@ -5,12 +5,13 @@ register = template.Library()
 
 
 @register.filter
-def make_unique(value, unique_var):  # Only one argument.
+def make_unique(qs, unique_var):
     """Make the queryset unique by unique_var, sort by unique_var"""
-    if hasattr(value, "distinct"):  # Need to check so that this does not break in Preview mode in Wagtail
-        return value.distinct(unique_var).order_by(unique_var)
+    if hasattr(qs, "distinct"):  # Need to check so that this does not break in Preview mode in Wagtail
+        distinct_pks = qs.distinct(unique_var).order_by(unique_var).values_list('pk', flat=True)
+        return qs.filter(pk__in=distinct_pks)
     else:
-        return value
+        return qs
 
 
 @register.filter
