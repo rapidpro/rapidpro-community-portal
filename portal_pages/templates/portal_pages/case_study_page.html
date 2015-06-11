@@ -27,7 +27,7 @@
 
         {% endif %}
 
-        {% if self.date %}<p><small>Launched: {{ self.date }}</small></p>{% endif %}
+        {% if self.date %}<p>Launched: {{ self.date|date:"F Y"  }}</p>{% endif %}
 
         {% if self.summary %}
             <p>{{ self.summary|richtext }}</p>
