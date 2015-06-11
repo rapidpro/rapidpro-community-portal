@@ -25,6 +25,11 @@ def remove_from_string(value, value_to_remove):
     return value
 
 
+@register.filter
+def add_spacing(value):
+    return value.replace(">","> ")
+
+
 @register.inclusion_tag('portal_pages/tags/filter_list.html', takes_context=True)
 def display_filter_list(context, items, request_list):
     request = context['request']
