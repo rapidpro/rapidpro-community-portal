@@ -93,17 +93,14 @@ nav a.selected{
 }
 
 .call-to-action{
-  background-color:white;
-  /*background image could go here*/
+    background-color:white;
+    /*background image could go here*/
+    min-height:4em;
 }
 
 .call-to-action .button{
   background-color:#069;
   color:white;
-}
-
-section{
-  overflow:auto;
 }
 
 .tags > *{
