@@ -1,14 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra-header %}
-    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/multiple-select/jquery.multiple.select.js' %}"></script>
-{% endblock %}
-
 {% block extra-css %}
-    <link href="{% static 'css/multiple-select.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block content %}
@@ -26,7 +20,7 @@
         <textarea name="biography" id="biography" style="height:200px;"></textarea><br />
 
         <label for="title">Services</label>
-        <select id="services" name="services" multiple="multiple">
+        <select id="services" name="services" multiple="multiple" data-placeholder="Select Services">
             {% for service in services %}
                 <option value="{{ service.id }}">{{ service.name }}</option>
             {% endfor %}
@@ -103,11 +97,15 @@
 {% endblock %}
 
 {% block extra-js %}
+    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+
     <script>
-        $('#services').multipleSelect({filter: true, position: 'top'});
-        $('#expertise').multipleSelect({filter: true, position: 'top'});
-        $('#regions_experience').multipleSelect({filter: true, position: 'top'});
-        $('#countries_experience').multipleSelect({filter: true, position: 'top'});
+        $('#services').chosen({});
+        $('#expertise').chosen({});
+        $('#regions_experience').chosen({});
+        $('#countries_experience').chosen({});
 
         tinymce.init({
             menubar : false,
