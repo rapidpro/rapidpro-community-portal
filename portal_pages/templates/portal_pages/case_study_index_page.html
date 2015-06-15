@@ -60,18 +60,16 @@
                     {% endif %}
 
                     <div class="flex-layout">
-                    {# Uses serve method defined in models.py - allows for paging if required #}
-                    {# See also standard index for creating a listing with a tag #}
-                    {% for page in casestudies %}
-                        {% include "portal_pages/includes/page_list_item.html" %}
-                    {% empty %}
-                        <strong>No case studies found</strong>
-                    {% endfor %}
+                        {% for page in casestudies %}
+                            {% include "portal_pages/includes/page_list_item.html" %}
+                        {% empty %}
+                            {% include "portal_pages/includes/empty_search_filter.html" with things="case studies" %}
+                        {% endfor %}
                     </div>
 
                     {# Pagination - uses django.core.paginator #}
                     <div class="two-thirds">&nbsp;</div>
-                    <div class="third">
+                    <div class="cushion">
                         {% include "portal_pages/includes/pagination_nav.html" with items=casestudies %}
                     </div>
 

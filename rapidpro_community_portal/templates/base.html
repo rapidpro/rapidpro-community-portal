@@ -34,36 +34,12 @@
         {% block extra-css %}{% endblock %}
     </head>
 
-    <body>
+    <body onload="loadSubNav('');">
         {% wagtailuserbar %}
 
-        {# TODO: split out into an include #}
         {# TODO: figure out meshing fixed/dynamic content for this #}
         {% block top-nav %}
-
-        <header class="main-nav">
-            <div class="page-width cushion">
-                <a href="/" alt="RapidPro" class="logo left"></a>
-                <nav class="right">
-                    <a class="skip-link" href="#content">Skip Link</a>
-                    <a href="#">Learn</a>
-                    <a class="selected" href="#">Connect</a>
-                    <a href="/stories/">Stories</a>
-                    <a href="#">Develop</a>
-                    <a class="button" href="#">Free Demo</a>
-                </nav>
-                <div class="clear"></div>
-            </div>
-        </header>
-        <header class="sub-nav">
-          <div class="page-width">
-            <nav class="right">
-              <a href="#">Example A</a>
-              <a href="#">Example B</a>
-              <a href="#">Etc Etc</a>
-            </nav>
-          </div>
-        </header>
+            {% include "includes/nav.html" %}
         {% endblock %}
 
         {% block top-image %}
@@ -96,13 +72,13 @@
         </section>
         {% endblock %}
 
-        <div class="spacer"></div>
+        <div class="clear spacer"></div>
 
         {% block bottom-nav %}
         <footer>
             <div class="page-width">
                 <div class="cushion">
-                    <div alt="RapidPro" class="logo left"></div>
+                    <div class="logo left"></div>
                     <div class="clear spacer"></div>
                     <p>Copyright &copy; {% now "Y" %} UNICEF</p>
                 </div>
@@ -110,6 +86,11 @@
         </footer>
         {% endblock %}
 
-        {% block extra-js %}{% endblock %}
+        {% block nav-js %}
+            <script type="text/javascript" src="{% static 'js/subnav.js' %}"></script>
+        {% endblock %}
+
+        {% block extra-js %}
+        {% endblock %}
     </body>
 </html>

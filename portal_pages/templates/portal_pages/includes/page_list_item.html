@@ -16,8 +16,8 @@
 
     <p>
         <a href="{% pageurl page %}"><strong>{{ page.title }}</strong></a>
-        {{ page.summary|striptags|truncatechars:100 }}
-        {{ page.biography|striptags|truncatechars:100 }}
-        {{ page.body|striptags|truncatechars:100 }}
+        {{ page.summary|add_spacing|striptags|truncatechars:100 }}
+        {{ page.biography|add_spacing|striptags|truncatechars:100 }}
+        {{ page.body|add_spacing|striptags|truncatechars:100 }}
     </p>
 </div>
