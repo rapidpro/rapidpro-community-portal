@@ -10,7 +10,7 @@
         {% if self.casestudy_index %}
 
             <div class="tags">
-                {% for region in self.regions.all|make_unique:"region__name" %}
+                {% for region in self.regions.all %}
                     <a href="{% pageurl self.casestudy_index %}?region={{ region.region.name }}">
                     {{ region.region.name }}
                     </a>
@@ -18,7 +18,7 @@
             </div>
 
             <div class="tags">
-                {% for country in self.countries.all|make_unique:"country__name" %}
+                {% for country in self.countries.all %}
                     <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
                     {{ country.country.name }}
                     </a>
@@ -49,7 +49,7 @@
     <div class="cushion">
         <h2>Focus Areas</h2>
         <div class="tags">
-            {% for focus_area in self.focus_areas.all|make_unique:"focusarea__name" %}
+            {% for focus_area in self.focus_areas.all %}
             <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
                 {{ focus_area.focusarea.name }}
             </a>
