@@ -216,29 +216,8 @@ button
   background-color:#069;
 }
 
-label{
-  font-size:90%;
-  font-weight:500;
-  margin-top:0.8em;
-}
-
-.labelinfo {
-  padding-left: 2em;
-  font-style: italic;
-  font-weight: normal;
-}
-
 hr{
   width:75%;
   border-bottom:solid 2px #ddd;
   margin: 20px auto;
-}
-
-.errorlabel {
-    display: inline-block;
-    margin-bottom: 0.25em;
-    border-radius: 0.25em;
-    background-color: #FCBABA;
-    padding: 1px 0.25em;
-    width:100%;
 }

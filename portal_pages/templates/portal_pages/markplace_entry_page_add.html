@@ -13,14 +13,14 @@
 
     <div class="two-thirds"><div class="cushion">
 
-        <label for="title" id="lbl_title">Company Name *</label>
+        {{ form.title.label_tag }}
         {{ form.title }}
 
 
-        <label for="biography" id="lbl_biography">Biography *</label>
+        {{ form.biography.label_tag }}
         {{ form.biography }}
 
-         <!-- TODO: Add Banner Image upload field -->
+        <!-- TODO: Add Banner Image upload field -->
 
         <br />
         <label for="title">Services</label>
@@ -74,41 +74,39 @@
 
         <h3>Contact Information</h3>
 
-        <label id="lbl_website" for="website">
-            Website
-            <span class="labelinfo">Please enter full http:// string</span>
-        </label>
+        {{ form.website.label_tag }}
+        <span class="labelinfo">Please enter full http:// string</span>
         {{ form.website }}
 
-        <label for="telephone">Telephone</label>
+        {{ form.telephone.label_tag }}
         {{ form.telephone }}
 
-        <label id="lbl_email" for="email">Email *</label>
+        {{ form.email.label_tag }}
         {{ form.email }}
 
-        <label for="address_1">Address 1</label>
+        {{ form.address_1.label_tag }}
         {{ form.address_1 }}
 
-        <label for="address_2">Address 2</label>
+        {{ form.address_2.label_tag }}
         {{ form.address_2 }}
 
-        <label for="city">City</label>
+        {{ form.city.label_tag }}
         {{ form.city }}
 
-        <label for="state">State</label>
+        {{ form.state.label_tag }}
         {{ form.state }}
 
-        <label for="country">Country</label>
+        {{ form.country.label_tag }}
         {{ form.country }}
 
-        <label for="post_code">Zip/Post Code</label>
+        {{ form.post_code.label_tag }}
         {{ form.post_code }}
 
         <div id="required_fields" class="errorlabel" style="display:none;">
             Please fill in all required* fields and enter valid information.
         </div><br />
 
-        <input type="submit" value="Add" />  
+        <input type="submit" value="Add Me to the Marketplace" />
 
     </div></div>
 
@@ -164,27 +162,27 @@
             formPass = 1;
 
             //Clear out the error labels
-            $("#lbl_title").removeClass("errorlabel");
-            $("#lbl_biography").removeClass("errorlabel");
-            $("#lbl_website").removeClass("errorlabel");
-            $("#lbl_email").removeClass("errorlabel");
+            $("label[for='id_title']").removeClass("errorlabel");
+            $("label[for='id_biography']").removeClass("errorlabel");
+            $("label[for='id_website']").removeClass("errorlabel");
+            $("label[for='id_email']").removeClass("errorlabel");
 
             $("#required_fields").hide();
             //Check for required fields
             if ($("#id_title").val() == "") {
-                $("#lbl_title").addClass("errorlabel");
+                $("label[for='id_title']").addClass("errorlabel");
                 formPass = 0;
             }
             if (tinymce.get("id_biography").getContent() == "") {
-                $("#lbl_biography").addClass("errorlabel");
+                $("label[for='id_biography']").addClass("errorlabel");
                 formPass = 0;
             }
             if ($("#id_email").val() == "") {
-                $("#lbl_email").addClass("errorlabel");
+                $("label[for='id_email']").addClass("errorlabel");
                 formPass = 0;
             }
             if ($("#id_website").val() != "" && !isValidURL($("#id_website").val())) {
-                $("#lbl_website").addClass("errorlabel");
+                $("label[for='id_website']").addClass("errorlabel");
                 formPass = 0;
             }
 

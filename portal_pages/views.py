@@ -12,8 +12,8 @@ from .forms import MarketplaceEntryForm
 
 def get_marketplace_entry(request):
     context = {}
+    form = MarketplaceEntryForm(data=request.POST or None, label_suffix='')
     if request.method == 'POST':
-        form = MarketplaceEntryForm(request.POST)
         if form.is_valid():
             marketplace_index = MarketplaceIndexPage.objects.live().first()
             if marketplace_index:
@@ -60,8 +60,6 @@ def get_marketplace_entry(request):
                             page = marketplace_entry
                         )
                 return HttpResponseRedirect('/marketplace/')
-    else:
-        form = MarketplaceEntryForm()
 
     services = Service.objects.order_by('name')
     expertise_list = Expertise.objects.order_by('name')

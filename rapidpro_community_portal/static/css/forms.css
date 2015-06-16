@@ -15,9 +15,17 @@ button,
 }
 
 label{
-	clear:both;
-	font-size:70%;
-	font-weight: 400;
+  clear:both;
+  font-size:90%;
+  font-weight:500;
+  margin-top:0.8em;
+}
+
+label.required:after{ content: " *"; }
+
+.labelinfo{
+  padding-left: 2em;
+  font-style: italic;
 }
 
 .read-value,
@@ -79,3 +87,12 @@ button.inverted{
 }
 button.inverted.danger{ color:#e4484b; }
 button.inverted:hover{ color:white; }
+
+.errorlabel {
+    display: inline-block;
+    margin-bottom: 0.25em;
+    border-radius: 0.25em;
+    background-color: #FCBABA;
+    padding: 1px 0.25em;
+    width:100%;
+}
