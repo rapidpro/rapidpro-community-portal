@@ -20,8 +20,7 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^search/', include(wagtailsearch_frontend_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
-    url(r'^add-marketplace/', views.add_marketplace, name='add_marketplace'),
-    url(r'^create-marketplace/$', views.create_marketplace, name='create_marketplace'),
+    url(r'^add-marketplace/', views.get_marketplace_entry, name='get_marketplace'),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's serving mechanism

@@ -365,7 +365,7 @@ MarketplaceIndexPage.promote_panels = Page.promote_panels
 
 
 class MarketplaceEntryPage(Page, ContactFields, TopImage):
-    biography = RichTextField(blank=True)
+    biography = RichTextField()
     date_start = models.DateField("Company Start Date")
 
     class Meta:

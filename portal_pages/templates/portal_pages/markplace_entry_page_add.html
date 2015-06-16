@@ -8,96 +8,110 @@
 {% block content %}
 <div class="page-width float-layout"><div class="cushion">
 
-    <form action="{% url 'create_marketplace' %}" method="post" onsubmit="return checkFormAndSubmit();">
+    <form action="{% url 'get_marketplace' %}" method="post" onsubmit="return checkFormAndSubmit();">
     {% csrf_token %}
 
     <div class="two-thirds"><div class="cushion">
 
-        <label for="title" id="lblTitle">Company Name *</label>
-        <input type="text" name="title" id="title" />
+        <label for="title" id="lbl_title">Company Name *</label>
+        {{ form.title }}
 
-        <label for="biography" id="lblBiography">Biography *</label>
-        <textarea name="biography" id="biography" style="height:200px;"></textarea><br />
 
-        <label for="top_image">Banner Image</label>
-        ...
-        <!-- TODO: Add Banner Image upload field -->
+        <label for="biography" id="lbl_biography">Biography *</label>
+        {{ form.biography }}
 
+         <!-- TODO: Add Banner Image upload field -->
+
+        <br />
         <label for="title">Services</label>
         <select id="services" name="services" multiple="multiple" data-placeholder="Select Services">
             {% for service in services %}
                 <option value="{{ service.id }}">{{ service.name }}</option>
             {% endfor %}
         </select>
+        <div class="addheader add_service">Add a new service not listed</div>
+        <div id="add_service" class="collapsed" style="display:none;">
+            <label for="services_additional">Enter additional services separated by commas</label>
+            <input type="text" id="services_additional" name="services_additional" />
+        </div>
+        <br />
 
         <label for="title">Expertise</label>
-        <select id="expertise" name="expertise" multiple="multiple">
+        <select id="expertise" name="expertise" multiple="multiple" data-placeholder="Select Expertise">
             {% for expertise in expertise_list %}
                 <option value="{{ expertise.id }}">{{ expertise.name }}</option>
             {% endfor %}
         </select>
+        <div class="addheader add_expertise">Add a new expertise not listed</div>
+        <div id="add_expertise" class="collapsed" style="display:none;">
+            <label for="expertise_additional">Enter additional expertise separated by commas</label>
+            <input type="text" id="expertise_additional" name="expertise_additional" />
+        </div>
+        <br />
 
         <label for="title">Regions of Experience</label>
-        <select id="regions_experience" name="regions_experience" multiple="multiple">
+        <select id="regions_experience" name="regions_experience" multiple="multiple" data-placeholder="Select Regions">
             {% for region in regions %}
                 <option value="{{ region.id }}">{{ region.name }}</option>
             {% endfor %}
         </select>
+        <br /><br />
 
         <label for="title">Countries of Experience</label>
-        <select id="countries_experience" name="countries_experience" multiple="multiple">
+        <select id="countries_experience" name="countries_experience" multiple="multiple" data-placeholder="Select Countries">
             {% for country in countries %}
                 <option value="{{ country.id }}">{{ country.name }}</option>
             {% endfor %}
         </select>
-    
-        <label for="established">Established Year</label>
-        <select id="established" name="established">
+        <br /><br />
+
+        <label for="date_start">Established Year</label>
+        <select id="date_start" name="date_start">
             {% for year in years %}
-                <option value="{{ year }}">{{ year }}</option>
+                <option value="{{ year }}-01-01">{{ year }}</option>
             {% endfor %}
         </select>
 
         <h3>Contact Information</h3>
 
-        <label for="website">Website</label>
-        <input type="text" name="website" id="website" /> 
+        <label id="lbl_website" for="website">
+            Website
+            <span class="labelinfo">Please enter full http:// string</span>
+        </label>
+        {{ form.website }}
 
         <label for="telephone">Telephone</label>
-        <input type="text" name="telephone" id="telephone" /> 
+        {{ form.telephone }}
 
-        <label for="email">Email</label>
-        <input type="text" name="email" id="email" /> 
+        <label id="lbl_email" for="email">Email *</label>
+        {{ form.email }}
 
         <label for="address_1">Address 1</label>
-        <input type="text" name="address_1" id="address_1" /> 
+        {{ form.address_1 }}
 
         <label for="address_2">Address 2</label>
-        <input type="text" name="address_2" id="address_2" /> 
+        {{ form.address_2 }}
 
         <label for="city">City</label>
-        <input type="text" name="city" id="city" /> 
+        {{ form.city }}
 
         <label for="state">State</label>
-        <input type="text" name="state" id="state" />
+        {{ form.state }}
 
         <label for="country">Country</label>
-        <select id="country" name="country" >
-            {% for country in countries %}
-                <option value="{{ country.id }}">{{ country.name }}</option>
-            {% endfor %}
-        </select>
+        {{ form.country }}
 
         <label for="post_code">Zip/Post Code</label>
-        <input type="text" name="post_code" id="post_code" /> 
+        {{ form.post_code }}
 
-        <div id="requiredFields" class="errorlabel" style="display:none;">
-            Please fill in all required* fields.
+        <div id="required_fields" class="errorlabel" style="display:none;">
+            Please fill in all required* fields and enter valid information.
         </div><br />
 
         <input type="submit" value="Add" />  
 
     </div></div>
+
     </form>    
 
 </div></div>
@@ -132,27 +146,63 @@
             ],
             selector:'textarea'});
 
+        $(".addheader").click(function(e){ // toggle collapse/uncollapse
+            var divId = $(e.target).attr("class").split(" ")[1]; // ie. add_service
+            if ($("#"+divId).hasClass("uncollapsed")) {
+                $("#"+divId).hide("500");
+                $("#"+divId).removeClass("uncollapsed");
+                $("#"+divId).addClass("collapsed");
+            }
+            else {
+                $("#"+divId).show("500");
+                $("#"+divId).removeClass("collapsed");
+                $("#"+divId).addClass("uncollapsed");
+            }
+        });
+
         function checkFormAndSubmit() {
             formPass = 1;
 
             //Clear out the error labels
-            $("#lblTitle").removeClass("errorlabel");
-            $("#lblBiography").removeClass("errorlabel");
-            $("#requiredFields").hide();
+            $("#lbl_title").removeClass("errorlabel");
+            $("#lbl_biography").removeClass("errorlabel");
+            $("#lbl_website").removeClass("errorlabel");
+            $("#lbl_email").removeClass("errorlabel");
+
+            $("#required_fields").hide();
             //Check for required fields
-            if ($("#title").val() == "") {
-                $("#lblTitle").addClass("errorlabel");
+            if ($("#id_title").val() == "") {
+                $("#lbl_title").addClass("errorlabel");
                 formPass = 0;
             }
-            if (tinymce.get("biography").getContent() == "") { 
-                $("#lblBiography").addClass("errorlabel");
+            if (tinymce.get("id_biography").getContent() == "") {
+                $("#lbl_biography").addClass("errorlabel");
                 formPass = 0;
             }
+            if ($("#id_email").val() == "") {
+                $("#lbl_email").addClass("errorlabel");
+                formPass = 0;
+            }
+            if ($("#id_website").val() != "" && !isValidURL($("#id_website").val())) {
+                $("#lbl_website").addClass("errorlabel");
+                formPass = 0;
+            }
+
             if (formPass) {                
                 return true;
             }
             else {
-                $("#requiredFields").show("500");
+                $("#required_fields").show("500");
+                return false;
+            }
+        }
+
+        function isValidURL(url){
+            var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            if(RegExp.test(url)) {
+                return true;
+            }
+            else {
                 return false;
             }
         }
