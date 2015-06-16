@@ -22,6 +22,7 @@ def get_marketplace_entry(request):
                 marketplace_entry_page.slug = slug
                 marketplace_entry = marketplace_index.add_child(
                                         instance = (marketplace_entry_page))
+
                 if marketplace_entry:
                     marketplace_entry.unpublish()
                     for service in request.POST.getlist('services'):
@@ -29,9 +30,23 @@ def get_marketplace_entry(request):
                             service = Service.objects.get(id=service),
                             page = marketplace_entry
                         )
+                    for service_name in request.POST['services_additional'].split(","):
+                        service_name = service_name.lstrip().rstrip().capitalize()
+                        service, created = Service.objects.get_or_create(name=service_name)
+                        ServiceMarketplaceEntry.objects.create(
+                            service = service,
+                            page = marketplace_entry
+                        )
                     for expertise in request.POST.getlist('expertise'):
                         ExpertiseMarketplaceEntry.objects.create(
                             expertise = Expertise.objects.get(id=expertise),
+                            page = marketplace_entry
+                        )
+                    for expertise_name in request.POST['expertise_additional'].split(","):
+                        expertise_name = expertise_name.lstrip().rstrip().capitalize()
+                        expertise, created = Expertise.objects.get_or_create(name=expertise_name)
+                        ExpertiseMarketplaceEntry.objects.create(
+                            expertise = expertise,
                             page = marketplace_entry
                         )
                     for region in request.POST.getlist('regions_experience'):
