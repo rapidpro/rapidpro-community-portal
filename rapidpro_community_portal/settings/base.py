@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
     'wagtail.wagtailsites',
+    'wagtail.contrib.wagtailroutablepage',
     # project apps
     'accounts',
     'portal_pages',
