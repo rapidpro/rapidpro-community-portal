@@ -70,4 +70,4 @@ def submit_marketplace_entry(request, marketplace_index):
         'countries': countries,
         'regions': regions,
     }
-    return render(request, 'portal_pages/markplace_entry_page_add.html', context)
+    return render(request, 'portal_pages/marketplace_entry_page_add.html', context)
