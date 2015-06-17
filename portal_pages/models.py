@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.template.response import TemplateResponse
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField, StreamField
@@ -13,6 +14,7 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailsnippets.models import register_snippet
+from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
@@ -246,15 +248,34 @@ CMSPage.content_panels = [
 
 # Marketplace index page
 
-
-class MarketplaceIndexPage(Page, TopImage):
+class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
+    #submit_info = RichTextField()
+    #thanks_info = RichTextField()
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
 
     subpage_types = ['portal_pages.MarketplaceEntryPage']
+
+    @route(r'^$')
+    def base(self, request):
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            self.get_context(request)
+        )
+
+    @route(r'^submit-marketplace-entry/$')
+    def submit(self, request):
+        from .views import submit_marketplace_entry
+        return submit_marketplace_entry(request, self)
+
+    @route(r'^submit-thank-you/$')
+    def thanks(self, request):
+        from django.http import HttpResponse
+        return HttpResponse('reached thanks page')
 
     @property
     def countries(self):

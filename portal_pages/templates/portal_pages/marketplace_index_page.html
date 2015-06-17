@@ -1,5 +1,5 @@
 {% extends "portal_pages/search_filter_base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailroutablepage_tags %}
 {% load portal_extras %}
 
 {% block full-content %}
@@ -43,7 +43,7 @@
                         {% endif %}
                     </div>
                     <br />
-                    <a class="button" href="/add-marketplace">Submit Your Own Marketplace Entry</a>
+                    <a class="button" href="{% routablepageurl self "submit" %}">Submit Your Own Marketplace Entry</a>
                 </div>
 
                 <div class="three-quarters">
