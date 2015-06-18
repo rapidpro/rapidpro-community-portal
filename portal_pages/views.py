@@ -69,5 +69,6 @@ def submit_marketplace_entry(request, marketplace_index):
         'expertise_list': expertise_list,
         'countries': countries,
         'regions': regions,
+        'marketplace_index': marketplace_index,
     }
     return render(request, 'portal_pages/marketplace_entry_page_add.html', context)

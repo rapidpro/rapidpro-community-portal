@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load wagtailcore_tags %}
 
 {% block extra-css %}
     <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
@@ -13,100 +14,113 @@
 
     <div class="two-thirds"><div class="cushion">
 
-        {{ form.title.label_tag }}
-        {{ form.title }}
+        <h2 class="cushion">Submit Your Entry to the Marketplace</h2>
 
-
-        {{ form.biography.label_tag }}
-        {{ form.biography }}
-
-        <!-- TODO: Add Banner Image upload field -->
-
-        <br />
-        <label for="title">Services</label>
-        <select id="services" name="services" multiple="multiple" data-placeholder="Select Services">
-            {% for service in services %}
-                <option value="{{ service.id }}">{{ service.name }}</option>
-            {% endfor %}
-        </select>
-        <div class="addheader add_service">Add a new service not listed</div>
-        <div id="add_service" class="collapsed" style="display:none;">
-            <label for="services_additional">Enter additional services separated by commas</label>
-            <input type="text" id="services_additional" name="services_additional" />
+        <div class="cushion">
+            {{ marketplace_index.submit_info|richtext }}
         </div>
-        <br />
 
-        <label for="title">Expertise</label>
-        <select id="expertise" name="expertise" multiple="multiple" data-placeholder="Select Expertise">
-            {% for expertise in expertise_list %}
-                <option value="{{ expertise.id }}">{{ expertise.name }}</option>
-            {% endfor %}
-        </select>
-        <div class="addheader add_expertise">Add a new expertise not listed</div>
-        <div id="add_expertise" class="collapsed" style="display:none;">
-            <label for="expertise_additional">Enter additional expertise separated by commas</label>
-            <input type="text" id="expertise_additional" name="expertise_additional" />
+        <div class="cushion">
+
+            {{ form.title.label_tag }}
+            {{ form.title }}
+
+
+            {{ form.biography.label_tag }}
+            {{ form.biography }}
+
+            <!-- TODO: Add Banner Image upload field -->
+
+            <br />
+            <label for="title">Services</label>
+            <select id="services" name="services" multiple="multiple" data-placeholder="Select Services">
+                {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.name }}</option>
+                {% endfor %}
+            </select>
+            <div class="addheader add_service">Add a new service not listed</div>
+            <div id="add_service" class="collapsed" style="display:none;">
+                <label for="services_additional">Enter additional services separated by commas</label>
+                <input type="text" id="services_additional" name="services_additional" />
+            </div>
+            <br />
+
+            <label for="title">Expertise</label>
+            <select id="expertise" name="expertise" multiple="multiple" data-placeholder="Select Expertise">
+                {% for expertise in expertise_list %}
+                    <option value="{{ expertise.id }}">{{ expertise.name }}</option>
+                {% endfor %}
+            </select>
+            <div class="addheader add_expertise">Add a new expertise not listed</div>
+            <div id="add_expertise" class="collapsed" style="display:none;">
+                <label for="expertise_additional">Enter additional expertise separated by commas</label>
+                <input type="text" id="expertise_additional" name="expertise_additional" />
+            </div>
+            <br />
+
+            <label for="title">Regions of Experience</label>
+            <select id="regions_experience" name="regions_experience" multiple="multiple" data-placeholder="Select Regions">
+                {% for region in regions %}
+                    <option value="{{ region.id }}">{{ region.name }}</option>
+                {% endfor %}
+            </select>
+            <br /><br />
+
+            <label for="title">Countries of Experience</label>
+            <select id="countries_experience" name="countries_experience" multiple="multiple" data-placeholder="Select Countries">
+                {% for country in countries %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+            <br /><br />
+
+            <label for="date_start">Established Year</label>
+            <select id="date_start" name="date_start">
+                {% for year in years %}
+                    <option value="{{ year }}-01-01">{{ year }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <br />
 
-        <label for="title">Regions of Experience</label>
-        <select id="regions_experience" name="regions_experience" multiple="multiple" data-placeholder="Select Regions">
-            {% for region in regions %}
-                <option value="{{ region.id }}">{{ region.name }}</option>
-            {% endfor %}
-        </select>
-        <br /><br />
+        <h3 class="cushion">Contact Information</h3>
 
-        <label for="title">Countries of Experience</label>
-        <select id="countries_experience" name="countries_experience" multiple="multiple" data-placeholder="Select Countries">
-            {% for country in countries %}
-                <option value="{{ country.id }}">{{ country.name }}</option>
-            {% endfor %}
-        </select>
-        <br /><br />
+        <div class="cushion">
+            {{ form.website.label_tag }}
+            <span class="labelinfo">Please enter full http:// string</span>
+            {{ form.website }}
 
-        <label for="date_start">Established Year</label>
-        <select id="date_start" name="date_start">
-            {% for year in years %}
-                <option value="{{ year }}-01-01">{{ year }}</option>
-            {% endfor %}
-        </select>
+            {{ form.telephone.label_tag }}
+            {{ form.telephone }}
 
-        <h3>Contact Information</h3>
+            {{ form.email.label_tag }}
+            {{ form.email }}
 
-        {{ form.website.label_tag }}
-        <span class="labelinfo">Please enter full http:// string</span>
-        {{ form.website }}
+            {{ form.address_1.label_tag }}
+            {{ form.address_1 }}
 
-        {{ form.telephone.label_tag }}
-        {{ form.telephone }}
+            {{ form.address_2.label_tag }}
+            {{ form.address_2 }}
 
-        {{ form.email.label_tag }}
-        {{ form.email }}
+            {{ form.city.label_tag }}
+            {{ form.city }}
 
-        {{ form.address_1.label_tag }}
-        {{ form.address_1 }}
+            {{ form.state.label_tag }}
+            {{ form.state }}
 
-        {{ form.address_2.label_tag }}
-        {{ form.address_2 }}
+            {{ form.country.label_tag }}
+            {{ form.country }}
 
-        {{ form.city.label_tag }}
-        {{ form.city }}
+            {{ form.post_code.label_tag }}
+            {{ form.post_code }}
+        </div>
 
-        {{ form.state.label_tag }}
-        {{ form.state }}
-
-        {{ form.country.label_tag }}
-        {{ form.country }}
-
-        {{ form.post_code.label_tag }}
-        {{ form.post_code }}
-
-        <div id="required_fields" class="errorlabel" style="display:none;">
+        <div id="required_fields" class="errorlabel cushion" style="display:none;">
             Please fill in all required* fields and enter valid information.
         </div><br />
 
-        <input type="submit" value="Add Me to the Marketplace" />
+        <div class="cushion">
+            <input type="submit" value="Add Me to the Marketplace" />
+        </div>
 
     </div></div>
 

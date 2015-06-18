@@ -250,8 +250,8 @@ CMSPage.content_panels = [
 
 class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
-    #submit_info = RichTextField()
-    #thanks_info = RichTextField()
+    submit_info = RichTextField(blank=True)
+    thanks_info = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
@@ -274,8 +274,11 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
 
     @route(r'^submit-thank-you/$')
     def thanks(self, request):
-        from django.http import HttpResponse
-        return HttpResponse('reached thanks page')
+        return TemplateResponse(
+            request,
+            'portal_pages/thank_you.html',
+            { "thanks_info" : self.thanks_info }
+        )
 
     @property
     def countries(self):
@@ -377,6 +380,8 @@ MarketplaceIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
     MultiFieldPanel(TopImage.panels, "hero image"),
+    FieldPanel('submit_info', classname="full"),
+    FieldPanel('thanks_info', classname="full"),
 ]
 
 MarketplaceIndexPage.promote_panels = Page.promote_panels
