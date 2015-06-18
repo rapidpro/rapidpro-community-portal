@@ -1,53 +1,62 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
+{% load portal_extras %}
 
 {% block full-content %}
-    <section class="highlights">
-        <div class="page-width float-layout">
+    <section class="content page-width">
+        <h1 class="cushion">{{ self.title }}</h1>
+            <div class="float-layout">
+                <div class="quarter cushion">
+                    <div class="filters cushion">
 
-        {% if request.GET.tag|length %}
-            <h4>Showing posts tagged as {{ request.GET.tag|safe }}</h4>
-            <div class="tags"><a href=" {% pageurl self %} ">Show all</a></div>
-        {% endif %}
+                        <label>Search</label>
+                        <form action="." method="get">
+                            <div class="search">
+                                <input type="search" name="search" id="search" value="{{ request.GET.search }}">
+                                <input type="hidden" name="Tag" id="Tag" value="{{ request.GET.Tag }}">
+                                <input type="submit" value=" ">
+                            </div>
+                        </form>
+                        <div class="clear"></div>
 
-        {% if self.intro %}
-            <div>
-                {{ self.intro|richtext }}
-            </div>
-        {% endif %}
+                        <label>Filters</label>
+                        <div class="tags">
+                            <a href=" {% pageurl self %} ">Clear all filters</a>
+                        </div>
 
-        <h2 class="hidden">Highlights</h2>
+                        {% if self.tags %}
+                            {% display_filter_list self.tags "" %}
+                        {% endif %}
 
-        {# Uses serve method defined in models.py - allows for paging if required #}
-        {# See also standard index for creating a listing with a tag #}
+                    </div>
+                </div>
 
-        {% for page in blogs %}
-            {% include "portal_pages/includes/page_list_item.html" %}
-        {% empty %}
-            No blog pages found
-        {% endfor %}
+                <div class="three-quarters">
 
+                    {% if self.intro %}
+                        <div class="cushion">
+                            {{ self.intro|richtext }}
+                        </div>
+                    {% endif %}
+
+                    <div class="flex-layout">
+                        {% for page in blogs %}
+                            {% include "portal_pages/includes/page_list_item.html" %}
+                        {% empty %}
+                            {% include "portal_pages/includes/empty_search_filter.html" with things="blog pages" %}
+                        {% endfor %}
+                    </div>
+
+                    {# Pagination - uses django.core.paginator #}
+                    <div class="two-thirds">&nbsp;</div>
+                    <div class="cushion">
+                        {% include "portal_pages/includes/pagination_nav.html" with items=blogs %}
+                    </div>
+
+                </div>
         </div>
     </section>
 
-    <div class="clear"></div>
-    
-    {# Pagination - uses django.core.paginator #}
-    {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
-    <div class="row">
-        <div class="col-sm-4 previous">
-            {% if blogs.has_previous %}
-                <a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
-            {% endif %}
-        </div>
-        <div class="col-sm-4 pages">
-            Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}
-        </div>
-        <div class="col-sm-4 next">
-            {% if blogs.has_next %}
-                <a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
-            {% endif %}
-        </div>
-    </div>
+    <div class="spacer"></div>
 
 {% endblock %}
