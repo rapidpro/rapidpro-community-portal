@@ -8,8 +8,6 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
-from portal_pages import views
-
 from accounts import urls as accounts_urls
 
 urlpatterns = [
