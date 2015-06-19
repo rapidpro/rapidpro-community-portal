@@ -3,7 +3,7 @@ from django.test import TestCase
 from wagtail.wagtailcore.models import Page, Site
 
 from portal_pages.models import MarketplaceIndexPage, MarketplaceEntryPage
-from portal_pages.views import get_marketplace_entry
+from portal_pages.views import submit_marketplace_entry
 
 # Create your tests here.
 # Basing off of tests found here
