@@ -25,7 +25,7 @@
                 <h2>Tags</h2>
                 <div class="tags">
                     {% for tag in self.tags.all %}
-                    <a href="{% pageurl self.blog_index %}?tag={{ tag }}">
+                    <a href="{% pageurl self.blog_index %}?Tag={{ tag }}">
                         {{ tag }}
                     </a>
                     {% endfor %}

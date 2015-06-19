@@ -669,6 +669,15 @@ class BlogIndexPage(Page, TopImage):
     subpage_types = ['portal_pages.BlogPage']
 
     @property
+    def tags(self):
+        tags = Tag.objects.filter(
+            id__in=BlogPageTag.objects.filter(
+                content_object_id__in=(BlogPage.objects.live())).values('tag')
+        )
+
+        return tags
+
+    @property
     def blogs(self):
         # Get list of live blog pages that are descendants of this page
         blogs = BlogPage.objects.live().descendant_of(self)
@@ -683,9 +692,17 @@ class BlogIndexPage(Page, TopImage):
         blogs = self.blogs
 
         # Filter by tag
-        tag = request.GET.get('tag')
+        tag = request.GET.get('Tag')
         if tag:
-            blogs = blogs.filter(tags__name=tag)
+            tag_list = tag.split(",")
+            for tag in tag_list:
+                blogs = blogs.filter(tags__name=tag)
+
+        # Search by search query
+        search_query = request.GET.get('search', '')
+        if search_query:
+            blogs = blogs.filter(
+                Q(body__icontains=search_query) | Q(title__icontains=search_query))
 
         # Pagination
         page = request.GET.get('page')
