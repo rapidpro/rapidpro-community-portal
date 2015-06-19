@@ -40,6 +40,9 @@ SESSION_COOKIE_HTTPONLY = True
 
 ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split(';')
 
+# Used by Wagtail in sending emails for moderation
+BASE_URL = 'https://rapidpro-staging.cakt.us'
+
 # Uncomment if using celery worker configuration
 # CELERY_SEND_TASK_ERROR_EMAILS = True
 # BROKER_URL = 'amqp://rapidpro_community_portal_staging:%(BROKER_PASSWORD)s@%(BROKER_HOST)s/rapidpro_community_portal_staging' % os.environ  # noqa

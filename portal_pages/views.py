@@ -4,9 +4,11 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import slugify
 
-from .models import MarketplaceEntryPage, MarketplaceIndexPage, Service, Expertise, Country, \
-                    Region, ServiceMarketplaceEntry, CountryMarketplaceEntry, RegionMarketplaceEntry, \
-                    ExpertiseMarketplaceEntry
+from wagtail.wagtailadmin.utils import send_notification
+
+from .models import (
+    Service, Expertise, Country, Region, ServiceMarketplaceEntry,
+    CountryMarketplaceEntry, RegionMarketplaceEntry, ExpertiseMarketplaceEntry)
 
 from .forms import MarketplaceEntryForm
 
@@ -54,6 +56,14 @@ def submit_marketplace_entry(request, marketplace_index):
                     country=Country.objects.get(id=country),
                     page=marketplace_entry
                 )
+
+            # Submit page for moderation. This reuires first saving a revision.
+            marketplace_entry.save_revision(submitted_for_moderation=True)
+            # Then send the notification. Last param None means do not exclude any
+            # moderators from email (internally wagtail would exclude the user
+            # submitting from such emails, be we are submitting something from an
+            # anonymous user, so no one should be excluded from the email).
+            send_notification(marketplace_entry.get_latest_revision().id, 'submitted', None)
         return HttpResponseRedirect(marketplace_index.url + marketplace_index.reverse_subpage('thanks'))
 
     services = Service.objects.order_by('name')
