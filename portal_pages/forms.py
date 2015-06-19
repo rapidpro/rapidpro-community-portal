@@ -12,6 +12,8 @@ class MarketplaceEntryForm(ModelForm):
             'title': 'Company Name',
             'post_code': 'Post/Zip Code'
         }
-        fields = [  'title', 'biography', 'date_start', 'telephone',
-                    'email', 'address_1', 'address_2', 'city',
-                    'state', 'country', 'post_code', 'website' ]
+        fields = [
+            'title', 'biography', 'date_start', 'telephone',
+            'email', 'address_1', 'address_2', 'city',
+            'state', 'country', 'post_code', 'website'
+        ]
