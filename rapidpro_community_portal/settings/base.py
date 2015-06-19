@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
     'wagtail.wagtailsites',
+    'wagtail.contrib.wagtailroutablepage',
     # project apps
     'accounts',
     'portal_pages',
@@ -203,3 +204,6 @@ COMPRESS_PRECOMPILERS = (
 WAGTAIL_SITE_NAME = 'RapidPro'
 LOGIN_URL = 'wagtailadmin_login'
 LOGIN_REDIRECT_URL = 'wagtailadmin_home'
+
+# Used by Wagtail in sending emails for moderation
+BASE_URL = 'http://localhost:8000'

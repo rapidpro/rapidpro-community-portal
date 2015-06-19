@@ -1,0 +1,98 @@
+
+.read-value,
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="date"],
+select,
+textarea,
+input[type="button"],
+input[type="submit"],
+button,
+.button{
+	border-radius: 6px;
+}
+
+label{
+  clear:both;
+  font-size:90%;
+  font-weight:500;
+  margin-top:0.8em;
+}
+
+label.required:after{ content: " *"; }
+
+.labelinfo{
+  padding-left: 2em;
+  font-style: italic;
+}
+
+.read-value,
+input[type="text"],
+input[type="number"],
+input[type="search"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+select,
+textarea{
+	border:0;
+	padding:0 0.5em;
+	width:100%;
+	background-color:#EBDDCC;
+	line-height:1.8em;
+	color:#444;
+	font-weight:300;
+	margin-bottom:0.5em;
+}
+
+/* Force read-value's height to be 33px, even if empty */
+.read-value {
+	height: 33px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus{
+	box-shadow: inset 0 0 4px #997E5C;
+}
+
+input[type="button"],
+input[type="submit"],
+button,
+.button{
+	display:inline-block;
+	border:0;
+	padding:0.5em;
+	background-color:#45B0E5;
+	color:white;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+[type="submit"],
+button.success,
+button.success.inverted:hover{ background-color:#0096D9; }
+button.warning,
+button.warning.inverted:hover{ background-color:#e4484b; }
+
+button.inverted{
+	background:transparent;
+	color:#0096d9;
+}
+button.inverted.danger{ color:#e4484b; }
+button.inverted:hover{ color:white; }
+
+.errorlabel {
+    display: inline-block;
+    margin-bottom: 0.25em;
+    border-radius: 0.25em;
+    background-color: #FCBABA;
+    padding: 1px 0.25em;
+    width:100%;
+}

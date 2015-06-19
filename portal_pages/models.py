@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.template.response import TemplateResponse
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField, StreamField
@@ -13,6 +14,7 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailsnippets.models import register_snippet
+from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
@@ -109,8 +111,10 @@ class ContactFields(models.Model):
     state = models.CharField(max_length=255, blank=True)
     country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.SET_NULL)
     post_code = models.CharField(max_length=10, blank=True)
+    website = models.CharField(max_length=255, blank=True)
 
     panels = [
+        FieldPanel('website'),
         FieldPanel('telephone'),
         FieldPanel('email'),
         FieldPanel('address_1'),
@@ -244,15 +248,37 @@ CMSPage.content_panels = [
 
 # Marketplace index page
 
-
-class MarketplaceIndexPage(Page, TopImage):
+class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
+    submit_info = RichTextField(blank=True)
+    thanks_info = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
 
     subpage_types = ['portal_pages.MarketplaceEntryPage']
+
+    @route(r'^$')
+    def base(self, request):
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            self.get_context(request)
+        )
+
+    @route(r'^submit-marketplace-entry/$')
+    def submit(self, request):
+        from .views import submit_marketplace_entry
+        return submit_marketplace_entry(request, self)
+
+    @route(r'^submit-thank-you/$')
+    def thanks(self, request):
+        return TemplateResponse(
+            request,
+            'portal_pages/thank_you.html',
+            { "thanks_info" : self.thanks_info }
+        )
 
     @property
     def countries(self):
@@ -354,6 +380,8 @@ MarketplaceIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
     MultiFieldPanel(TopImage.panels, "hero image"),
+    FieldPanel('submit_info', classname="full"),
+    FieldPanel('thanks_info', classname="full"),
 ]
 
 MarketplaceIndexPage.promote_panels = Page.promote_panels
@@ -363,7 +391,7 @@ MarketplaceIndexPage.promote_panels = Page.promote_panels
 
 
 class MarketplaceEntryPage(Page, ContactFields, TopImage):
-    biography = RichTextField(blank=True)
+    biography = RichTextField()
     date_start = models.DateField("Company Start Date")
 
     class Meta:

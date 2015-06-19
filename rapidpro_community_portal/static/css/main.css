@@ -131,7 +131,7 @@ nav a.selected{
   background-color:#5d5d5d;
 }
 
-.tagsheader {
+.tagsheader, .addheader {
   background-image: url(../images/svg/listing.svg);
   background-size:auto 15px;
   background-position: 0.5em 50%;
@@ -139,10 +139,19 @@ nav a.selected{
   line-height: 32px;
   padding-left: 32px;
   cursor: pointer;
+
+}
+
+.addheader {
+  color: #069;
 }
 
 ul{
   padding-left: 1em;
+}
+
+ol{
+  padding-left: 1.5em;
 }
 
 .result .icon{
@@ -205,12 +214,6 @@ button
 
 .search input[type="submit"]:hover{
   background-color:#069;
-}
-
-label{
-  font-size:90%;
-  font-weight:500;
-  margin-top:0.8em;
 }
 
 hr{

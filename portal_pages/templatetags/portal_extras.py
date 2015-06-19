@@ -79,7 +79,7 @@ def display_filter_list(context, items, request_list):
 
 @register.assignment_tag
 def randomize_image(page):
-    if page.top_image:
+    if page and page.top_image:
         top_image = page.top_image
     else:
         try:

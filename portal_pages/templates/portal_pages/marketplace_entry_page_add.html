@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags %}
+
+{% block extra-css %}
+    <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<div class="page-width float-layout"><div class="cushion">
+
+    <form action="." method="post" onsubmit="return checkFormAndSubmit();">
+    {% csrf_token %}
+
+    <div class="two-thirds"><div class="cushion">
+
+        <h2 class="cushion">Submit Your Entry to the Marketplace</h2>
+
+        <div class="cushion">
+            {{ marketplace_index.submit_info|richtext }}
+        </div>
+
+        <div class="cushion">
+
+            {{ form.title.label_tag }}
+            {{ form.title }}
+
+
+            {{ form.biography.label_tag }}
+            {{ form.biography }}
+
+            <!-- TODO: Add Banner Image upload field -->
+
+            <br />
+            <label for="title">Services</label>
+            <select id="services" name="services" multiple="multiple" data-placeholder="Select Services">
+                {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.name }}</option>
+                {% endfor %}
+            </select>
+            <div class="addheader add_service">Add a new service not listed</div>
+            <div id="add_service" class="collapsed" style="display:none;">
+                <label for="services_additional">Enter additional services separated by commas</label>
+                <input type="text" id="services_additional" name="services_additional" />
+            </div>
+            <br />
+
+            <label for="title">Expertise</label>
+            <select id="expertise" name="expertise" multiple="multiple" data-placeholder="Select Expertise">
+                {% for expertise in expertise_list %}
+                    <option value="{{ expertise.id }}">{{ expertise.name }}</option>
+                {% endfor %}
+            </select>
+            <div class="addheader add_expertise">Add a new expertise not listed</div>
+            <div id="add_expertise" class="collapsed" style="display:none;">
+                <label for="expertise_additional">Enter additional expertise separated by commas</label>
+                <input type="text" id="expertise_additional" name="expertise_additional" />
+            </div>
+            <br />
+
+            <label for="title">Regions of Experience</label>
+            <select id="regions_experience" name="regions_experience" multiple="multiple" data-placeholder="Select Regions">
+                {% for region in regions %}
+                    <option value="{{ region.id }}">{{ region.name }}</option>
+                {% endfor %}
+            </select>
+            <br /><br />
+
+            <label for="title">Countries of Experience</label>
+            <select id="countries_experience" name="countries_experience" multiple="multiple" data-placeholder="Select Countries">
+                {% for country in countries %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+            <br /><br />
+
+            <label for="date_start">Established Year</label>
+            <select id="date_start" name="date_start">
+                {% for year in years %}
+                    <option value="{{ year }}-01-01">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <h3 class="cushion">Contact Information</h3>
+
+        <div class="cushion">
+            {{ form.website.label_tag }}
+            <span class="labelinfo">Please enter full http:// string</span>
+            {{ form.website }}
+
+            {{ form.telephone.label_tag }}
+            {{ form.telephone }}
+
+            {{ form.email.label_tag }}
+            {{ form.email }}
+
+            {{ form.address_1.label_tag }}
+            {{ form.address_1 }}
+
+            {{ form.address_2.label_tag }}
+            {{ form.address_2 }}
+
+            {{ form.city.label_tag }}
+            {{ form.city }}
+
+            {{ form.state.label_tag }}
+            {{ form.state }}
+
+            {{ form.country.label_tag }}
+            {{ form.country }}
+
+            {{ form.post_code.label_tag }}
+            {{ form.post_code }}
+        </div>
+
+        <div id="required_fields" class="errorlabel cushion" style="display:none;">
+            Please fill in all required* fields and enter valid information.
+        </div><br />
+
+        <div class="cushion">
+            <input type="submit" value="Add Me to the Marketplace" />
+        </div>
+
+    </div></div>
+
+    </form>    
+
+</div></div>
+
+{% endblock %}
+
+{% block extra-js %}
+    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+
+    <script>
+        $('#services').chosen({});
+        $('#expertise').chosen({});
+        $('#regions_experience').chosen({});
+        $('#countries_experience').chosen({});
+
+        tinymce.init({
+            menubar : false,
+            plugins: ["link, image"],
+            toolbar: [
+            "undo redo | styleselect | bold italic bullist numlist | link" 
+            ],
+            content_css : "/static/css/main.css",
+            style_formats: [
+                {title: 'P', block: 'p'},
+                {title: 'H2', block: 'h2'},
+                {title: 'H3', block: 'h3'},
+                {title: 'H4', block: 'h4'},
+                {title: 'H5', block: 'h5'},
+                {title: 'H6', block: 'h6'},
+            ],
+            selector:'textarea'});
+
+        $(".addheader").click(function(e){ // toggle collapse/uncollapse
+            var divId = $(e.target).attr("class").split(" ")[1]; // ie. add_service
+            if ($("#"+divId).hasClass("uncollapsed")) {
+                $("#"+divId).hide("500");
+                $("#"+divId).removeClass("uncollapsed");
+                $("#"+divId).addClass("collapsed");
+            }
+            else {
+                $("#"+divId).show("500");
+                $("#"+divId).removeClass("collapsed");
+                $("#"+divId).addClass("uncollapsed");
+            }
+        });
+
+        function checkFormAndSubmit() {
+            formPass = 1;
+
+            //Clear out the error labels
+            $("label[for='id_title']").removeClass("errorlabel");
+            $("label[for='id_biography']").removeClass("errorlabel");
+            $("label[for='id_website']").removeClass("errorlabel");
+            $("label[for='id_email']").removeClass("errorlabel");
+
+            $("#required_fields").hide();
+            //Check for required fields
+            if ($("#id_title").val() == "") {
+                $("label[for='id_title']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if (tinymce.get("id_biography").getContent() == "") {
+                $("label[for='id_biography']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if ($("#id_email").val() == "") {
+                $("label[for='id_email']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if ($("#id_website").val() != "" && !isValidURL($("#id_website").val())) {
+                $("label[for='id_website']").addClass("errorlabel");
+                formPass = 0;
+            }
+
+            if (formPass) {                
+                return true;
+            }
+            else {
+                $("#required_fields").show("500");
+                return false;
+            }
+        }
+
+        function isValidURL(url){
+            var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            if(RegExp.test(url)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+{% endblock %}
+
+
