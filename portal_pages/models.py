@@ -2,6 +2,7 @@ from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.template.response import TemplateResponse
+from django.core.exceptions import ValidationError
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField, StreamField
@@ -227,11 +228,17 @@ class HighlightItem(Orderable, models.Model):
     title = models.CharField(max_length=255)
     blurb = RichTextField()
     icon = models.ForeignKey(Image)
-    target_page = models.ForeignKey(Page)
+    target_page = models.ForeignKey(Page, blank=True, null=True)
+    target_page_external = models.CharField(max_length=255, blank=True)
+
+    #def clean(self):
+    #    if self.target_page and self.target_page_external:
+    #        raise ValidationError('For highlights section, please complete either target page or target page external, but not both.')
 
 HighlightItem.panels = [
     FieldPanel('title'),
     PageChooserPanel('target_page'),
+    FieldPanel('target_page_external'),
     FieldPanel('blurb'),
     ImageChooserPanel('icon'),
 ]
