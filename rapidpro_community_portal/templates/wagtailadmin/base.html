@@ -39,11 +39,15 @@
                     </ul>
                 {% endif %}
 
-                <ul><li>
-                {% for error in form.formsets.highlights.errors %}
-                    <li class="error">{{ error|escape }}</li>
-                {% endfor %}
-                </li></ul>
+                <ul>
+                    {% for key, value in form.formsets.items %}
+                        {% if value.errors %}
+                            {% for error in value.errors %}
+                                <li class="error">{{ error }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
 
             </div>
 
