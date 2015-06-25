@@ -393,6 +393,12 @@ MarketplaceIndexPage.promote_panels = Page.promote_panels
 class MarketplaceEntryPage(Page, ContactFields, TopImage):
     biography = RichTextField()
     date_start = models.DateField("Company Start Date")
+    logo_image = models.ForeignKey(
+        Image,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
 
     class Meta:
         verbose_name = "marketplace"
@@ -411,6 +417,7 @@ MarketplaceEntryPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('date_start'),
     FieldPanel('biography', classname="full"),
+    ImageChooserPanel('logo_image'),
     MultiFieldPanel(TopImage.panels, "branding banner"),
     MultiFieldPanel(ContactFields.panels, "Contact"),
     InlinePanel(MarketplaceEntryPage, 'services', label="Services"),

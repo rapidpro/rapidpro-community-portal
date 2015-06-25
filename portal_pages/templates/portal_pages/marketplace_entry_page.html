@@ -40,6 +40,11 @@
         {% if self.marketplace_index %}
 
         <div class="cushion">
+            {% if self.logo_image %}
+                {% image self.logo_image width-300 as img %}
+                <img class="full marketplace-logo" src="{{ img.url }}" />
+            {% endif %}
+
             <h2>Services</h2>
             <div class="tags">
                 {% for service in self.services.all|make_unique:"service__name" %}
@@ -63,10 +68,10 @@
 
         {% endif %}
 
-    </div>
+        {% if self.address_1 or self.telephone or self.email or self.website %}
+            {% include "portal_pages/includes/contact.html" with contact=self only %}
+        {% endif %}
 
-    {% if self.address_1 or self.telephone or self.email or self.website %}
-        {% include "portal_pages/includes/contact.html" with contact=self only %}
-    {% endif %}
+    </div>
 
 {% endblock %}

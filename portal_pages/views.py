@@ -10,17 +10,25 @@ from .models import (
     Service, Expertise, Country, Region, ServiceMarketplaceEntry,
     CountryMarketplaceEntry, RegionMarketplaceEntry, ExpertiseMarketplaceEntry)
 
-from .forms import MarketplaceEntryForm
+from .forms import MarketplaceEntryForm, ImageForm
 
 
 def submit_marketplace_entry(request, marketplace_index):
     form = MarketplaceEntryForm(data=request.POST or None, label_suffix='')
-    if request.method == 'POST' and form.is_valid():
+    logo_form = ImageForm(data=request.POST or None, files=request.FILES or None, label_suffix='')
+    logo_form_valid = (request.FILES and logo_form.is_valid()) or not request.FILES
+    if request.method == 'POST' and form.is_valid() and logo_form_valid:
         marketplace_entry_page = form.save(commit=False)
         marketplace_entry_page.slug = slugify(marketplace_entry_page.title)
         marketplace_entry = marketplace_index.add_child(instance=marketplace_entry_page)
 
         if marketplace_entry:
+            if request.FILES:
+                logo_image = logo_form.save(commit=False)
+                logo_image.title = "Logo for %s" % marketplace_entry_page.title
+                logo_image.save()
+                marketplace_entry.logo_image = logo_image
+
             marketplace_entry.unpublish()
             for service in request.POST.getlist('services'):
                 ServiceMarketplaceEntry.objects.create(
@@ -74,6 +82,7 @@ def submit_marketplace_entry(request, marketplace_index):
     years = [base_year - x for x in range(0, 100)]
     context = {
         'form': form,
+        'logo_form': logo_form,
         'services': services,
         'years': years,
         'expertise_list': expertise_list,

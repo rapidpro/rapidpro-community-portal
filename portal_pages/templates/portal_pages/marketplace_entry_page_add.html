@@ -9,12 +9,10 @@
 {% block content %}
 <div class="page-width float-layout"><div class="cushion">
 
-    <form action="." method="post" onsubmit="return checkFormAndSubmit();">
+    <form enctype="multipart/form-data" action="." method="post" onsubmit="return checkFormAndSubmit();">
     {% csrf_token %}
 
     <div class="two-thirds"><div class="cushion">
-
-        <h2 class="cushion">Submit Your Entry to the Marketplace</h2>
 
         <div class="cushion">
             {{ marketplace_index.submit_info|richtext }}
@@ -29,7 +27,11 @@
             {{ form.biography.label_tag }}
             {{ form.biography }}
 
-            <!-- TODO: Add Banner Image upload field -->
+            <br />
+            {{ logo_form.file.label_tag }}<br />
+            {{ logo_form.file }}
+
+            <div class="label-info">Preferred logo dimensions: 300px width</div>
 
             <br />
             <label for="title">Services</label>
@@ -86,7 +88,7 @@
 
         <div class="cushion">
             {{ form.website.label_tag }}
-            <span class="labelinfo">Please enter full http:// string</span>
+            <span class="label-info">Please enter full http:// string</span>
             {{ form.website }}
 
             {{ form.telephone.label_tag }}
@@ -114,9 +116,11 @@
             {{ form.post_code }}
         </div>
 
-        <div id="required_fields" class="errorlabel cushion" style="display:none;">
-            Please fill in all required* fields and enter valid information.
-        </div><br />
+        <div id="required_fields" class="cushion" style="display:none;">
+            <span class="errorlabel">
+                Please fill in all required* fields and enter valid information.
+            </span>
+        </div>
 
         <div class="cushion">
             <input type="submit" value="Add Me to the Marketplace" />
@@ -161,12 +165,12 @@
         $(".addheader").click(function(e){ // toggle collapse/uncollapse
             var divId = $(e.target).attr("class").split(" ")[1]; // ie. add_service
             if ($("#"+divId).hasClass("uncollapsed")) {
-                $("#"+divId).hide("500");
+                $("#"+divId).hide();
                 $("#"+divId).removeClass("uncollapsed");
                 $("#"+divId).addClass("collapsed");
             }
             else {
-                $("#"+divId).show("500");
+                $("#"+divId).show();
                 $("#"+divId).removeClass("collapsed");
                 $("#"+divId).addClass("uncollapsed");
             }
@@ -204,7 +208,7 @@
                 return true;
             }
             else {
-                $("#required_fields").show("500");
+                $("#required_fields").show();
                 return false;
             }
         }
