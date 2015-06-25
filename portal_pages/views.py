@@ -14,9 +14,21 @@ from .forms import MarketplaceEntryForm, ImageForm
 
 
 def submit_marketplace_entry(request, marketplace_index):
+
     form = MarketplaceEntryForm(data=request.POST or None, label_suffix='')
-    logo_form = ImageForm(data=request.POST or None, files=request.FILES or None, label_suffix='')
-    logo_form_valid = (request.FILES and logo_form.is_valid()) or not request.FILES
+
+    # If the user uploaded a logo we want the logo_form to validate it is a
+    # valid image, but if no logo file was uploaded then proceed with an
+    # unbound ImageForm. This avoids re-display due to errors in the main form
+    # erroneously telling the user that the logo file is required (it is required
+    # for that form, but the entire form is optional).
+    if request.FILES:
+        logo_form = ImageForm(data=request.POST, files=request.FILES, label_suffix='')
+        logo_form_valid = logo_form.is_valid()
+    else:
+        logo_form = ImageForm(label_suffix='')
+        logo_form_valid = True
+
     if request.method == 'POST' and form.is_valid() and logo_form_valid:
         marketplace_entry_page = form.save(commit=False)
         marketplace_entry_page.slug = slugify(marketplace_entry_page.title)

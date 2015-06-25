@@ -19,6 +19,9 @@
         </div>
 
         <div class="cushion">
+            {% if form.errors or logo_form.errors %}
+                <p class="cushion errorlabel">Please correct the errors below.</p>
+            {% endif %}
 
             {{ form.title.label_tag }}
             {{ form.title }}
@@ -139,8 +142,7 @@
 
     </div></div>
 
-    </form>    
-
+    </form>
 </div></div>
 
 {% endblock %}
@@ -215,7 +217,7 @@
                 formPass = 0;
             }
 
-            if (formPass) {                
+            if (formPass) {
                 return true;
             }
             else {
@@ -236,5 +238,3 @@
 
     </script>
 {% endblock %}
-
-
