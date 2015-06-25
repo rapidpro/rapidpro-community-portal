@@ -22,14 +22,16 @@
 
             {{ form.title.label_tag }}
             {{ form.title }}
-
+            {{ form.title.errors }}
 
             {{ form.biography.label_tag }}
             {{ form.biography }}
+            {{ form.biography.errors }}
 
             <br />
             {{ logo_form.file.label_tag }}<br />
             {{ logo_form.file }}
+            {{ logo_form.file.errors }}
 
             <div class="label-info">Preferred logo dimensions: 300px width</div>
 
@@ -90,30 +92,39 @@
             {{ form.website.label_tag }}
             <span class="label-info">Please enter full http:// string</span>
             {{ form.website }}
+            {{ form.website.errors }}
 
             {{ form.telephone.label_tag }}
             {{ form.telephone }}
+            {{ form.telephone.errors }}
 
             {{ form.email.label_tag }}
             {{ form.email }}
+            {{ form.email.errors }}
 
             {{ form.address_1.label_tag }}
             {{ form.address_1 }}
+            {{ form.address_1.errors }}
 
             {{ form.address_2.label_tag }}
             {{ form.address_2 }}
+            {{ form.address_2.errors }}
 
             {{ form.city.label_tag }}
             {{ form.city }}
+            {{ form.city.errors }}
 
             {{ form.state.label_tag }}
             {{ form.state }}
+            {{ form.state.errors }}
 
             {{ form.country.label_tag }}
             {{ form.country }}
+            {{ form.country.errors }}
 
             {{ form.post_code.label_tag }}
             {{ form.post_code }}
+            {{ form.post_code.errors }}
         </div>
 
         <div id="required_fields" class="cushion" style="display:none;">
