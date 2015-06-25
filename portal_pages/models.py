@@ -5,23 +5,18 @@ from django.template.response import TemplateResponse
 from django.core.exceptions import ValidationError
 
 from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailcore.fields import RichTextField, StreamField
-from wagtail.wagtailcore import blocks
+from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailimages.models import Image
-from wagtail.wagtailadmin.edit_handlers import (FieldPanel, PageChooserPanel, InlinePanel,
-    StreamFieldPanel, MultiFieldPanel)
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
-from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailsnippets.models import register_snippet
 from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 from taggit.models import Tag, TaggedItemBase
-
-from accounts.models import RapidProUser
 
 
 """
@@ -174,6 +169,7 @@ class HomePage(Page):
     youtube_video_title = models.CharField(max_length=512, blank=True, default='')
     youtube_blurb = RichTextField(blank=True, default='')
 
+
 HomePage.content_panels = [
     MultiFieldPanel(
         [FieldPanel('title')],
@@ -229,11 +225,15 @@ class HighlightItem(Orderable, models.Model):
     blurb = RichTextField()
     icon = models.ForeignKey(Image)
     target_page = models.ForeignKey(Page, blank=True, null=True)
-    target_page_external = models.CharField("External target page (leave blank if Target page is selected.)", max_length=255, blank=True)
+    target_page_external = models.CharField(
+        "External target page (leave blank if Target page is selected.)",
+        max_length=255, blank=True)
 
     def clean(self):
-        if self.target_page and self.target_page_external:
-            raise ValidationError('For highlights section, please complete either target page or target page external.')
+        possible_pages = [self.target_page, self.target_page_external]
+        page_count = sum(1 for p in possible_pages if p)
+        if page_count != 1:
+            raise ValidationError('Please complete either target page or target page external, but not both.')
 
 HighlightItem.panels = [
     FieldPanel('title'),
@@ -284,7 +284,7 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
         return TemplateResponse(
             request,
             'portal_pages/thank_you.html',
-            { "thanks_info" : self.thanks_info }
+            {"thanks_info" : self.thanks_info}
         )
 
     @property
