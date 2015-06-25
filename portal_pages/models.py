@@ -229,11 +229,11 @@ class HighlightItem(Orderable, models.Model):
     blurb = RichTextField()
     icon = models.ForeignKey(Image)
     target_page = models.ForeignKey(Page, blank=True, null=True)
-    target_page_external = models.CharField("Target Page External - Please complete either Target Page or External Page URL", max_length=255, blank=True)
+    target_page_external = models.CharField("External target page (leave blank if Target page is selected.)", max_length=255, blank=True)
 
     def clean(self):
         if self.target_page and self.target_page_external:
-            raise ValidationError('For highlights section, please complete either target page or target page external, but not both.')
+            raise ValidationError('For highlights section, please complete either target page or target page external.')
 
 HighlightItem.panels = [
     FieldPanel('title'),

@@ -38,13 +38,13 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-                 {% if form.non_field_errors %}
-                    <ul>
-                        {% for error in form.non_field_errors %}
-                            <li class="error">{{ error|escape }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+
+                <ul><li>
+                {% for error in form.formsets.highlights.errors %}
+                    <li class="error">{{ error|escape }}</li>
+                {% endfor %}
+                </li></ul>
+
             </div>
 
             <div id="nav-toggle" class="icon text-replace">{% trans "Menu" %}</div>
