@@ -90,10 +90,14 @@
                     <option value="{{ year }}">{{ year }}</option>
                 {% endfor %}
             </select>
-            {{ months }}
+
+            {{ form.month.label_tag }}
+            {{ form.month }}
+            
+            months {{ months }}
             <select id="month_start" name="month_start">
-                {% for month, month_value in months %}
-                    <option value="{{ month_value }}">{{ month }}</option>
+                {% for month in months %}
+                    <option value="{{ month }}">{{ month }}</option>
                 {% endfor %}
             </select>
         </div>
