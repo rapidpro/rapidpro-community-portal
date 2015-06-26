@@ -88,6 +88,11 @@ nav a.selected{
   background-size: cover;
 }
 
+.marketplace-logo {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 .featured-case-study .cushion{
   margin-top:0;
 }

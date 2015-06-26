@@ -9,27 +9,34 @@
 {% block content %}
 <div class="page-width float-layout"><div class="cushion">
 
-    <form action="." method="post" onsubmit="return checkFormAndSubmit();">
+    <form enctype="multipart/form-data" action="." method="post" onsubmit="return checkFormAndSubmit();">
     {% csrf_token %}
 
     <div class="two-thirds"><div class="cushion">
-
-        <h2 class="cushion">Submit Your Entry to the Marketplace</h2>
 
         <div class="cushion">
             {{ marketplace_index.submit_info|richtext }}
         </div>
 
         <div class="cushion">
+            {% if form.errors or logo_form.errors %}
+                <p class="cushion errorlabel">Please correct the errors below.</p>
+            {% endif %}
 
             {{ form.title.label_tag }}
             {{ form.title }}
-
+            {{ form.title.errors }}
 
             {{ form.biography.label_tag }}
             {{ form.biography }}
+            {{ form.biography.errors }}
 
-            <!-- TODO: Add Banner Image upload field -->
+            <br />
+            {{ logo_form.file.label_tag }}<br />
+            {{ logo_form.file }}
+            {{ logo_form.file.errors }}
+
+            <div class="label-info">Preferred logo dimensions: 300px width</div>
 
             <br />
             <label for="title">Services</label>
@@ -86,37 +93,48 @@
 
         <div class="cushion">
             {{ form.website.label_tag }}
-            <span class="labelinfo">Please enter full http:// string</span>
+            <span class="label-info">Please enter full http:// string</span>
             {{ form.website }}
+            {{ form.website.errors }}
 
             {{ form.telephone.label_tag }}
             {{ form.telephone }}
+            {{ form.telephone.errors }}
 
             {{ form.email.label_tag }}
             {{ form.email }}
+            {{ form.email.errors }}
 
             {{ form.address_1.label_tag }}
             {{ form.address_1 }}
+            {{ form.address_1.errors }}
 
             {{ form.address_2.label_tag }}
             {{ form.address_2 }}
+            {{ form.address_2.errors }}
 
             {{ form.city.label_tag }}
             {{ form.city }}
+            {{ form.city.errors }}
 
             {{ form.state.label_tag }}
             {{ form.state }}
+            {{ form.state.errors }}
 
             {{ form.country.label_tag }}
             {{ form.country }}
+            {{ form.country.errors }}
 
             {{ form.post_code.label_tag }}
             {{ form.post_code }}
+            {{ form.post_code.errors }}
         </div>
 
-        <div id="required_fields" class="errorlabel cushion" style="display:none;">
-            Please fill in all required* fields and enter valid information.
-        </div><br />
+        <div id="required_fields" class="cushion" style="display:none;">
+            <span class="errorlabel">
+                Please fill in all required* fields and enter valid information.
+            </span>
+        </div>
 
         <div class="cushion">
             <input type="submit" value="Add Me to the Marketplace" />
@@ -124,8 +142,7 @@
 
     </div></div>
 
-    </form>    
-
+    </form>
 </div></div>
 
 {% endblock %}
@@ -161,12 +178,12 @@
         $(".addheader").click(function(e){ // toggle collapse/uncollapse
             var divId = $(e.target).attr("class").split(" ")[1]; // ie. add_service
             if ($("#"+divId).hasClass("uncollapsed")) {
-                $("#"+divId).hide("500");
+                $("#"+divId).hide();
                 $("#"+divId).removeClass("uncollapsed");
                 $("#"+divId).addClass("collapsed");
             }
             else {
-                $("#"+divId).show("500");
+                $("#"+divId).show();
                 $("#"+divId).removeClass("collapsed");
                 $("#"+divId).addClass("uncollapsed");
             }
@@ -200,11 +217,11 @@
                 formPass = 0;
             }
 
-            if (formPass) {                
+            if (formPass) {
                 return true;
             }
             else {
-                $("#required_fields").show("500");
+                $("#required_fields").show();
                 return false;
             }
         }
@@ -221,5 +238,3 @@
 
     </script>
 {% endblock %}
-
-
