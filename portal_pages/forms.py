@@ -1,8 +1,10 @@
 from django.forms import ModelForm
 
 from wagtail.wagtaildocs.models import Document
+from wagtail.wagtailimages.models import Image
 
 from .models import MarketplaceEntryPage, CaseStudyPage
+
 
 class MarketplaceEntryForm(ModelForm):
 
@@ -21,6 +23,18 @@ class MarketplaceEntryForm(ModelForm):
         ]
 
 
+class ImageForm(ModelForm):
+
+    class Meta:
+        model = Image
+        labels = {
+            'file': 'Logo Image File'
+        }
+        fields = [
+            'file'
+        ]
+
+
 class CaseStudyForm(ModelForm):
 
     required_css_class = 'required'
@@ -33,6 +47,7 @@ class CaseStudyForm(ModelForm):
         fields = [
             'title', 'summary', 'date'
         ]
+
 
 class DocumentForm(ModelForm):
 

@@ -13,17 +13,37 @@ from .models import (
     FocusArea, Organization
     )
 
-from .forms import MarketplaceEntryForm, CaseStudyForm, DocumentForm
+from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, DocumentForm
 
 
 def submit_marketplace_entry(request, marketplace_index):
+
     form = MarketplaceEntryForm(data=request.POST or None, label_suffix='')
-    if request.method == 'POST' and form.is_valid():
+
+    # If the user uploaded a logo we want the logo_form to validate it is a
+    # valid image, but if no logo file was uploaded then proceed with an
+    # unbound ImageForm. This avoids re-display due to errors in the main form
+    # erroneously telling the user that the logo file is required (it is required
+    # for that form, but the entire form is optional).
+    if request.FILES:
+        logo_form = ImageForm(data=request.POST, files=request.FILES, label_suffix='')
+        logo_form_valid = logo_form.is_valid()
+    else:
+        logo_form = ImageForm(label_suffix='')
+        logo_form_valid = True
+
+    if request.method == 'POST' and form.is_valid() and logo_form_valid:
         marketplace_entry_page = form.save(commit=False)
         marketplace_entry_page.slug = slugify(marketplace_entry_page.title)
         marketplace_entry = marketplace_index.add_child(instance=marketplace_entry_page)
 
         if marketplace_entry:
+            if request.FILES:
+                logo_image = logo_form.save(commit=False)
+                logo_image.title = "Logo for %s" % marketplace_entry_page.title
+                logo_image.save()
+                marketplace_entry.logo_image = logo_image
+
             marketplace_entry.unpublish()
             for service in request.POST.getlist('services'):
                 ServiceMarketplaceEntry.objects.create(
@@ -77,6 +97,7 @@ def submit_marketplace_entry(request, marketplace_index):
     years = [base_year - x for x in range(0, 100)]
     context = {
         'form': form,
+        'logo_form': logo_form,
         'services': services,
         'years': years,
         'expertise_list': expertise_list,

@@ -23,8 +23,9 @@ label{
 
 label.required:after{ content: " *"; }
 
-.labelinfo{
-  padding-left: 2em;
+.label-info{
+  font-size:90%;
+  padding-left: 0.5em;
   font-style: italic;
 }
 
@@ -88,11 +89,15 @@ button.inverted{
 button.inverted.danger{ color:#e4484b; }
 button.inverted:hover{ color:white; }
 
-.errorlabel {
+.errorlabel, .errorlist {
     display: inline-block;
-    margin-bottom: 0.25em;
     border-radius: 0.25em;
     background-color: #FCBABA;
-    padding: 1px 0.25em;
+    padding: 0.5em;
+    margin: 0.25em 0;
     width:100%;
+}
+
+.errorlist li {
+    list-style-type: none;
 }
