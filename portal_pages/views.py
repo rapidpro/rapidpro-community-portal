@@ -10,7 +10,7 @@ from .models import (
     Service, Expertise, Country, Region, ServiceMarketplaceEntry,
     CountryMarketplaceEntry, RegionMarketplaceEntry, ExpertiseMarketplaceEntry,
     CountryCaseStudy, RegionCaseStudy, FocusAreaCaseStudy, OrganizationCaseStudy,
-    FocusArea, Organization
+    FocusArea, Organization, MarketplaceEntryPage
     )
 
 from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, DocumentForm
@@ -108,9 +108,24 @@ def submit_marketplace_entry(request, marketplace_index):
     return render(request, 'portal_pages/marketplace_entry_page_add.html', context)
 
 def submit_case_study(request, case_study_index):
+
     form = CaseStudyForm(data=request.POST or None, label_suffix='')
-    if request.method == 'POST' and form.is_valid():
+
+    # If the user uploaded a flow document we want the document_form to validate it is a
+    # valid document, but if no file was uploaded then proceed with an
+    # unbound DocumentForm. This avoids re-display due to errors in the main form
+    # erroneously telling the user that the flow file is required (it is required
+    # for that form, but the entire form is optional).
+    if request.FILES:
+        document_form = DocumentForm(data=request.POST, files=request.FILES, label_suffix='')
+        document_form_valid = document_form.is_valid()
+    else:
+        document_form = DocumentForm(label_suffix='')
+        document_form_valid = True
+
+    if request.method == 'POST' and form.is_valid() and document_form_valid:
         case_study_page = form.save(commit=False)
+        #case_study_page.date = datetime.now()
         case_study_page.slug = slugify(case_study_page.title)
         case_study = case_study_index.add_child(instance=case_study_page)
 
@@ -125,16 +140,28 @@ def submit_case_study(request, case_study_index):
                 focus_area_name = focus_area_name.lstrip().rstrip().capitalize()
                 focus_area, created = FocusArea.objects.get_or_create(name=focus_area_name)
                 FocusAreaCaseStudy.objects.create(
-                    focusarea=FocusArea.objects.get(id=focus_area),
+                    focusarea=focus_area,
                     page=case_study
                 )
-            for region in request.POST.getlist('regions_experience'):
-                RegionMarketplaceEntry.objects.create(
+            for organization in request.POST.getlist('organizations'):
+                OrganizationCaseStudy.objects.create(
+                    organization=Organization.objects.get(id=organization),
+                    page=case_study
+                )
+            for organization_name in request.POST['organizations_additional'].split(","):
+                organization_name = organization_name.lstrip().rstrip().capitalize()
+                organization, created = Organization.objects.get_or_create(name=organization_name)
+                OrganizationCaseStudy.objects.create(
+                    organization=organization,
+                    page=case_study
+                )
+            for region in request.POST.getlist('regions'):
+                RegionCaseStudy.objects.create(
                     region=Region.objects.get(id=region),
                     page=case_study
                 )
-            for country in request.POST.getlist('countries_experience'):
-                CountryMarketplaceEntry.objects.create(
+            for country in request.POST.getlist('countries'):
+                CountryCaseStudy.objects.create(
                     country=Country.objects.get(id=country),
                     page=case_study
                 )
@@ -145,23 +172,27 @@ def submit_case_study(request, case_study_index):
             # moderators from email (internally wagtail would exclude the user
             # submitting from such emails, be we are submitting something from an
             # anonymous user, so no one should be excluded from the email).
-            send_notification(marketplace_entry.get_latest_revision().id, 'submitted', None)
-        return HttpResponseRedirect(marketplace_index.url + marketplace_index.reverse_subpage('thanks'))
+            send_notification(case_study.get_latest_revision().id, 'submitted', None)
+        return HttpResponseRedirect(case_study_index.url + case_study_index.reverse_subpage('thanks'))
 
-    services = Service.objects.order_by('name')
-    expertise_list = Expertise.objects.order_by('name')
+    focus_areas = FocusArea.objects.order_by('name')
+    organizations = Organization.objects.order_by('name')
+    marketplace_entries = MarketplaceEntryPage.objects.order_by('title')
     countries = Country.objects.order_by('name')
     regions = Region.objects.order_by('name')
     base_year = datetime.today().year
     years = [base_year - x for x in range(0, 100)]
+    months = { 'December': '12', 'November': '11', 'January':'01' }
     context = {
         'form': form,
-        'services': services,
+        'document_form': document_form,
+        'focus_areas': focus_areas,
+        'organizations': organizations,
+        'marketplace_entries': marketplace_entries,
         'years': years,
-        'expertise_list': expertise_list,
+        'months': months,
         'countries': countries,
         'regions': regions,
-        'marketplace_index': marketplace_index,
+        'case_study_index': case_study_index,
     }
-    return render(request, 'portal_pages/marketplace_entry_page_add.html', context)
-
+    return render(request, 'portal_pages/case_study_page_add.html', context)

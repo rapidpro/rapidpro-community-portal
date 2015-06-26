@@ -469,7 +469,7 @@ class ExpertiseMarketplaceEntry(Orderable, models.Model):
 # CaseStudy index page
 
 
-class CaseStudyIndexPage(Page, TopImage):
+class CaseStudyIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
     submit_info = RichTextField(blank=True)
     thanks_info = RichTextField(blank=True)

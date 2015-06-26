@@ -41,20 +41,18 @@ class CaseStudyForm(ModelForm):
 
     class Meta:
         model = CaseStudyPage
-        labels = {
-            'date': 'Month/Year of Case Study Initiation'
-        }
         fields = [
-            'title', 'summary', 'date'
+            'title', 'summary', 'date',
+            'marketplace_entry'
         ]
 
 
 class DocumentForm(ModelForm):
 
     class Meta:
-        model = Image
+        model = Document
         labels = {
-            'file': 'Downloadable Package'
+            'file': 'Your Flow Document'
         }
         fields = [
             'file'
