@@ -457,12 +457,35 @@ class ExpertiseMarketplaceEntry(Orderable, models.Model):
 
 class CaseStudyIndexPage(Page, TopImage):
     intro = RichTextField(blank=True)
+    submit_info = RichTextField(blank=True)
+    thanks_info = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
 
     subpage_types = ['portal_pages.CaseStudyPage']
+
+    @route(r'^$')
+    def base(self, request):
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            self.get_context(request)
+        )
+
+    @route(r'^submit-case-study/$')
+    def submit(self, request):
+        from .views import submit_case_study
+        return submit_case_study(request, self)
+
+    @route(r'^submit-thank-you/$')
+    def thanks(self, request):
+        return TemplateResponse(
+            request,
+            'portal_pages/thank_you.html',
+            { "thanks_info" : self.thanks_info }
+        )
 
     @property
     def countries(self):
@@ -571,6 +594,8 @@ CaseStudyIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
     MultiFieldPanel(TopImage.panels, "hero image"),
+    FieldPanel('submit_info', classname="full"),
+    FieldPanel('thanks_info', classname="full"),
 ]
 
 CaseStudyIndexPage.promote_panels = Page.promote_panels
