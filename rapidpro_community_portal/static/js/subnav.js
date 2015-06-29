@@ -11,7 +11,9 @@ function loadSubNav(subnavType) {
     else if(window.location.pathname == "/blog/") {
         clearAllNavClasses();
         document.getElementById('nav_connect').className = 'selected';
-        subnavType = "connect";
+        if(subnavType == "") {
+            subnavType = "connect";
+        }
     }
     switch(subnavType) {
         case "learn":
