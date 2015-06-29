@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% load portal_extras %}
+
+{% block full-content %}
+    <section class="content page-width">
+        <h1 class="cushion">{{ self.title }}</h1>
+            <div class="float-layout">
+                <div class="quarter cushion">
+                    <div class="filters cushion">
+
+                        <label>Search</label>
+                        <form action="." method="get">
+                            <div class="search">
+                                <input type="search" name="search" id="search" value="{{ request.GET.search }}">
+                                <input type="hidden" name="Tag" id="Tag" value="{{ request.GET.Tag }}">
+                                <input type="submit" value=" ">
+                            </div>
+                        </form>
+                        <div class="clear"></div>
+
+                        <label>Filters</label>
+                        <div class="tags">
+                            <a href=" {% pageurl self %} ">Clear all filters</a>
+                        </div>
+
+                        {% if self.tags %}
+                            {% display_filter_list self.tags "" %}
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <div class="three-quarters">
+
+                    {% if self.intro %}
+                        <div class="cushion">
+                            {{ self.intro|richtext }}
+                        </div>
+                    {% endif %}
+
+                    <div class="flex-layout">
+                        {% for page in blogs %}
+                            {% include "portal_pages/includes/page_list_item.html" %}
+                        {% empty %}
+                            {% include "portal_pages/includes/empty_search_filter.html" with things="blog pages" %}
+                        {% endfor %}
+                    </div>
+
+                    {# Pagination - uses django.core.paginator #}
+                    <div class="two-thirds">&nbsp;</div>
+                    <div class="cushion">
+                        {% include "portal_pages/includes/pagination_nav.html" with items=blogs %}
+                    </div>
+
+                </div>
+        </div>
+    </section>
+
+    <div class="spacer"></div>
+
+{% endblock %}

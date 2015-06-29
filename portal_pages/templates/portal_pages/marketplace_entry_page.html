@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load portal_extras %}
+
+{% block content %}
+    <div class="two-thirds"><div class="cushion">
+
+        <h1>{{ self.title }}</h1>
+
+        {% if self.marketplace_index %}
+
+            <div class="tags">
+                {% for region in self.regions.all|make_unique:"region__name" %}
+                    <a href="{% pageurl self.marketplace_index %}?region={{ region.region.name }}">
+                    {{ region.region.name }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="tags">
+                {% for country in self.countries.all|make_unique:"country__name" %}
+                    <a href="{% pageurl self.marketplace_index %}?country={{ country.country.name }}">
+                    {{ country.country.name }}
+                    </a>
+                {% endfor %}
+            </div>
+
+        {% endif %}
+
+        {% if self.date_start %}<p>Established {{ self.date_start.year }}{% endif %}</p>
+
+        {% if self.biography %}
+            <p>{{ self.biography|richtext }}</p>
+        {% endif %}
+
+    </div></div>
+
+    <div class="third">
+
+        {% if self.marketplace_index %}
+
+        <div class="cushion">
+            {% if self.logo_image %}
+                {% image self.logo_image width-300 as img %}
+                <img class="full marketplace-logo" src="{{ img.url }}" />
+            {% endif %}
+
+            <h2>Services</h2>
+            <div class="tags">
+                {% for service in self.services.all|make_unique:"service__name" %}
+                <a href="{% pageurl self.marketplace_index %}?service={{ service.service.name }}">
+                    {{ service.service.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="cushion">
+            <h2>Expertise</h2>
+            <div class="tags">
+                {% for expertise in self.expertise_tags.all|make_unique:"expertise__name" %}
+                    <a href="{% pageurl self.marketplace_index %}?expertise={{ expertise.expertise.name }}">
+                    {{ expertise.expertise.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% endif %}
+
+        {% if self.address_1 or self.telephone or self.email or self.website %}
+            {% include "portal_pages/includes/contact.html" with contact=self only %}
+        {% endif %}
+
+    </div>
+
+{% endblock %}

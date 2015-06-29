@@ -1,0 +1,23 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load portal_extras %}
+
+{# Individual page item in a list - used on casestudy index and marketplace index #}
+
+{% randomize_image page as top_image %}
+
+<div class="half result cushion">
+
+    {% if top_image %}
+        {% image top_image fill-320x60 as img %}
+        <a href="{% pageurl page %}">
+            <img class="full" src="{{ img.url }}">
+        </a>
+    {% endif %}
+
+    <p>
+        <a href="{% pageurl page %}"><strong>{{ page.title }}</strong></a>
+        {{ page.summary|add_spacing|striptags|truncatechars:100 }}
+        {{ page.biography|add_spacing|striptags|truncatechars:100 }}
+        {{ page.body|add_spacing|striptags|truncatechars:100 }}
+    </p>
+</div>

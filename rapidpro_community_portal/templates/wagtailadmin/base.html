@@ -1,0 +1,79 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load wagtailadmin_tags wagtailcore_tags static i18n %}
+
+{# XXX NOTE Caktus added block css here (tried extra_css but somehow that did not work, didn't get rendered) #}
+{# This added block makes non_field_errors added to display of form in edit_handlers/inline_panel_child.html #}
+{# show in bold red text. #}
+{% block css %}
+    {{ block.super }}
+    <style>
+        ul.errorlist li {
+            color: #cd3238;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+{# XXX NOTE End of this block of Caktus addiitons #}
+
+{% block furniture %}
+    <div class="nav-wrapper">
+        <div class="inner">
+            <a href="{% url 'wagtailadmin_home' %}" class="logo" title="Wagtail v.{% wagtail_version %}">
+                {% block branding_logo %}
+                    <img src="{% static 'wagtailadmin/images/wagtail-logo.svg' %}" alt="Wagtail" width="80" />
+                {% endblock %}
+                <span>{% trans "Dashboard" %}</span>
+            </a>
+
+            <form class="nav-search" action="{% url 'wagtailadmin_pages_search' %}" method="get">
+                <div>
+                    <label for="menu-search-q">{% trans "Search" %}</label>
+                    <input type="text" id="menu-search-q" name="q" placeholder="{% trans 'Search' %}" />
+                    <button type="submit">{% trans "Search" %}</button>
+                </div>
+            </form>
+
+            {% main_nav %}
+        </div>
+
+        <span class="explorer-close">Close explorer</span>
+        <nav id="explorer" class="explorer">
+        </nav>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content">
+            {# Always show messages div so it can be appended to by JS #}
+            <div class="messages">
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {# XXX NOTE: Caktus added display of non-field errors and formset errors here #}
+                <ul>
+                    {% for error in form.non_field_errors %}
+                        <li class="error">{{ error|escape }}</li>
+                    {% endfor %}
+                    {% for name, formset in form.formsets.items %}
+                        {% with formset.total_error_count as count %}
+                            {% if count %}
+                                <li class="error">
+                                    Please correct {{ count }} error{{ count|pluralize }}
+                                    below in the {{ name }} section.
+                                </li>
+                            {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                </ul>
+                {# XXX NOTE: end of this block of Caktus additions #}
+            </div>
+
+            <div id="nav-toggle" class="icon text-replace">{% trans "Menu" %}</div>
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

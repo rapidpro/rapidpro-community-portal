@@ -70,3 +70,7 @@ class RapidProUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.username
+
+    @property
+    def email(self):
+        return self.username

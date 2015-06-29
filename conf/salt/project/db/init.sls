@@ -31,7 +31,7 @@ database-{{ pillar['project_name'] }}:
 
 hba_conf:
   file.managed:
-    - name: /etc/postgresql/9.1/main/pg_hba.conf
+    - name: /etc/postgresql/9.3/main/pg_hba.conf
     - source: salt://project/db/pg_hba.conf
     - user: postgres
     - group: postgres
@@ -45,13 +45,12 @@ hba_conf:
 {% endfor %}
     - require:
       - pkg: postgresql
-      - cmd: /var/lib/postgresql/configure_utf-8.sh
     - watch_in:
       - service: postgresql
 
 postgresql_conf:
   file.managed:
-    - name: /etc/postgresql/9.1/main/postgresql.conf
+    - name: /etc/postgresql/9.3/main/postgresql.conf
     - source: salt://project/db/postgresql.conf
     - user: postgres
     - group: postgres
@@ -59,7 +58,6 @@ postgresql_conf:
     - template: jinja
     - require:
       - pkg: postgresql
-      - cmd: /var/lib/postgresql/configure_utf-8.sh
     - watch_in:
       - service: postgresql
 

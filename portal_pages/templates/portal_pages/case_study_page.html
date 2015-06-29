@@ -1,82 +1,85 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
-
-{% block extra_css %}
-{% image self.hero_image width-1000 as heroimagedata %}
-<style>
-  .hero
-  {
-    height: 200px;
-    background-image: url({{ heroimagedata.url }});
-  }
-</style>
-{% endblock %}
-
-{% block hero-image %}
-<section class="hero" alt="{{ self.hero_image.title }}">
-    <div class="page-width">
-    </div>
-</section>
-{% endblock %}
+{% load portal_extras %}
 
 {% block content %}
-  <section class="content">
-    <div class="page-width float-layout">
-      <div class="full"><div class="cushion">
-      <div>
-        <p>
-        {% for country in self.countries.all %}
-          <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
-          {{ country.country.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+    <div class="two-thirds"><div class="cushion">
 
-      <div>
-        <p>
-        {% for focus_area in self.focus_areas.all %}
-          <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
-          {{ focus_area.focusarea.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+        <h1>{{ self.title }}</h1>
 
-      <div>
-        <p>
-        {% for organization in self.organizations.all %}
-          <a href="{% pageurl self.casestudy_index %}?organization={{ organization.organization.name }}">
-          {{ organization.organization.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+        {% if self.casestudy_index %}
 
-      <div>
-        <p>
-        {% for tech_firm in self.tech_firms.all %}
-          <a href="{% pageurl self.casestudy_index %}?tech_firm={{ tech_firm.techfirm.name }}">
-          {{ tech_firm.techfirm.name }}
-          </a>
-        {% endfor %}
-        </p>
-      </div>
+            <div class="tags">
+                {% for region in self.regions.all|make_unique:"region__name" %}
+                    <a href="{% pageurl self.casestudy_index %}?region={{ region.region.name }}">
+                    {{ region.region.name }}
+                    </a>
+                {% endfor %}
+            </div>
 
-      <h2>
-        {{ self.title }}
-        {% if self.date %}<small>{{ self.date }}</small>{% endif %}
-      </h2>
+            <div class="tags">
+                {% for country in self.countries.all|make_unique:"country__name" %}
+                    <a href="{% pageurl self.casestudy_index %}?country={{ country.country.name }}">
+                    {{ country.country.name }}
+                    </a>
+                {% endfor %}
+            </div>
 
-      {% if self.summary %}
-        <p>{{ self.summary|richtext }}</p>
-      {% endif %}
+        {% endif %}
 
-      {% if self.downloadable_package %}
-        <p><a href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a></p>
-      {% endif %}
+        {% if self.date %}<p>Launched: {{ self.date|date:"F Y"  }}</p>{% endif %}
 
-      </div></div>
+        {% if self.summary %}
+            <p>{{ self.summary|richtext }}</p>
+        {% endif %}
+
+    </div></div>
+
+    <div class="third">
+
+    {% if self.downloadable_package %}
+        <div class="cushion">
+            <h2>Import the Flow</h2>
+            <a class="button" href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a>
+        </div>
+    {% endif %}
+
+    {% if self.casestudy_index %}
+
+    <div class="cushion">
+        <h2>Focus Areas</h2>
+        <div class="tags">
+            {% for focus_area in self.focus_areas.all|make_unique:"focusarea__name" %}
+            <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
+                {{ focus_area.focusarea.name }}
+            </a>
+            {% endfor %}
+        </div>
     </div>
-  </section>
+
+    <div class="cushion">
+        <h2>Organisations</h2>
+        <div class="tags">
+            {% for organization in self.organizations.all %}
+                <a href="{% pageurl self.casestudy_index %}?organisation={{ organization.organization.name }}">
+                {{ organization.organization.name }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if self.marketplace_entry %}
+        <div class="cushion">
+            <h2>Tech Firm</h2>
+            <ul>
+                <li><a href="{% pageurl self.marketplace_entry %}">
+                {{ self.marketplace_entry.title }}
+                </a></li>
+            </ul>
+        </div>
+    {% endif %}
+
+    {% endif %}
+    </div>
+
 {% endblock %}

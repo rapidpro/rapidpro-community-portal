@@ -1,98 +1,228 @@
 /*main.css*/
 
 body{
-	font-size:18px;
-	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-weight:200;
+  font-size:18px;
+  font-family:Calibri,"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:200;
+  color:black;
 }
 
-::selection { background-color: #16b1a5; }
-::-moz-selection { background-color: #16b1a5; }
+::selection { background-color: #F33; color:white; }
+::-moz-selection { background-color: #F33; color:white; }
+
+h1{ font-size:180%; }
+h2{ font-size:140%; }
+h3{ font-size:120%; }
+h4{ font-size:110%; }
 
 header,footer{
-	overflow:auto;
+  overflow:auto;
 }
 
 header{
-	background-color:#0C6596;
+  background-color:#069;
 }
 footer{
-	background-color:#aaa;
-	padding-bottom:4em;
-	color:#777;
+  background-color:#aaa;
+  padding-bottom:4em;
+  color:#777;
 }
 
-a{ text-decoration:none; }
+a{
+  text-decoration:none;
+  color: #069;
+}
 a:hover{ text-decoration:underline; }
 
 .logo{
-	height:2em;
+  display:block;
+  width:154px;
+  height:43px;
+  background-image: url(../images/svg/rapidpro_logo_optimized.svg);
+  background-size: auto 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
 }
 
 nav a{
-	display:inline-block;
-	padding:0 0.5em;
-	color:white;
+  display:inline-block;
+  padding:0 0.5em;
+  color:white;
 }
 
-nav a:hover{
+nav a.selected{
+  background-color: #00517A;
+  padding: 0.5em;
+  text-align: center;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
+.sub-nav{
+  font-size:80%;
+  line-height:1.75em;
+  background-color:#00517A;
+}
+.sub-nav .page-width{
+  padding:0 9em;
 }
 
 .skip-link{ display:none; }
 .skip-link:focus{ display:block; }
 
-.cushion{
-	margin:10px;
-}
-
 .button{
-	display:inline-block;
-	padding:0.5em;
-	text-decoration:none;
-	text-align: center;
-	background-color:teal;
-	color:white;
-	border-radius:4px;
-	box-sizing: border-box;
+  display:inline-block;
+  padding:0.5em;
+  text-decoration:none;
+  text-align: center;
+  background-color:#45B0E5;
+  color:white;
+  border-radius:4px;
+  box-sizing: border-box;
 }
 
-.hero{
-	height:330px;
-	background-color:#bbb;
-	background-image:url(http://placehold.it/1400x400);
-	background-position: 50% 50%;
-	background-size: cover;
+.hero, .top-image {
+  height:200px;
+  background-color:#bbb;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
+.marketplace-logo {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .featured-case-study .cushion{
-	margin-top:0;
+  margin-top:0;
 }
 
 .call-to-action{
-	background-color:#0C6596;
-	/*background image could go here*/
+    background-color:white;
+    /*background image could go here*/
+    min-height:4em;
 }
 
 .call-to-action .button{
-	background-color:white;
-	color:black;
-}
-
-section{
-	overflow:auto;
+  background-color:#069;
+  color:white;
 }
 
 .tags > *{
-	display:inline-block;
-	margin-bottom: 0.25em;
-	border-radius: 0.25em;
-	background-color:#777;
-	color:white;
-	padding:1px 0.25em;
+  display:inline-block;
+  margin-bottom: 0.25em;
+  border-radius: 0.25em;
+  background-color:rgba(0, 0, 0, 0.1);
+  color:#333;
+  padding:1px 0.25em;
 }
 
 .tags > a:hover{
-	text-decoration: none;
-	background-color:#888;
+  text-decoration: none;
+  background-color:#069;
+  color:white;
+}
+
+.filters{
+  background-color:#abc2ce;
+  border-radius:4px;
+}
+
+.filters .active{
+  background-color:rgba(255,255,255,0.5);
+}
+
+.filters .active:hover{
+  background-color:#5d5d5d;
+}
+
+.tagsheader, .addheader {
+  background-image: url(../images/svg/listing.svg);
+  background-size:auto 15px;
+  background-position: 0.5em 50%;
+  background-repeat: no-repeat;
+  line-height: 32px;
+  padding-left: 32px;
+  cursor: pointer;
+
+}
+
+.addheader {
+  color: #069;
+}
+
+ul{
+  padding-left: 1em;
+}
+
+ol{
+  padding-left: 1.5em;
+}
+
+.result .icon{
+  width: 32px;
+  height: 32px;
+  background-color: #069;
+  border-radius: 50%;
+  position: absolute;
+  left: 1em;
+  top:-14px;
+}
+
+.result .icon-bar{
+  height:4px;
+  background-color:#069;
+  margin-bottom:1em;
+}
+
+.homepage-video{
+  background-color:#eeeeee;
+}
+
+.rich-text p{
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+.rich-text img.left{ margin: 0 1em 0 0; }
+.rich-text img.right{ margin: 0 0 0 1em; }
+/* manually override floats in rtl because the admin offers "left" and "right" explicitly */
+html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
+html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
+
+input[type="search"]{
+  width:100%;
+  border-radius:4px;
+  padding: 0 2.0em 0 0.25em;
+}
+
+input[type="button"],
+input[type="submit"],
+button
+.button{
+  cursor: pointer;
+}
+
+.search input[type="submit"]{
+  position:absolute;
+  width:1.5em;
+  height:1em;
+  right:0.2em;
+  top:0.2em;
+  border-radius:4px;
+  background-color: transparent;
+  background-image: url(../images/svg/search.svg);
+  background-size: auto 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.search input[type="submit"]:hover{
+  background-color:#069;
+}
+
+hr{
+  width:75%;
+  border-bottom:solid 2px #ddd;
+  margin: 20px auto;
 }

@@ -1,0 +1,79 @@
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box /* Opera/IE 8+ */;
+}
+/* Message Bubble Colors */
+.queued {
+  color: #faa732;
+}
+.queued_instantly {
+  color: #49afcd;
+}
+.pending {
+  color: #faa732;
+}
+.pending_instantly {
+  color: #51a351;
+}
+.sent {
+  color: #51a351;
+}
+.delivered {
+  color: #51a351;
+}
+.handled {
+  color: #51a351;
+}
+.errored {
+  color: #da4f49;
+}
+.failed {
+  color: #da4f49;
+}
+/* SMS Table stylings */
+.glyph.green {
+  color: #51a351;
+}
+.glyph.orange {
+  color: #faa732;
+}
+.glyph.red {
+  color: #da4f49;
+}
+.glyph.grey {
+  color: #cccccc;
+}
+.rapidpro {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  background: #1276b9;
+  top: 0;
+  left: 0;
+}
+.rapidpro a:hover {
+  text-decoration: none;
+}
+.rapidpro .logo {
+  display: inline;
+  position: relative;
+  margin-right: -17px;
+  margin-left: -44px;
+}
+.rapidpro .blurb {
+  display: inline;
+  position: relative;
+  top: -4px;
+  color: #fff;
+}
+.rapidpro .icon-logo:before {
+  line-height: 38px;
+  margin-bottom: 5px;
+  font-size: 25px;
+  color: #fff;
+  font-family: 'temba';
+  content: "\e600";
+}

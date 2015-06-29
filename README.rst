@@ -27,7 +27,7 @@ To setup your local environment you should create a virtualenv and install the
 necessary requirements::
 
     mkvirtualenv rapidpro-community-portal -p /usr/bin/python3.4
-    $VIRTUAL_ENV/bin/pip install -r $PWD/requirements/dev.txt
+    $VIRTUAL_ENV/bin/pip install --find-links=file://$PWD/requirements/sdists -r $PWD/requirements/dev.txt
 
 Then create a local settings file and set your ``DJANGO_SETTINGS_MODULE`` to use it::
 
@@ -60,3 +60,15 @@ the ``deploy`` command::
 
 New requirements or South migrations are detected by parsing the VCS changes and
 will be installed/run automatically.
+
+
+UserVoice Templates
+------------------------
+
+Sign on to http://rapidpro1.uservoice.com/
+Click Admin Console (next to the user avatar)
+Click Web Portal (from the gear)
+Click Appearance and features
+Click HTML/CSS/Javascript
+
+Only the CSS and the Header are modified. Backup changes in mockups/uservoice

@@ -1,0 +1,77 @@
+{% extends "portal_pages/search_filter_base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags %}
+{% load portal_extras %}
+
+{% block full-content %}
+    <section class="content page-width">
+        <h1 class="cushion">{{ self.title }}</h1>
+            <div class="float-layout">
+                <div class="quarter cushion">
+                    <div class="filters cushion">
+                        <label>Search</label>
+                        <form action="." method="get">
+                            <div class="search">
+                                <input type="search" name="search" id="search" value="{{ request.GET.search }}">
+                                <input type="hidden" name="country" id="country" value="{{ request.GET.country }}">
+                                <input type="hidden" name="region" id="region" value="{{ request.GET.region }}">
+                                <input type="hidden" name="service" id="service" value="{{ request.GET.service }}">
+                                <input type="hidden" name="expertise" id="expertise" value="{{ request.GET.expertise }}">
+                                <input type="submit" value=" ">
+                            </div>
+                        </form>
+                        <div class="clear"></div>
+
+                        <label>Filters</label>
+                        <div class="tags">
+                            <a href=" {% pageurl self %} ">Clear all filters</a>
+                        </div>
+
+                        {% if self.countries %}
+                            {% display_filter_list self.countries "region,service,expertise" %}
+                        {% endif %}
+
+                        {% if self.regions %}
+                            {% display_filter_list self.regions "country,service,expertise" %}
+                        {% endif %}
+
+                        {% if self.services %}
+                            {% display_filter_list self.services "country,region,expertise" %}
+                        {% endif %}
+
+                        {% if self.expertise_tags %}
+                            {% display_filter_list self.expertise_tags "country,region,service" %}
+                        {% endif %}
+                    </div>
+                    <br />
+                    <a class="button" href="{% routablepageurl self "submit" %}">Submit Your Own Marketplace Entry</a>
+                </div>
+
+                <div class="three-quarters">
+
+                    {% if self.intro %}
+                        <div class="cushion">
+                            {{ self.intro|richtext }}
+                        </div>
+                    {% endif %}
+
+                    <div class="flex-layout">
+                        {% for page in marketplace_entries %}
+                            {% include "portal_pages/includes/page_list_item.html" %}
+                        {% empty %}
+                            {% include "portal_pages/includes/empty_search_filter.html" with things="marketplace entries" %}
+                        {% endfor %}
+                    </div>
+
+                    {# Pagination - uses django.core.paginator #}
+                    <div class="two-thirds">&nbsp;</div>
+                    <div class="cushion">
+                        {% include "portal_pages/includes/pagination_nav.html" with items=marketplace_entries %}
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <div class="spacer"></div>
+
+
+{% endblock %}

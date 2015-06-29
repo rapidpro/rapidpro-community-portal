@@ -1,0 +1,219 @@
+@font-face {
+	font-family: 'rapidpro';
+	src:url('/sitestatic/brands/rapidpro/font/fonts/rapidpro.eot?-vr02l1&c99c83322112');
+	src:url('/sitestatic/brands/rapidpro/font/fonts/rapidpro.eot?&c99c83322112#iefix-vr02l1') format('embedded-opentype'),
+		url('/sitestatic/brands/rapidpro/font/fonts/rapidpro.woff?-vr02l1&94007b38038e') format('woff'),
+		url('/sitestatic/brands/rapidpro/font/fonts/rapidpro.ttf?-vr02l1&e1e6b579599e') format('truetype'),
+		url('/sitestatic/brands/rapidpro/font/fonts/rapidpro.svg?-vr02l1&2d13d8096f98#rapidpro') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.icon-logo:before {
+  font-family: 'rapidpro';
+  content: "\e600";
+}
+
+a {
+  color: #0c6596;
+}
+a:hover {
+  color: #1d76a7;
+}
+a#big-logo:hover {
+  color: #fff;
+}
+#header {
+  background-color: #0c6596;
+}
+.more .submenu {
+  border-color: #0c6596 !important;
+}
+.more .submenu a,
+.more .submenu .title {
+  color: #0c6596 !important;
+}
+.btn.btn-primary {
+  background-color: #0c6596;
+  background-image: none;
+  border: 1px solid #005485;
+}
+.btn.btn-primary:hover,
+.btn.btn-primary:active,
+.btn.btn-primary:focus,
+.btn.btn-primary.open {
+  background-color: #1d76a7;
+}
+#sidebar-nav .nav li a {
+  font-size: 13px;
+  color: #0c6596;
+}
+#sidebar-nav .nav-list .active a,
+#sidebar-nav .nav-list a:hover {
+  background: #f3f3f3 !important;
+}
+.formax > li.action-formax:hover .formax-summary,
+.formax > li.action-open:hover .formax-summary,
+.formax > li.action-redirect:hover .formax-summary,
+.formax > li.action-link:hover .formax-summary,
+.formax > li.action-link:hover .formax-summary .errored {
+  color: #0c6596;
+}
+.formax > li.action-formax:hover .formax-icon,
+.formax > li.action-open:hover .formax-icon,
+.formax > li.action-redirect:hover .formax-icon,
+.formax > li.action-link:hover .formax-icon {
+  color: #0c6596;
+}
+.dropdown-menu li > a:hover {
+  background: #f3f3f3;
+}
+table.list-table tr.checked td {
+  background-color: #f3f3f3;
+}
+table.list-table tr:hover td.checkbox:hover {
+  color: #0c6596;
+}
+.label-info {
+  background: #0c6596;
+  border: 1px solid #005485;
+}
+.modal .modal-header {
+  background: #0c6596;
+}
+.workflow-glyph {
+  color: #0c6596 !important;
+}
+#marketing .title {
+  color: #0c6596 !important;
+}
+.slider-wrapper {
+  display: none;
+}
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box /* Opera/IE 8+ */;
+}
+/* Message Bubble Colors */
+.queued {
+  color: #faa732;
+}
+.queued_instantly {
+  color: #49afcd;
+}
+.pending {
+  color: #faa732;
+}
+.pending_instantly {
+  color: #51a351;
+}
+.sent {
+  color: #51a351;
+}
+.delivered {
+  color: #51a351;
+}
+.handled {
+  color: #51a351;
+}
+.errored {
+  color: #da4f49;
+}
+.failed {
+  color: #da4f49;
+}
+/* SMS Table stylings */
+.glyph.green {
+  color: #51a351;
+}
+.glyph.orange {
+  color: #faa732;
+}
+.glyph.red {
+  color: #da4f49;
+}
+.glyph.grey {
+  color: #cccccc;
+}
+#jumbotron {
+  min-height: inherit !important;
+}
+#jumbotron #jumbohand {
+  background-position: 84% -50px !important;
+  height: 297px !important;
+}
+#jumbotron #lead-form {
+  display: none;
+}
+#jumbotron .contact-signup {
+  display: inline;
+  color: #1d76a7;
+}
+#jumbotron .contact-signup a {
+  color: #1d76a7;
+}
+.bottom-call {
+  display: none;
+}
+.add-credits,
+.purchase-credits {
+  display: none;
+}
+#top-menu .nav-pricing {
+  display: none;
+}
+#top-menu .more .submenu-container .submenu .icon-nav-pricing {
+  display: none;
+}
+#top-menu .nav-blog,
+#top-menu .nav-learn {
+  display: none;
+}
+#top-menu .more .submenu-container .submenu .icon-nav-learn,
+#top-menu .more .submenu-container .submenu .icon-nav-blog {
+  display: none;
+}
+#footerArea1,
+#footerArea2,
+#footerArea3,
+#footerArea4 {
+  display: none;
+}
+#splash {
+  margin-top: -30px;
+  background-image: url('/sitestatic/brands/rapidpro/splash.jpg?93c971a40c55') !important;
+  background-position: 0px 0px !important;
+  background-size: cover !important;
+  width: 100%;
+  height: 0px;
+  padding-bottom: 40%;
+}
+#splash h1.description {
+  color: #fff;
+  font-weight: 200;
+  font-style: italic;
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  width: 300px;
+  font-size: 32px;
+  line-height: 110%;
+}
+#splash h5.contact-signup {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  color: #fff;
+  text-shadow: 1px 1px #000;
+}
+#splash h5.contact-signup a {
+  color: #eee;
+}
+a.logo {
+  margin-left: -45px;
+  margin-top: 15px;
+  font-size: 65px;
+}
