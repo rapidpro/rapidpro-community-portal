@@ -20,6 +20,24 @@ http://flickity.metafizzy.co
   height: 100%;
 }
 
+.flickity-slider a {
+  border-right: 2px solid white;
+  border-left: 2px solid white;
+}
+
+.flickity-slider div.rich-text{
+  position: absolute;
+  top: 70%;
+  z-index:1;
+  padding: 0.5em 0.5em 0.5em 3em;
+  background-color: #000;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+  color: #FFF;
+  font-weight: bold;
+  width: 100%;
+}
+
 /* draggable */
 
 .flickity-enabled.is-draggable {
