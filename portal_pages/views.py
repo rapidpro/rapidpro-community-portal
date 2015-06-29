@@ -38,37 +38,39 @@ def submit_marketplace_entry(request, marketplace_index):
         marketplace_entry = marketplace_index.add_child(instance=marketplace_entry_page)
 
         if marketplace_entry:
+            marketplace_entry.unpublish()
             if request.FILES:
                 logo_image = logo_form.save(commit=False)
                 logo_image.title = "Logo for %s" % marketplace_entry_page.title
                 logo_image.save()
                 marketplace_entry.logo_image = logo_image
 
-            marketplace_entry.unpublish()
             for service in request.POST.getlist('services'):
                 ServiceMarketplaceEntry.objects.create(
                     service=Service.objects.get(id=service),
                     page=marketplace_entry
                 )
-            for service_name in request.POST['services_additional'].split(","):
-                service_name = service_name.lstrip().rstrip().capitalize()
-                service, created = Service.objects.get_or_create(name=service_name)
-                ServiceMarketplaceEntry.objects.create(
-                    service=service,
-                    page=marketplace_entry
-                )
+            if request.POST['services_additional']:
+                for service_name in request.POST['services_additional'].split(","):
+                    service_name = service_name.lstrip().rstrip().capitalize()
+                    service, created = Service.objects.get_or_create(name=service_name)
+                    ServiceMarketplaceEntry.objects.create(
+                        service=service,
+                        page=marketplace_entry
+                    )
             for expertise in request.POST.getlist('expertise'):
                 ExpertiseMarketplaceEntry.objects.create(
                     expertise=Expertise.objects.get(id=expertise),
                     page=marketplace_entry
                 )
-            for expertise_name in request.POST['expertise_additional'].split(","):
-                expertise_name = expertise_name.lstrip().rstrip().capitalize()
-                expertise, created = Expertise.objects.get_or_create(name=expertise_name)
-                ExpertiseMarketplaceEntry.objects.create(
-                    expertise=expertise,
-                    page=marketplace_entry
-                )
+            if request.POST['expertise_additional']:
+                for expertise_name in request.POST['expertise_additional'].split(","):
+                    expertise_name = expertise_name.lstrip().rstrip().capitalize()
+                    expertise, created = Expertise.objects.get_or_create(name=expertise_name)
+                    ExpertiseMarketplaceEntry.objects.create(
+                        expertise=expertise,
+                        page=marketplace_entry
+                    )
             for region in request.POST.getlist('regions_experience'):
                 RegionMarketplaceEntry.objects.create(
                     region=Region.objects.get(id=region),
@@ -131,30 +133,38 @@ def submit_case_study(request, case_study_index):
 
         if case_study:
             case_study.unpublish()
+            if request.FILES:
+                downloadable_package = document_form.save(commit=False)
+                downloadable_package.title = "Document for %s" % case_study_page.title
+                downloadable_package.save()
+                case_study.downloadable_package = downloadable_package
+
             for focus_area in request.POST.getlist('focus_areas'):
                 FocusAreaCaseStudy.objects.create(
                     focusarea=FocusArea.objects.get(id=focus_area),
                     page=case_study
                 )
-            for focus_area_name in request.POST['focus_areas_additional'].split(","):
-                focus_area_name = focus_area_name.lstrip().rstrip().capitalize()
-                focus_area, created = FocusArea.objects.get_or_create(name=focus_area_name)
-                FocusAreaCaseStudy.objects.create(
-                    focusarea=focus_area,
-                    page=case_study
-                )
+            if request.POST['focus_areas_additional']:
+                for focus_area_name in request.POST['focus_areas_additional'].split(","):                
+                    focus_area_name = focus_area_name.lstrip().rstrip().capitalize()
+                    focus_area, created = FocusArea.objects.get_or_create(name=focus_area_name)
+                    FocusAreaCaseStudy.objects.create(
+                        focusarea=focus_area,
+                        page=case_study
+                    )
             for organization in request.POST.getlist('organizations'):
                 OrganizationCaseStudy.objects.create(
                     organization=Organization.objects.get(id=organization),
                     page=case_study
                 )
-            for organization_name in request.POST['organizations_additional'].split(","):
-                organization_name = organization_name.lstrip().rstrip().capitalize()
-                organization, created = Organization.objects.get_or_create(name=organization_name)
-                OrganizationCaseStudy.objects.create(
-                    organization=organization,
-                    page=case_study
-                )
+            if request.POST['organizations_additional']:
+                for organization_name in request.POST['organizations_additional'].split(","):
+                    organization_name = organization_name.lstrip().rstrip().capitalize()
+                    organization, created = Organization.objects.get_or_create(name=organization_name)
+                    OrganizationCaseStudy.objects.create(
+                        organization=organization,
+                        page=case_study
+                    )
             for region in request.POST.getlist('regions'):
                 RegionCaseStudy.objects.create(
                     region=Region.objects.get(id=region),
@@ -182,7 +192,10 @@ def submit_case_study(request, case_study_index):
     regions = Region.objects.order_by('name')
     base_year = datetime.today().year
     years = [base_year - x for x in range(0, 100)]
-    months = { 'December': '12', 'November': '11', 'January':'01' }
+    months = {'January':'01', 'February':'02', 'March':'03', 'April':'03',
+              'May': '05', 'June':'06', 'July':'07', 'August':'08',
+              'September':'09', 'October':'10', 'November':'11', 'December':'12'
+              }
     context = {
         'form': form,
         'document_form': document_form,
