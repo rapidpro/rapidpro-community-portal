@@ -127,7 +127,9 @@ def submit_case_study(request, case_study_index):
 
     if request.method == 'POST' and form.is_valid() and document_form_valid:
         case_study_page = form.save(commit=False)
-        #case_study_page.date = datetime.now()
+        if request.POST['year_start'] and request.POST['month_start']:
+            full_date = request.POST['year_start'] + '-' + request.POST['month_start'] + '-01'
+            case_study_page.date = datetime.strptime(full_date, '%Y-%m-%d').date()
         case_study_page.slug = slugify(case_study_page.title)
         case_study = case_study_index.add_child(instance=case_study_page)
 

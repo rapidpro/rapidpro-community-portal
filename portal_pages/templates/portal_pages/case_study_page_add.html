@@ -70,6 +70,7 @@
             {{ form.marketplace_entry }}
             {{ form.marketplace_entry.errors }}
 
+            <br />
             <label for="title">Regions</label>
             <select id="regions" name="regions" multiple="multiple" data-placeholder="Select Regions">
                 {% for region in regions %}
@@ -77,6 +78,7 @@
                 {% endfor %}
             </select>
 
+            <br />
             <label for="title">Countries</label>
             <select id="countries" name="countries" multiple="multiple" data-placeholder="Select Countries">
                 {% for country in countries %}
@@ -84,6 +86,7 @@
                 {% endfor %}
             </select>
 
+            <br />
             <label for="year_start">Month/Date of Case Study Initiation</label>
             <select id="year_start" name="year_start">
                 {% for year in years %}
