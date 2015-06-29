@@ -23,9 +23,9 @@ header{
   background-color:#069;
 }
 footer{
-  background-color:#aaa;
+  background-color:#00517A;
   padding-bottom:4em;
-  color:#777;
+  color:#FFF;
 }
 
 a{
@@ -176,7 +176,11 @@ ol{
 }
 
 .homepage-video{
-  background-color:#eeeeee;
+  background-color:#00517A;
+}
+
+.homepage-video h2{
+  color: #FFF;
 }
 
 .rich-text p{
