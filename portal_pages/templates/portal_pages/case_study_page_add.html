@@ -103,12 +103,9 @@
                     <option value="{{ year }}">{{ year }}</option>
                 {% endfor %}
             </select>
-            {% comment %}
-                TODO: sort these Jan-Dec... 
-            {% endcomment %}
             <select id="month_start" name="month_start">
-                {% for month, month_value in months.items %}
-                    <option value="{{ month_value }}">{{ month }}</option>
+                {% for month_number, month_string in months %}
+                    <option value="{{ month_number }}">{{ month_string }}</option>
                 {% endfor %}
             </select>
         </div>
