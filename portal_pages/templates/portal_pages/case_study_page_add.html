@@ -70,6 +70,16 @@
             {{ form.marketplace_entry }}
             {{ form.marketplace_entry.errors }}
 
+            <div class="label-info-header">Why isn't my Marketplace Entry listed?</div>
+            <div class="label-info">
+                Please add your marketplace entry via our form.
+                {% comment %}
+                    TODO: how do we find the URL for marketplace entry add form? 
+                    It's buried in the view method....
+                {% endcomment %}
+                <a href=" {% pageurl case_study_index %} ">Test</a>
+            </div>
+
             <br />
             <label for="title">Regions</label>
             <select id="regions" name="regions" multiple="multiple" data-placeholder="Select Regions">
@@ -78,7 +88,7 @@
                 {% endfor %}
             </select>
 
-            <br />
+            <br /><br />
             <label for="title">Countries</label>
             <select id="countries" name="countries" multiple="multiple" data-placeholder="Select Countries">
                 {% for country in countries %}
@@ -86,14 +96,16 @@
                 {% endfor %}
             </select>
 
-            <br />
+            <br /><br />
             <label for="year_start">Month/Date of Case Study Initiation</label>
             <select id="year_start" name="year_start">
                 {% for year in years %}
                     <option value="{{ year }}">{{ year }}</option>
                 {% endfor %}
             </select>
-            
+            {% comment %}
+                TODO: sort these Jan-Dec... 
+            {% endcomment %}
             <select id="month_start" name="month_start">
                 {% for month, month_value in months.items %}
                     <option value="{{ month_value }}">{{ month }}</option>
@@ -101,6 +113,9 @@
             </select>
         </div>
 
+        {% comment %}
+            The following field is overridden in view submit_case_study() method, but is required on the case study form validation. 
+        {% endcomment %}
         <input type="hidden" id="date" name="date" value="2015-01-01" />
 
         <div id="required_fields" class="cushion" style="display:none;">
