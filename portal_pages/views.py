@@ -10,7 +10,7 @@ from .models import (
     Service, Expertise, Country, Region, ServiceMarketplaceEntry,
     CountryMarketplaceEntry, RegionMarketplaceEntry, ExpertiseMarketplaceEntry,
     CountryCaseStudy, RegionCaseStudy, FocusAreaCaseStudy, OrganizationCaseStudy,
-    FocusArea, Organization, MarketplaceEntryPage
+    FocusArea, Organization, MarketplaceEntryPage, MarketplaceIndexPage
     )
 
 from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, DocumentForm
@@ -198,6 +198,7 @@ def submit_case_study(request, case_study_index):
               'May', 'June', 'July', 'August',
               'September', 'October', 'November', 'December']
     months = [('%02d' % x, y) for x, y in list(enumerate(months,1))] # months = [('01', 'Jan'), ('02', 'Feb')], ...
+    marketplace_index = MarketplaceIndexPage.objects.live()[0]
     context = {
         'form': form,
         'document_form': document_form,
@@ -209,5 +210,6 @@ def submit_case_study(request, case_study_index):
         'countries': countries,
         'regions': regions,
         'case_study_index': case_study_index,
+        'marketplace_index': marketplace_index,
     }
     return render(request, 'portal_pages/case_study_page_add.html', context)

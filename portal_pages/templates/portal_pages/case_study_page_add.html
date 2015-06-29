@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailroutablepage_tags %}
 
 {% block extra-css %}
     <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
@@ -72,12 +72,8 @@
 
             <div class="label-info-header">Why isn't my Marketplace Entry listed?</div>
             <div class="label-info">
-                Please add your marketplace entry via our form.
-                {% comment %}
-                    TODO: how do we find the URL for marketplace entry add form? 
-                    It's buried in the view method....
-                {% endcomment %}
-                <a href=" {% pageurl case_study_index %} ">Test</a>
+                Please add your marketplace entry:
+                <a href="{% routablepageurl marketplace_index 'submit' %}" target="_new">Submit Your Own Marketplace Entry</a>
             </div>
 
             <br />
