@@ -71,6 +71,7 @@ nav a.selected{
   line-height:1.75em;
   background-color:#00517A;
   margin-top: -0.35em;
+  font-weight: 700;
 }
 .sub-nav .page-width{
   padding:0 9em;
