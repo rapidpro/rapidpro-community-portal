@@ -32,8 +32,8 @@ envs = {
 
     },
     'production': {
-        'master': 'FIXME',
-        'host_string': 'FIXME',
+        'master': '54.77.58.154',
+        'host_string': 'rapidpro-prod.cakt.us',
     },
     'local': {
         'user': 'vagrant',
@@ -216,7 +216,7 @@ def add_role(name):
 def salt(cmd, target="'*'", loglevel=DEFAULT_SALT_LOGLEVEL):
     """Run arbitrary salt commands."""
     with settings(warn_only=True, host_string=env.master):
-        sudo("salt {0} -l{1} {2} ".format(target, loglevel, cmd))
+        sudo("salt -v {0} -l{1} {2} ".format(target, loglevel, cmd))
 
 
 @task
