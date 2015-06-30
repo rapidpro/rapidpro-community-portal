@@ -1,8 +1,10 @@
-from django.forms import ModelForm
+from datetime import datetime
+
+from django.forms import ModelForm, widgets
 
 from wagtail.wagtailimages.models import Image
 
-from .models import MarketplaceEntryPage
+from .models import MarketplaceEntryPage, BlogPage
 
 class MarketplaceEntryForm(ModelForm):
 
@@ -30,3 +32,19 @@ class ImageForm(ModelForm):
         fields = [
             'file'
         ]
+
+class BlogForm(ModelForm):
+
+    required_css_class = 'required'
+
+    class Meta:
+        model = BlogPage
+        labels = {
+            'date': 'Blog Date'
+        }
+        fields = [
+            'title', 'body', 'date'
+        ]
+        widgets = {
+            'date': widgets.DateInput(attrs={'class': 'datepicker'})
+        }

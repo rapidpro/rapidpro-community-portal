@@ -673,14 +673,37 @@ class OrganizationCaseStudy(Orderable, models.Model):
 # Blog index page
 
 
-class BlogIndexPage(Page, TopImage):
+class BlogIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
+    submit_info = RichTextField(blank=True)
+    thanks_info = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
 
     subpage_types = ['portal_pages.BlogPage']
+
+    @route(r'^$')
+    def base(self, request):
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            self.get_context(request)
+        )
+
+    @route(r'^submit-blog/$')
+    def submit(self, request):
+        from .views import submit_blog
+        return submit_blog(request, self)
+
+    @route(r'^submit-thank-you/$')
+    def thanks(self, request):
+        return TemplateResponse(
+            request,
+            'portal_pages/thank_you.html',
+            { "thanks_info" : self.thanks_info }
+        )
 
     @property
     def tags(self):
@@ -737,7 +760,9 @@ BlogIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
     MultiFieldPanel(TopImage.panels, "blog image"),
-]
+    FieldPanel('submit_info', classname="full"),
+    FieldPanel('thanks_info', classname="full"),
+ ]
 
 BlogIndexPage.promote_panels = Page.promote_panels
 
