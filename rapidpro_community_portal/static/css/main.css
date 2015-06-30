@@ -2,7 +2,7 @@
 
 body{
   font-size:18px;
-  font-family:Calibri,"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family:"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:200;
   color:black;
 }
@@ -10,10 +10,14 @@ body{
 ::selection { background-color: #F33; color:white; }
 ::-moz-selection { background-color: #F33; color:white; }
 
-h1{ font-size:180%; }
-h2{ font-size:140%; }
-h3{ font-size:120%; }
-h4{ font-size:110%; }
+h1, h2, h3, h4 {
+  font-weight:700;
+}
+
+h1{ font-size:200%; }
+h2{ font-size:180%; }
+h3{ font-size:160%; }
+h4{ font-size:120%; }
 
 header,footer{
   overflow:auto;
@@ -23,9 +27,9 @@ header{
   background-color:#069;
 }
 footer{
-  background-color:#aaa;
+  background-color:#00517A;
   padding-bottom:4em;
-  color:#777;
+  color:#FFF;
 }
 
 a{
@@ -52,16 +56,22 @@ nav a{
 
 nav a.selected{
   background-color: #00517A;
-  padding: 0.5em;
+  padding: 0.5em 0.5em 1.10em 0.5em;
+  margin-bottom: -1em;
   text-align: center;
-  border-radius: 4px;
   box-sizing: border-box;
+}
+
+.main-nav {
+  font-weight: 700;
 }
 
 .sub-nav{
   font-size:80%;
   line-height:1.75em;
   background-color:#00517A;
+  margin-top: -0.35em;
+  font-weight: 700;
 }
 .sub-nav .page-width{
   padding:0 9em;
@@ -176,12 +186,14 @@ ol{
 }
 
 .homepage-video{
-  background-color:#eeeeee;
+  background-color:#00517A;
+  color: #FFF;
 }
 
 .rich-text p{
   padding-top:5px;
   padding-bottom:5px;
+  font-size:0.9em;
 }
 
 .rich-text img.left{ margin: 0 1em 0 0; }
@@ -189,6 +201,10 @@ ol{
 /* manually override floats in rtl because the admin offers "left" and "right" explicitly */
 html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
 html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
+
+.highlights .rich-text p {
+  font-weight: 600;
+}
 
 input[type="search"]{
   width:100%;

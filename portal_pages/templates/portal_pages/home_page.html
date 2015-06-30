@@ -29,9 +29,9 @@
     {% if self.youtube_video_id %}
     <section class="homepage-video">
         <div class="page-width cushion" id="homepage-video">
-            <div id="homepage-video-player"></div>
             <h2>{{ self.youtube_video_title }}</h2>
             {{ self.youtube_blurb|richtext }}
+            <div id="homepage-video-player"></div>
         </div>
     </section>
     {% endif %}
@@ -43,9 +43,9 @@
         <div class="flex-layout">
             <section class="featured-case-study half">
                 {% image self.featured_case_study.top_image height-144 as img %}
-                <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
                 <a href="{% pageurl self.featured_case_study %}"><h2>{{ self.featured_case_study.title }}</h2></a>
                 {{ self.featured_case_study_blurb|richtext }}
+                <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
             </section>
 
             <section class="call-to-action half">
