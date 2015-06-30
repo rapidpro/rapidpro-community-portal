@@ -52,9 +52,9 @@ nav a{
 
 nav a.selected{
   background-color: #00517A;
-  padding: 0.5em;
+  padding: 0.5em 0.5em 1.10em 0.5em;
+  margin-bottom: -1em;
   text-align: center;
-  border-radius: 4px;
   box-sizing: border-box;
 }
 
@@ -62,6 +62,7 @@ nav a.selected{
   font-size:80%;
   line-height:1.75em;
   background-color:#00517A;
+  margin-top: -0.35em;
 }
 .sub-nav .page-width{
   padding:0 9em;
