@@ -25,7 +25,7 @@ http://flickity.metafizzy.co
   border-left: 2px solid white;
 }
 
-.flickity-slider div.rich-text{
+.flickity-slider div.highlight-item-bar{
   position: absolute;
   top: 70%;
   z-index:1;
@@ -36,6 +36,7 @@ http://flickity.metafizzy.co
   color: #FFF;
   font-weight: bold;
   width: 100%;
+  font-size: 160%;
 }
 
 /* draggable */
