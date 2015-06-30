@@ -193,7 +193,7 @@ ol{
 .rich-text p{
   padding-top:5px;
   padding-bottom:5px;
-  font-size:16px;
+  font-size:0.9em;
 }
 
 .rich-text img.left{ margin: 0 1em 0 0; }
