@@ -47,7 +47,7 @@ def display_filter_list(context, items, request_list):
 
     link_items = []
     for item in items:
-        if item.name in request_vars:
+        if item.name in request_vars.split(","):
             item_class = "active"
             # Remove this active item in the list to toggle filter off
             request_vars_list = request_vars.lstrip(",").split(",")  # Strip out any leading comma
