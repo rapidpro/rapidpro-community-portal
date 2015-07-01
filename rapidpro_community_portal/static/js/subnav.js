@@ -1,6 +1,7 @@
 function loadSubNav(subnavType) {
     subnavHeadersArray = [];
-    subnavLinksArray = [];                    
+    subnavLinksArray = [];
+    subnavSelected = "";
     if(window.location.pathname == "/stories/") {
         clearAllNavClasses();
         document.getElementById('nav_stories').className = 'selected';
@@ -14,6 +15,7 @@ function loadSubNav(subnavType) {
         if(subnavType == "") {
             subnavType = "connect";
         }
+        subnavSelected = "Blog";
     }
     switch(subnavType) {
         case "learn":
@@ -33,7 +35,11 @@ function loadSubNav(subnavType) {
     }
     subnavHTML = "<a href='#'></a>";
     for (var i = 0; i < subnavHeadersArray.length; i++) {
-        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "' target='" + subnavTargetArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
+        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "' target='" + subnavTargetArray[i] + "'";
+        if (subnavHeadersArray[i] == subnavSelected) {
+            subnavHTML = subnavHTML + "class='selected'";
+        }
+        subnavHTML = subnavHTML + ">" + subnavHeadersArray[i] + "</a>";
     }
     document.getElementById("subnav_right").innerHTML = subnavHTML;
 }

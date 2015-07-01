@@ -77,6 +77,10 @@ nav a.selected{
   padding:0 9em;
 }
 
+.sub-nav .selected {
+  color: #45B0E5;
+}
+
 .skip-link{ display:none; }
 .skip-link:focus{ display:block; }
 
