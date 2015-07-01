@@ -28,11 +28,13 @@
 
     {% if self.youtube_video_id %}
     <section class="homepage-video">
+        <div class="spacer"></div>
         <div class="page-width cushion" id="homepage-video">
             <h2>{{ self.youtube_video_title }}</h2>
             {{ self.youtube_blurb|richtext }}
             <div id="homepage-video-player"></div>
         </div>
+        <div class="spacer"></div>
     </section>
     {% endif %}
 
