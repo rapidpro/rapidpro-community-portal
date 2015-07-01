@@ -39,7 +39,7 @@
 
     {% if self.downloadable_package %}
         <div class="cushion">
-            <h2>Import the Flow</h2>
+            <h3>Import the Flow</h3>
             <a class="button" href="{{ self.downloadable_package.url }}">{{ self.downloadable_package.title }}</a>
         </div>
     {% endif %}
@@ -47,7 +47,7 @@
     {% if self.casestudy_index %}
 
     <div class="cushion">
-        <h2>Focus Areas</h2>
+        <h3>Focus Areas</h3>
         <div class="tags">
             {% for focus_area in self.focus_areas.all|make_unique:"focusarea__name" %}
             <a href="{% pageurl self.casestudy_index %}?focus_area={{ focus_area.focusarea.name }}">
@@ -58,7 +58,7 @@
     </div>
 
     <div class="cushion">
-        <h2>Organisations</h2>
+        <h3>Organisations</h3>
         <div class="tags">
             {% for organization in self.organizations.all %}
                 <a href="{% pageurl self.casestudy_index %}?organisation={{ organization.organization.name }}">
@@ -70,7 +70,7 @@
 
     {% if self.marketplace_entry %}
         <div class="cushion">
-            <h2>Tech Firm</h2>
+            <h3>Tech Firm</h3>
             <ul>
                 <li><a href="{% pageurl self.marketplace_entry %}">
                 {{ self.marketplace_entry.title }}
