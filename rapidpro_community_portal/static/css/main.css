@@ -15,8 +15,8 @@ h1, h2, h3, h4 {
 }
 
 h1{ font-size:200%; }
-h2{ font-size:180%; }
-h3{ font-size:160%; }
+h2{ font-size:160%; }
+h3{ font-size:140%; }
 h4{ font-size:120%; }
 
 header,footer{
@@ -125,6 +125,7 @@ nav a.selected{
   background-color:rgba(0, 0, 0, 0.1);
   color:#333;
   padding:1px 0.25em;
+  font-size: 0.8em;
 }
 
 .tags > a:hover{
@@ -146,6 +147,10 @@ nav a.selected{
   background-color:#5d5d5d;
 }
 
+.filters label {
+  font-size: 0.8em;
+}
+
 .tagsheader, .addheader {
   background-image: url(../images/svg/listing.svg);
   background-size:auto 15px;
@@ -154,7 +159,7 @@ nav a.selected{
   line-height: 32px;
   padding-left: 32px;
   cursor: pointer;
-
+  font-size: 0.8em;
 }
 
 .addheader {
@@ -193,6 +198,10 @@ ol{
 .rich-text p{
   padding-top:5px;
   padding-bottom:5px;
+  font-size:0.9em;
+}
+
+.rich-text li, .rich-text dt, .rich-text dd {
   font-size:0.9em;
 }
 

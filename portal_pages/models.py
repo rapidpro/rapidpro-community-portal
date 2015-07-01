@@ -208,7 +208,7 @@ HomePage.content_panels = [
 
 class HomePageHeroImageItem(Orderable, models.Model):
     home_page = ParentalKey(HomePage, related_name='hero_items')
-    blurb = RichTextField()
+    blurb = models.CharField(max_length=255)
     target_page = models.ForeignKey(Page)
     hero_image = models.ForeignKey(Image)
 
