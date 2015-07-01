@@ -31,7 +31,7 @@ http://flickity.metafizzy.co
   z-index:1;
   padding: 0.5em 0.5em 0.5em 3em;
   background-color: #000;
-  opacity: 0.6;
+  opacity: 0.45;
   filter: alpha(opacity=60); /* For IE8 and earlier */
   color: #FFF;
   font-weight: bold;
