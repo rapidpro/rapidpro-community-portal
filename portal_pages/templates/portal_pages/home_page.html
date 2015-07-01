@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load wagtailimages_tags wagtailcore_tags %}
 
 {% block top-image %}
@@ -52,7 +53,9 @@
 
             <section class="call-to-action half">
                 <div class="transform-center">
-                    <a class="button">Get started now!</a>
+                    <a>
+                        <img src="{% static 'images/RapidPro.io_Get Started Now.png' %}" />
+                    </a>
                 </div>
             </section>
         </div>
