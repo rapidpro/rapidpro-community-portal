@@ -196,6 +196,10 @@ ol{
   font-size:0.9em;
 }
 
+.rich-text li, .rich-text dt, .rich-text dd {
+  font-size:0.9em;
+}
+
 .rich-text img.left{ margin: 0 1em 0 0; }
 .rich-text img.right{ margin: 0 0 0 1em; }
 /* manually override floats in rtl because the admin offers "left" and "right" explicitly */
