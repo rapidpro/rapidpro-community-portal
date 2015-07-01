@@ -6,7 +6,7 @@
     {% for hitem in self.hero_items.all %}
         <a href="{% pageurl hitem.target_page %}">
             {% image hitem.hero_image height-400 %}
-            {{ hitem.blurb|richtext }}
+            <div class="highlight-item-bar">{{ hitem.blurb }}</div>
         </a>
     {% endfor %}
     </div>
@@ -28,11 +28,13 @@
 
     {% if self.youtube_video_id %}
     <section class="homepage-video">
+        <div class="spacer"></div>
         <div class="page-width cushion" id="homepage-video">
             <h2>{{ self.youtube_video_title }}</h2>
             {{ self.youtube_blurb|richtext }}
             <div id="homepage-video-player"></div>
         </div>
+        <div class="spacer"></div>
     </section>
     {% endif %}
 
