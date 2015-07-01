@@ -125,7 +125,7 @@ nav a.selected{
   background-color:rgba(0, 0, 0, 0.1);
   color:#333;
   padding:1px 0.25em;
-  font-size: 70%;
+  font-size: 0.8em;
 }
 
 .tags > a:hover{
@@ -148,7 +148,7 @@ nav a.selected{
 }
 
 .filters label {
-  font-size: 70%;
+  font-size: 0.8em;
 }
 
 .tagsheader, .addheader {
@@ -159,7 +159,7 @@ nav a.selected{
   line-height: 32px;
   padding-left: 32px;
   cursor: pointer;
-  font-size: 70%;
+  font-size: 0.8em;
 }
 
 .addheader {
