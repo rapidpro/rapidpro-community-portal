@@ -28,7 +28,7 @@ html[dir="rtl"] .left { float:right; }
 @media (min-width: 700px) {
 	.half { width:50%; max-width:50%; }
 	.third { width:33.33333333%; max-width:33.33333333%; }
-	.two-thirds { width:66.66666666%; max-width:66.66666666%; }
+	.two-thirds { width:66.66666666%; max-width:66.66666666%; padding-right:5%;}
 	.quarter { width:25%; max-width:25% }
 	.three-quarters { width:75%; max-width:75%; }
 	.fifth { width:20%; max-width:20%; }
