@@ -2,6 +2,12 @@
 {% load static %}
 {% load wagtailcore_tags wagtailroutablepage_tags %}
 
+{% block extra-header %}
+    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+{% endblock %}
+
 {% block extra-css %}
     <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
 {% endblock %}
@@ -21,9 +27,12 @@
         <div class="cushion">
             {% if form.errors or document_form.errors %}
                 <p class="cushion errorlabel">Please correct the errors below.</p>
-                {{ form.errors }}<br>
-                {{ document_form.errors }}<br>
             {% endif %}
+
+            {{ form.honeypot }}
+
+            {{ form.media }}
+            {{ form.media.errors }}
 
             {{ form.title.label_tag }}
             {{ form.title }}
@@ -129,10 +138,6 @@
 {% endblock %}
 
 {% block extra-js %}
-    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
-
     <script>
         $('#focus_areas').chosen({});
         $('#organizations').chosen({});
