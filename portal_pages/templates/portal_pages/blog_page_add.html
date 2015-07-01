@@ -2,6 +2,13 @@
 {% load static %}
 {% load wagtailcore_tags %}
 
+{% block extra-header %}
+    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+{% endblock %}
+
 {% block extra-css %}
     <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -22,8 +29,12 @@
         <div class="cushion">
             {% if form.errors %}
                 <p class="cushion errorlabel">Please correct the errors below.</p>
-                {{ form.errors }}<br>
             {% endif %}
+
+            {{ form.honeypot }}
+
+            {{ form.media }}
+            {{ form.media.errors }}
 
             {{ form.title.label_tag }}
             {{ form.title }}
@@ -70,11 +81,6 @@
 {% endblock %}
 
 {% block extra-js %}
-    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
     <script>
         $(".datepicker").datepicker({ minDate: 0 });
         $('#tags').chosen({});
