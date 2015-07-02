@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django import forms
-from django.forms import ModelForm, widgets
 from django.template.loader import render_to_string
 
 from wagtail.wagtailimages.models import Image
@@ -71,7 +70,7 @@ class SpamProtectedForm(forms.Form):
         })
 
 
-class MarketplaceEntryForm(SpamProtectedForm, ModelForm):
+class MarketplaceEntryForm(SpamProtectedForm, forms.ModelForm):
 
     required_css_class = 'required'
 
@@ -87,7 +86,7 @@ class MarketplaceEntryForm(SpamProtectedForm, ModelForm):
             'state', 'country', 'post_code', 'website'
         ]
 
-class ImageForm(ModelForm):
+class ImageForm(forms.ModelForm):
 
     class Meta:
         model = Image
@@ -98,7 +97,7 @@ class ImageForm(ModelForm):
             'file'
         ]
 
-class BlogForm(SpamProtectedForm, ModelForm):
+class BlogForm(SpamProtectedForm, forms.ModelForm):
 
     required_css_class = 'required'
 
@@ -111,5 +110,5 @@ class BlogForm(SpamProtectedForm, ModelForm):
             'title', 'body', 'date'
         ]
         widgets = {
-            'date': widgets.DateInput(attrs={'class': 'datepicker'})
+            'date': forms.widgets.DateInput(attrs={'class': 'datepicker'})
         }
