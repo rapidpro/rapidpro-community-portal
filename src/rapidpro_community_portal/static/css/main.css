@@ -102,6 +102,28 @@ nav a.selected{
   padding: 0em 0.5em;
 }
 
+.mobile-nav {
+  display: none;
+  background-color: #006699;
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+}
+
+.mobile-nav .mobile-list a {
+  display: block;
+  border-bottom: #00517A solid 3px;
+}
+
+@media (max-width: 800px) {
+  .mobile-nav {
+    display: inline-block;
+  }
+  .main-nav, .sub-nav {
+    display: none;
+  }
+}
+
 .skip-link{ display:none; }
 .skip-link:focus{ display:block; }
 
