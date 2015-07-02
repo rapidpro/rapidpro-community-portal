@@ -132,7 +132,7 @@ class FlowJSONFileForm(ModelForm):
         file_type = cleaned_data.get("file").content_type
         file_ext = cleaned_data.get("file").name.split(".")[-1]
 
-        if file_type!='application/octet-stream' or file_ext!='json':
+        if file_type != 'application/octet-stream' or file_ext != 'json':
             raise forms.ValidationError(
                     "Please upload a valid JSON file for the Flow JSON File."
                 )
