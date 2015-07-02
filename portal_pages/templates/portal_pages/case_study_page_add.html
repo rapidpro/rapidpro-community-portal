@@ -37,6 +37,10 @@
             {{ form.summary }}
             {{ form.summary.errors }}
 
+            {{ form.submitter_email.label_tag }}
+            {{ form.submitter_email }}
+            {{ form.submitter_email.errors }}
+
             <br />
             {{ flow_json_file_form.file.label_tag }}<br />
             {{ flow_json_file_form.file }}
@@ -144,6 +148,7 @@
         $('#organizations').chosen({});
         $('#regions').chosen({});
         $('#countries').chosen({});
+        $("label[for='id_submitter_email']").addClass("required");
 
         tinymce.init({
             menubar : false,
@@ -182,6 +187,7 @@
             //Clear out the error labels
             $("label[for='id_title']").removeClass("errorlabel");
             $("label[for='id_summary']").removeClass("errorlabel");
+            $("label[for='id_submitter_email']").removeClass("errorlabel");
 
             $("#required_fields").hide();
             //Check for required fields
@@ -191,6 +197,10 @@
             }
             if (tinymce.get("id_summary").getContent() == "") {
                 $("label[for='id_summary']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if ($("#id_submitter_email").val() == "") {
+                $("label[for='id_submitter_email']").addClass("errorlabel");
                 formPass = 0;
             }
 

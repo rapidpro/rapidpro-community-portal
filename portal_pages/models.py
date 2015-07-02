@@ -628,6 +628,7 @@ class CaseStudyPage(Page, TopImage):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    submitter_email = models.EmailField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('summary'),
@@ -656,6 +657,7 @@ CaseStudyPage.content_panels = [
     InlinePanel(CaseStudyPage, 'regions', label="Regions"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
     InlinePanel(CaseStudyPage, 'organizations', label="Organisations"),
+    FieldPanel('submitter_email'),
 ]
 
 

@@ -106,9 +106,12 @@ class CaseStudyForm(SpamProtectedForm, ModelForm):
 
     class Meta:
         model = CaseStudyPage
+        labels = {
+            'submitter_email': 'Your email address, in case we need to contact you. We will not share this email address with anyone.'
+        }
         fields = [
             'title', 'summary', 'date',
-            'marketplace_entry'
+            'marketplace_entry', 'submitter_email'
         ]
 
 
