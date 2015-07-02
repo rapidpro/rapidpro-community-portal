@@ -23,10 +23,14 @@ label{
 
 label.required:after{ content: " *"; }
 
-.label-info{
+.label-info, .label-info-header{
   font-size:90%;
   padding-left: 0.5em;
   font-style: italic;
+}
+
+.label-info-header{
+    font-weight: 600;
 }
 
 .read-value,
