@@ -112,13 +112,26 @@ class CaseStudyForm(SpamProtectedForm, ModelForm):
         ]
 
 
-class DocumentForm(ModelForm):
+class FlowJSONFileForm(ModelForm):
 
     class Meta:
         model = Document
         labels = {
-            'file': 'Your Flow Document'
+            'file': 'Your Flow JSON File'
         }
         fields = [
             'file'
         ]
+
+    def clean(self):
+        cleaned_data = super(FlowJSONFileForm, self).clean()
+
+        file_type = cleaned_data.get("file").content_type
+        file_ext = cleaned_data.get("file").name.split(".")[-1]
+
+        if file_type!='application/octet-stream' or file_ext!='json':
+            raise forms.ValidationError(
+                    "Please upload a valid JSON file for the Flow JSON File."
+                )
+
+        return cleaned_data

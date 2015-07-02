@@ -25,14 +25,9 @@
         </div>
 
         <div class="cushion">
-            {% if form.errors or document_form.errors %}
+            {% if form.errors or flow_json_file_form.errors %}
                 <p class="cushion errorlabel">Please correct the errors below.</p>
             {% endif %}
-
-            {{ form.honeypot }}
-
-            {{ form.media }}
-            {{ form.media.errors }}
 
             {{ form.title.label_tag }}
             {{ form.title }}
@@ -43,9 +38,10 @@
             {{ form.summary.errors }}
 
             <br />
-            {{ document_form.file.label_tag }}<br />
-            {{ document_form.file }}
-            {{ document_form.file.errors }}
+            {{ flow_json_file_form.file.label_tag }}<br />
+            {{ flow_json_file_form.file }}
+
+            {{ flow_json_file_form.non_field_errors }}
 
             <div class="label-info">Include the .JSON file for your flow</div>
 
@@ -115,6 +111,8 @@
             </select>
         </div>
 
+        {{ form.honeypot }}
+
         {% comment %}
             The following field is overridden in view submit_case_study() method, but is required on the case study form validation. 
         {% endcomment %}
@@ -138,6 +136,9 @@
 {% endblock %}
 
 {% block extra-js %}
+
+    {{ form.media }}
+
     <script>
         $('#focus_areas').chosen({});
         $('#organizations').chosen({});

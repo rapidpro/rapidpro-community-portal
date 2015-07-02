@@ -13,7 +13,7 @@ from .models import (
     FocusArea, Organization, MarketplaceEntryPage, MarketplaceIndexPage
     )
 
-from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, DocumentForm
+from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, FlowJSONFileForm
 
 
 def submit_marketplace_entry(request, marketplace_index):
@@ -113,19 +113,19 @@ def submit_case_study(request, case_study_index):
 
     form = CaseStudyForm(data=request.POST or None, label_suffix='')
 
-    # If the user uploaded a flow document we want the document_form to validate it is a
+    # If the user uploaded a flow document we want the flow_json_file_form to validate it is a
     # valid document, but if no file was uploaded then proceed with an
-    # unbound DocumentForm. This avoids re-display due to errors in the main form
+    # unbound FlowJSONFileForm. This avoids re-display due to errors in the main form
     # erroneously telling the user that the flow file is required (it is required
     # for that form, but the entire form is optional).
     if request.FILES:
-        document_form = DocumentForm(data=request.POST, files=request.FILES, label_suffix='')
-        document_form_valid = document_form.is_valid()
+        flow_json_file_form = FlowJSONFileForm(data=request.POST, files=request.FILES, label_suffix='')
+        flow_json_file_form_valid = flow_json_file_form.is_valid()
     else:
-        document_form = DocumentForm(label_suffix='')
-        document_form_valid = True
+        flow_json_file_form = FlowJSONFileForm(label_suffix='')
+        flow_json_file_form_valid = True
 
-    if request.method == 'POST' and form.is_valid() and document_form_valid:
+    if request.method == 'POST' and form.is_valid() and flow_json_file_form_valid:
         case_study_page = form.save(commit=False)
         if request.POST['year_start'] and request.POST['month_start']:
             full_date = request.POST['year_start'] + '-' + request.POST['month_start'] + '-01'
@@ -136,7 +136,7 @@ def submit_case_study(request, case_study_index):
         if case_study:
             case_study.unpublish()
             if request.FILES:
-                downloadable_package = document_form.save(commit=False)
+                downloadable_package = flow_json_file_form.save(commit=False)
                 downloadable_package.title = "Document for %s" % case_study_page.title
                 downloadable_package.save()
                 case_study.downloadable_package = downloadable_package
@@ -201,7 +201,7 @@ def submit_case_study(request, case_study_index):
     marketplace_index = MarketplaceIndexPage.objects.live()[0]
     context = {
         'form': form,
-        'document_form': document_form,
+        'flow_json_file_form': flow_json_file_form,
         'focus_areas': focus_areas,
         'organizations': organizations,
         'marketplace_entries': marketplace_entries,
