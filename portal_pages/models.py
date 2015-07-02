@@ -168,7 +168,8 @@ class HomePage(Page):
     youtube_video_id = models.CharField(max_length=512, blank=True, default='')
     youtube_video_title = models.CharField(max_length=512, blank=True, default='')
     youtube_blurb = RichTextField(blank=True, default='')
-
+    get_started_now_page = models.ForeignKey(Page,
+                blank=True, null=True, on_delete=models.SET_NULL, related_name='homepages')
 
 HomePage.content_panels = [
     MultiFieldPanel(
@@ -201,6 +202,13 @@ HomePage.content_panels = [
             FieldPanel('featured_case_study_blurb'),
         ],
         heading='Featured case study',
+        classname='collapsible collapsed',
+    ),
+    MultiFieldPanel(
+        [
+            PageChooserPanel('get_started_now_page'),
+        ],
+        heading='Get Started Now',
         classname='collapsible collapsed',
     ),
 ]

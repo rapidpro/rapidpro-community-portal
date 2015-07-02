@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load wagtailimages_tags wagtailcore_tags %}
 
 {% block top-image %}
@@ -40,24 +41,28 @@
 
     <div class="spacer"></div>
 
-    {% if self.featured_case_study %}
     <div class="page-width" >
         <div class="flex-layout">
             <section class="featured-case-study half">
-                {% image self.featured_case_study.top_image height-144 as img %}
-                <a href="{% pageurl self.featured_case_study %}"><h2>{{ self.featured_case_study.title }}</h2></a>
-                {{ self.featured_case_study_blurb|richtext }}
-                <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
+                {% if self.featured_case_study %}
+                    {% image self.featured_case_study.top_image height-144 as img %}
+                    <a href="{% pageurl self.featured_case_study %}"><h2>{{ self.featured_case_study.title }}</h2></a>
+                    {{ self.featured_case_study_blurb|richtext }}
+                    <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
+                {% endif %}
             </section>
 
             <section class="call-to-action half">
-                <div class="transform-center">
-                    <a class="button">Get started now!</a>
-                </div>
+                {% if self.get_started_now_page %}
+                    <div class="transform-center">
+                        <a href="{% pageurl self.get_started_now_page %}">
+                            <img src="{% static 'images/RapidPro.io_Get Started Now.png' %}" />
+                        </a>
+                    </div>
+                {% endif %}
             </section>
         </div>
     </div>
-    {% endif %}
 {% endblock %}
 
 {% block extra-js %}
