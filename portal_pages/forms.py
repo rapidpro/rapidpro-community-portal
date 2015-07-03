@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import ModelForm
 from django.template.loader import render_to_string
 
 from wagtail.wagtaildocs.models import Document
@@ -71,7 +70,7 @@ class SpamProtectedForm(forms.Form):
         })
 
 
-class MarketplaceEntryForm(ModelForm):
+class MarketplaceEntryForm(forms.ModelForm):
 
     required_css_class = 'required'
 
@@ -88,7 +87,7 @@ class MarketplaceEntryForm(ModelForm):
         ]
 
 
-class ImageForm(ModelForm):
+class ImageForm(forms.ModelForm):
 
     class Meta:
         model = Image
@@ -100,7 +99,7 @@ class ImageForm(ModelForm):
         ]
 
 
-class CaseStudyForm(SpamProtectedForm, ModelForm):
+class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
 
     required_css_class = 'required'
 
@@ -115,7 +114,7 @@ class CaseStudyForm(SpamProtectedForm, ModelForm):
         ]
 
 
-class FlowJSONFileForm(ModelForm):
+class FlowJSONFileForm(forms.ModelForm):
 
     class Meta:
         model = Document
