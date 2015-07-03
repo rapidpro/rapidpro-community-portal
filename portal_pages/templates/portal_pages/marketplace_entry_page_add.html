@@ -2,6 +2,12 @@
 {% load static %}
 {% load wagtailcore_tags %}
 
+{% block extra-header %}
+    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+{% endblock %}
+
 {% block extra-css %}
     <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
 {% endblock %}
@@ -130,6 +136,8 @@
             {{ form.post_code.errors }}
         </div>
 
+        {{ form.honeypot }}
+
         <div id="required_fields" class="cushion" style="display:none;">
             <span class="errorlabel">
                 Please fill in all required* fields and enter valid information.
@@ -148,9 +156,8 @@
 {% endblock %}
 
 {% block extra-js %}
-    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+
+    {{ form.media }}
 
     <script>
         $('#services').chosen({});

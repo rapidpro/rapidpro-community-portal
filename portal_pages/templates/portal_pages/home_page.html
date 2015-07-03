@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load wagtailimages_tags wagtailcore_tags %}
 
 {% block top-image %}
@@ -6,7 +7,7 @@
     {% for hitem in self.hero_items.all %}
         <a href="{% pageurl hitem.target_page %}">
             {% image hitem.hero_image height-400 %}
-            {{ hitem.blurb|richtext }}
+            <div class="highlight-item-bar">{{ hitem.blurb }}</div>
         </a>
     {% endfor %}
     </div>
@@ -28,34 +29,40 @@
 
     {% if self.youtube_video_id %}
     <section class="homepage-video">
+        <div class="spacer"></div>
         <div class="page-width cushion" id="homepage-video">
             <h2>{{ self.youtube_video_title }}</h2>
             {{ self.youtube_blurb|richtext }}
             <div id="homepage-video-player"></div>
         </div>
+        <div class="spacer"></div>
     </section>
     {% endif %}
 
     <div class="spacer"></div>
 
-    {% if self.featured_case_study %}
     <div class="page-width" >
         <div class="flex-layout">
             <section class="featured-case-study half">
-                {% image self.featured_case_study.top_image height-144 as img %}
-                <a href="{% pageurl self.featured_case_study %}"><h2>{{ self.featured_case_study.title }}</h2></a>
-                {{ self.featured_case_study_blurb|richtext }}
-                <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
+                {% if self.featured_case_study %}
+                    {% image self.featured_case_study.top_image height-144 as img %}
+                    <a href="{% pageurl self.featured_case_study %}"><h2>{{ self.featured_case_study.title }}</h2></a>
+                    {{ self.featured_case_study_blurb|richtext }}
+                    <a href="{% pageurl self.featured_case_study %}"><img class="full" src="{{ img.url }}" /></a>
+                {% endif %}
             </section>
 
             <section class="call-to-action half">
-                <div class="transform-center">
-                    <a class="button">Get started now!</a>
-                </div>
+                {% if self.get_started_now_page %}
+                    <div class="transform-center">
+                        <a href="{% pageurl self.get_started_now_page %}">
+                            <img src="{% static 'images/RapidPro.io_Get Started Now.png' %}" />
+                        </a>
+                    </div>
+                {% endif %}
             </section>
         </div>
     </div>
-    {% endif %}
 {% endblock %}
 
 {% block extra-js %}
