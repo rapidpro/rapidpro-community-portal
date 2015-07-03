@@ -39,6 +39,12 @@ http://flickity.metafizzy.co
   font-size: 160%;
 }
 
+@media (max-width: 1000px) {
+  .flickity-slider div.highlight-item-bar{
+    text-align: center;
+  }
+}
+
 /* draggable */
 
 .flickity-enabled.is-draggable {
