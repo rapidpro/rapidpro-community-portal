@@ -10,10 +10,11 @@ from .models import (
     Service, Expertise, Country, Region, ServiceMarketplaceEntry,
     CountryMarketplaceEntry, RegionMarketplaceEntry, ExpertiseMarketplaceEntry,
     CountryCaseStudy, RegionCaseStudy, FocusAreaCaseStudy, OrganizationCaseStudy,
-    FocusArea, Organization, MarketplaceEntryPage, MarketplaceIndexPage
+    FocusArea, Organization, MarketplaceEntryPage, MarketplaceIndexPage,
+    Tag, BlogPageTag
     )
 
-from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, FlowJSONFileForm
+from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, FlowJSONFileForm, BlogForm
 
 
 def submit_marketplace_entry(request, marketplace_index):
@@ -82,7 +83,7 @@ def submit_marketplace_entry(request, marketplace_index):
                     page=marketplace_entry
                 )
 
-            # Submit page for moderation. This reuires first saving a revision.
+            # Submit page for moderation. This requires first saving a revision.
             marketplace_entry.save_revision(submitted_for_moderation=True)
             # Then send the notification. Last param None means do not exclude any
             # moderators from email (internally wagtail would exclude the user
@@ -108,6 +109,49 @@ def submit_marketplace_entry(request, marketplace_index):
         'marketplace_index': marketplace_index,
     }
     return render(request, 'portal_pages/marketplace_entry_page_add.html', context)
+
+
+def submit_blog(request, blog_index):
+
+    form = BlogForm(data=request.POST or None, label_suffix='')
+
+    if request.method == 'POST' and form.is_valid():
+        blog_page = form.save(commit=False)
+        blog_page.slug = slugify(blog_page.title)
+        blog = blog_index.add_child(instance=blog_page)
+
+        if blog:
+            blog.unpublish()
+
+            for tag in request.POST.getlist('tags'):
+                BlogPageTag.objects.create(tag=Tag.objects.get(id=tag),
+                                           content_object=blog)
+            if request.POST['tags_additional']:
+                for tag_name in request.POST['tags_additional'].split(","):
+                    tag_name = tag_name.lstrip().rstrip()
+                    tag, created = Tag.objects.get_or_create(name=tag_name)
+                    BlogPageTag.objects.create(
+                        tag=tag,
+                        content_object=blog
+                    )
+
+            # Submit page for moderation. This requires first saving a revision.
+            blog.save_revision(submitted_for_moderation=True)
+            # Then send the notification. Last param None means do not exclude any
+            # moderators from email (internally wagtail would exclude the user
+            # submitting from such emails, be we are submitting something from an
+            # anonymous user, so no one should be excluded from the email).
+            send_notification(blog.get_latest_revision().id, 'submitted', None)
+        return HttpResponseRedirect(blog_index.url + blog_index.reverse_subpage('thanks'))
+
+    tags = Tag.objects.order_by('name')
+    context = {
+        'form': form,
+        'tags': tags,
+        'blog_index': blog_index,
+    }
+    return render(request, 'portal_pages/blog_page_add.html', context)
+
 
 def submit_case_study(request, case_study_index):
 
@@ -178,7 +222,7 @@ def submit_case_study(request, case_study_index):
                     page=case_study
                 )
 
-            # Submit page for moderation. This reuires first saving a revision.
+            # Submit page for moderation. This requires first saving a revision.
             case_study.save_revision(submitted_for_moderation=True)
             # Then send the notification. Last param None means do not exclude any
             # moderators from email (internally wagtail would exclude the user

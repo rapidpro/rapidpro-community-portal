@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from wagtail.wagtaildocs.models import Document
 from wagtail.wagtailimages.models import Image
 
-from .models import MarketplaceEntryPage, CaseStudyPage
+from .models import MarketplaceEntryPage, CaseStudyPage, BlogPage
 
 
 class HoneyForm(forms.Form):
@@ -71,7 +71,7 @@ class SpamProtectedForm(forms.Form):
         })
 
 
-class MarketplaceEntryForm(SpamProtectedForm, ModelForm):
+class MarketplaceEntryForm(ModelForm):
 
     required_css_class = 'required'
 
@@ -138,3 +138,20 @@ class FlowJSONFileForm(ModelForm):
                 )
 
         return cleaned_data
+
+
+class BlogForm(SpamProtectedForm, forms.ModelForm):
+
+    required_css_class = 'required'
+
+    class Meta:
+        model = BlogPage
+        labels = {
+            'date': 'Blog Date'
+        }
+        fields = [
+            'title', 'body', 'date'
+        ]
+        widgets = {
+            'date': forms.widgets.DateInput(attrs={'class': 'datepicker'})
+        }
