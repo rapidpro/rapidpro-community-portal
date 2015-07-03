@@ -39,6 +39,10 @@
             {{ form.body }}
             {{ form.body.errors }}
 
+            {{ form.submitter_email.label_tag }}
+            {{ form.submitter_email }}
+            {{ form.submitter_email.errors }}
+
             {{ form.date.label_tag }}
             {{ form.date }}
             {{ form.date.errors }}
@@ -84,6 +88,8 @@
     <script>
         $(".datepicker").datepicker({ minDate: 0 });
         $('#tags').chosen({});
+        $("label[for='id_submitter_email']").addClass("required");
+
         tinymce.init({
             menubar : false,
             plugins: ["link"],
@@ -119,6 +125,8 @@
             $("label[for='id_title']").removeClass("errorlabel");
             $("label[for='id_body']").removeClass("errorlabel");
             $("label[for='id_date']").removeClass("errorlabel");
+            $("label[for='id_submitter_email']").removeClass("errorlabel");
+
             $("#required_fields").hide();
             //Check for required fields
             if ($("#id_title").val() == "") {
@@ -127,6 +135,10 @@
             }
             if (tinymce.get("id_body").getContent() == "") {
                 $("label[for='id_body']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if ($("#id_submitter_email").val() == "") {
+                $("label[for='id_submitter_email']").addClass("errorlabel");
                 formPass = 0;
             }
             if ($("#id_date").val() == "") {

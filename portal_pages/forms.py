@@ -146,10 +146,12 @@ class BlogForm(SpamProtectedForm, forms.ModelForm):
     class Meta:
         model = BlogPage
         labels = {
-            'date': 'Blog Date'
+            'date': 'Blog Date',
+            'submitter_email': 'Your email address, in case we need to contact you. We will not share this email address with anyone.'
         }
         fields = [
-            'title', 'body', 'date'
+            'title', 'body', 'date',
+            'submitter_email'
         ]
         widgets = {
             'date': forms.widgets.DateInput(attrs={'class': 'datepicker'})
