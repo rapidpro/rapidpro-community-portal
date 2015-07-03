@@ -1,11 +1,12 @@
-from datetime import datetime
-
 from django import forms
+from django.forms import ModelForm
 from django.template.loader import render_to_string
 
+from wagtail.wagtaildocs.models import Document
 from wagtail.wagtailimages.models import Image
 
-from .models import MarketplaceEntryPage, BlogPage
+from .models import MarketplaceEntryPage, CaseStudyPage, BlogPage
+
 
 class HoneyForm(forms.Form):
     '''
@@ -70,7 +71,7 @@ class SpamProtectedForm(forms.Form):
         })
 
 
-class MarketplaceEntryForm(SpamProtectedForm, forms.ModelForm):
+class MarketplaceEntryForm(ModelForm):
 
     required_css_class = 'required'
 
@@ -86,7 +87,8 @@ class MarketplaceEntryForm(SpamProtectedForm, forms.ModelForm):
             'state', 'country', 'post_code', 'website'
         ]
 
-class ImageForm(forms.ModelForm):
+
+class ImageForm(ModelForm):
 
     class Meta:
         model = Image
@@ -96,6 +98,47 @@ class ImageForm(forms.ModelForm):
         fields = [
             'file'
         ]
+
+
+class CaseStudyForm(SpamProtectedForm, ModelForm):
+
+    required_css_class = 'required'
+
+    class Meta:
+        model = CaseStudyPage
+        labels = {
+            'submitter_email': 'Your email address, in case we need to contact you. We will not share this email address with anyone.'
+        }
+        fields = [
+            'title', 'summary', 'date',
+            'marketplace_entry', 'submitter_email'
+        ]
+
+
+class FlowJSONFileForm(ModelForm):
+
+    class Meta:
+        model = Document
+        labels = {
+            'file': 'Your Flow JSON File'
+        }
+        fields = [
+            'file'
+        ]
+
+    def clean(self):
+        cleaned_data = super(FlowJSONFileForm, self).clean()
+
+        file_type = cleaned_data.get("file").content_type
+        file_ext = cleaned_data.get("file").name.split(".")[-1]
+
+        if file_type != 'application/octet-stream' or file_ext != 'json':
+            raise forms.ValidationError(
+                    "Please upload a valid JSON file for the Flow JSON File."
+                )
+
+        return cleaned_data
+
 
 class BlogForm(SpamProtectedForm, forms.ModelForm):
 

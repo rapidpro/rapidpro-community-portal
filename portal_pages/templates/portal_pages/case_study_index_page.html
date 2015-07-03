@@ -1,5 +1,5 @@
 {% extends "portal_pages/search_filter_base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailroutablepage_tags %}
 {% load portal_extras %}
 
 {% block full-content %}
@@ -49,6 +49,8 @@
                         {% endif %}
 
                     </div>
+                    <br />
+                    <a class="button" href="{% routablepageurl self "submit" %}">Submit Your Own Story</a>
                 </div>
 
                 <div class="three-quarters">
