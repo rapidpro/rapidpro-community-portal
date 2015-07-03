@@ -813,6 +813,7 @@ class BlogPage(Page, TopImage):
     body = RichTextField()
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField("Post date")
+    submitter_email = models.EmailField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('body'),
@@ -828,6 +829,7 @@ BlogPage.content_panels = [
     FieldPanel('date'),
     FieldPanel('body', classname="full"),
     MultiFieldPanel(TopImage.panels, "blog image"),
+    FieldPanel('submitter_email'),
 ]
 
 BlogPage.promote_panels = Page.promote_panels + [
