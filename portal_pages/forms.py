@@ -70,7 +70,7 @@ class SpamProtectedForm(forms.Form):
         })
 
 
-class MarketplaceEntryForm(forms.ModelForm):
+class MarketplaceEntryForm(SpamProtectedForm, forms.ModelForm):
 
     required_css_class = 'required'
 
