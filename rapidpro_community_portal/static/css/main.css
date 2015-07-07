@@ -52,14 +52,14 @@ nav a{
   display:inline-block;
   padding:0 0.5em;
   color:white;
+  font-size: 0.8em;
 }
 
 nav a.selected{
   background-color: #00517A;
-  padding: 0.5em 0.5em 1.10em 0.5em;
+  padding: 0.75em 0.5em 1.5em 0.5em;
   margin-bottom: -1em;
   text-align: center;
-  box-sizing: border-box;
 }
 
 .main-nav {
@@ -67,7 +67,7 @@ nav a.selected{
 }
 
 .sub-nav{
-  font-size:80%;
+  font-size:90%;
   line-height:1.75em;
   background-color:#00517A;
   margin-top: -0.35em;
@@ -79,6 +79,7 @@ nav a.selected{
 
 .sub-nav .selected {
   color: #45B0E5;
+  padding: 0;
 }
 
 .skip-link{ display:none; }
@@ -201,13 +202,14 @@ ol{
 
 .rich-text li p, .rich-text li, .rich-text dt, .rich-text dt p, .rich-text dd, .rich-text dd p {
   letter-spacing: normal;
+  line-height: 1em;
 }
 
 .rich-text p{
   padding-top:5px;
   padding-bottom:10px;
   font-size:0.9em;
-  line-height: 1.6em;
+  line-height: 1.7em;
   letter-spacing: 0.4px;
 }
 
