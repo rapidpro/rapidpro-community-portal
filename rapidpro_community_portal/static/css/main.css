@@ -14,10 +14,10 @@ h1, h2, h3, h4 {
   font-weight:700;
 }
 
-h1{ font-size:200%; }
-h2{ font-size:180%; }
-h3{ font-size:150%; }
-h4{ font-size:120%; }
+h1{ font-size:180%; }
+h2{ font-size:160%; }
+h3{ font-size:130%; }
+h4{ font-size:110%; }
 
 header,footer{
   overflow:auto;
@@ -199,14 +199,16 @@ ol{
   color: #FFF;
 }
 
-.rich-text p{
-  padding-top:5px;
-  padding-bottom:5px;
-  font-size:0.9em;
+.rich-text li p, .rich-text li, .rich-text dt, .rich-text dt p, .rich-text dd, .rich-text dd p {
+  letter-spacing: normal;
 }
 
-.rich-text li, .rich-text dt, .rich-text dd {
+.rich-text p{
+  padding-top:5px;
+  padding-bottom:10px;
   font-size:0.9em;
+  line-height: 1.6em;
+  letter-spacing: 0.9px;
 }
 
 .rich-text img.left{ margin: 0 1em 0 0; }
@@ -216,7 +218,7 @@ html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
 html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
 
 .highlights .rich-text p {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 input[type="search"]{
