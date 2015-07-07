@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -753,6 +755,7 @@ class BlogIndexPage(RoutablePageMixin, Page, TopImage):
     def blogs(self):
         # Get list of live blog pages that are descendants of this page
         blogs = BlogPage.objects.live().descendant_of(self)
+        blogs = blogs.filter(date__lte=datetime.today().date())
 
         # Order by most recent date first
         blogs = blogs.order_by('-date')
