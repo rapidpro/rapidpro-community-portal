@@ -1,20 +1,21 @@
+{% load portal_extras %}
+
 {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
-{% if items.has_previous %}
-    <a href="?page={{ items.previous_page_number }}
-        {% for key,value in request.GET.items %}
-            {% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}
-        {% endfor %}">
-        Previous
-    </a>
-{% endif %}
 
-Page {{ items.number }} of {{ items.paginator.num_pages }}
+{% with request.GET.items|url_param_dict_to_list as items_list %}
 
-{% if items.has_next %}
-    <a href="?page={{ items.next_page_number }}
-        {% for key,value in request.GET.items %}
-            {% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}
-        {% endfor %}">
-        Next
-    </a>
-{% endif %}
+    {% if items.has_previous %}
+        <a href="?page={{ items.previous_page_number }}{{ items_list }}">
+            Previous
+        </a>
+    {% endif %}
+
+    Page {{ items.number }} of {{ items.paginator.num_pages }}
+
+    {% if items.has_next %}
+        <a href="?page={{ items.next_page_number }}{{ items_list }}">
+            Next
+        </a>
+    {% endif %}
+
+{% endwith %}
