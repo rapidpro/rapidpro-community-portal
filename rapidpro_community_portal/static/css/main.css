@@ -200,14 +200,16 @@ ol{
   color: #FFF;
 }
 
-.rich-text li p, .rich-text li, .rich-text dt, .rich-text dt p, .rich-text dd, .rich-text dd p {
-  letter-spacing: normal;
-  line-height: 1em;
-}
-
 .rich-text p{
   padding-top:5px;
   padding-bottom:10px;
+  font-size:0.8em;
+  line-height: 1.7em;
+  letter-spacing: 0.4px;
+}
+
+
+.rich-text li p, .rich-text li, .rich-text dt, .rich-text dt p, .rich-text dd, .rich-text dd p {
   font-size:0.9em;
   line-height: 1.7em;
   letter-spacing: 0.4px;
