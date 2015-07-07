@@ -260,6 +260,7 @@ class CMSPage(Page, TopImage):
 CMSPage.content_panels = [
     FieldPanel('title'),
     FieldPanel('body'),
+    MultiFieldPanel(TopImage.panels, "hero image"),
 ]
 
 
