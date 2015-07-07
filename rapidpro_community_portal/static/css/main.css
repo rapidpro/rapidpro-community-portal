@@ -211,7 +211,7 @@ ol{
 
 .rich-text li p, .rich-text li, .rich-text dt, .rich-text dt p, .rich-text dd, .rich-text dd p {
   font-size:0.8em;
-  line-height: 1.7em;
+  line-height: 1.9em;
   letter-spacing: 0.4px;
 }
 
@@ -222,7 +222,7 @@ html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
 html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
 
 .highlights .rich-text p {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 input[type="search"]{
