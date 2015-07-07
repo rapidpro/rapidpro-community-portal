@@ -80,7 +80,8 @@ class UserFormTests(TestCase):
         # This should successfully add a single new marketplace entry
         resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
         self.assertEqual(resp.status_code, 302)
-        self.assertEqual(resp['Location'], 'http://testserver/%s/submit-thank-you/' % self.marketplace_index_page.slug)
+        expected_redirect = self.marketplace_index_page.url + self.marketplace_index_page.reverse_subpage('thanks')
+        self.assertRedirects(resp, expected_redirect)
         self.assertEqual(MarketplaceEntryPage.objects.all().count(), 1)
 
     def test_marketplace_entry_form_invalid_honeypot(self):
@@ -88,14 +89,19 @@ class UserFormTests(TestCase):
         self.marketplace_entry_form_data['company_company_email'] = 'Iamabot@bots.com'
         resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.context[0]['form'].errors['__all__'], ['Invalid submission'])
+        self.assertTrue('form' in resp.context)
+        form = resp.context['form']
+        self.assertEqual(len(form.errors), 1)
+        self.assertTrue('__all__' in form.errors)
+        self.assertEqual(form.errors['__all__'], ['Invalid submission'])
         self.assertEqual(MarketplaceEntryPage.objects.all().count(), 0)
 
     def test_case_study_form_valid(self):
         # This should successfully add a single new case study
         resp = self.client.post(self.case_study_submission_url, self.case_study_form_data)
         self.assertEqual(resp.status_code, 302)
-        self.assertEqual(resp['Location'], 'http://testserver/%s/submit-thank-you/'% self.case_study_index_page.slug)
+        expected_redirect = self.case_study_index_page.url + self.case_study_index_page.reverse_subpage('thanks')
+        self.assertRedirects(resp, expected_redirect)
         self.assertEqual(CaseStudyPage.objects.all().count(), 1)
         case_study_page = CaseStudyPage.objects.all()[0]
         # The original date should have been overriden by month_start/year_start
@@ -105,7 +111,12 @@ class UserFormTests(TestCase):
         self.case_study_form_data['email_field_email'] = 'notnine'
         resp = self.client.post(self.case_study_submission_url, self.case_study_form_data)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.context[0]['form'].errors['__all__'], ['Invalid submission'])
+        self.assertTrue('form' in resp.context)
+        form = resp.context['form']
+        self.assertEqual(len(form.errors), 1)
+        self.assertTrue('__all__' in form.errors)
+        self.assertEqual(form.errors['__all__'], ['Invalid submission'])
+        self.assertEqual(MarketplaceEntryPage.objects.all().count(), 0)
         self.assertEqual(CaseStudyPage.objects.all().count(), 0)
 
     def test_case_study_invalid_bad_email(self):
@@ -119,6 +130,8 @@ class UserFormTests(TestCase):
         # This should successfully add a single new blog post
         resp = self.client.post(self.blog_submission_url, self.blog_form_data)
         self.assertEqual(resp.status_code, 302)
+        expected_redirect = self.blog_index_page.url + self.blog_index_page.reverse_subpage('thanks')
+        self.assertRedirects(resp, expected_redirect)
         self.assertEqual(resp['Location'], 'http://testserver/%s/submit-thank-you/'% self.blog_index_page.slug)
         self.assertEqual(BlogPage.objects.all().count(), 1)
 
@@ -126,7 +139,12 @@ class UserFormTests(TestCase):
         self.blog_form_data['email_field_email'] = 'notnine'
         resp = self.client.post(self.blog_submission_url, self.blog_form_data)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.context[0]['form'].errors['__all__'], ['Invalid submission'])
+        self.assertTrue('form' in resp.context)
+        form = resp.context['form']
+        self.assertEqual(len(form.errors), 1)
+        self.assertTrue('__all__' in form.errors)
+        self.assertEqual(form.errors['__all__'], ['Invalid submission'])
+        self.assertEqual(MarketplaceEntryPage.objects.all().count(), 0)
         self.assertEqual(BlogPage.objects.all().count(), 0)
 
     def test_blog_form_invalid_bad_email(self):
