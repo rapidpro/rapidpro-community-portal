@@ -29,19 +29,20 @@ http://flickity.metafizzy.co
   position: absolute;
   top: 70%;
   z-index:1;
-  padding: 0.5em 0.5em 0.5em 3em;
+  padding: 0.5em 0.5em 0.5em 1.5em;
   background-color: #000;
   opacity: 0.45;
   filter: alpha(opacity=60); /* For IE8 and earlier */
   color: #FFF;
   font-weight: bold;
   width: 100%;
-  font-size: 160%;
+  font-size: 120%;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
   .flickity-slider div.highlight-item-bar{
     text-align: center;
+    padding: 0 6em;
   }
 }
 
