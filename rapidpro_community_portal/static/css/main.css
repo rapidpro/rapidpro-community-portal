@@ -261,3 +261,7 @@ hr{
   border-bottom:solid 2px #ddd;
   margin: 20px auto;
 }
+
+.responsive-object {
+  padding-bottom: 0px !important; /* override wagtail embed div inline style */
+}
