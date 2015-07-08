@@ -374,7 +374,7 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
                 marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
 
         # Search by search query
-        search_query = request.GET.get('search', '')
+        search_query = request.GET.get('search', '').strip()
         if search_query:
             marketplace_entries = marketplace_entries.filter(
                 Q(biography__icontains=search_query) | Q(title__icontains=search_query))
@@ -596,7 +596,7 @@ class CaseStudyIndexPage(RoutablePageMixin, Page, TopImage):
                 casestudies = casestudies.filter(marketplace_entry__title=marketplace)
 
         # Search by search query
-        search_query = request.GET.get('search', '')
+        search_query = request.GET.get('search', '').strip()
         if search_query:
             casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
 
@@ -773,7 +773,7 @@ class BlogIndexPage(RoutablePageMixin, Page, TopImage):
                 blogs = blogs.filter(tags__name=tag)
 
         # Search by search query
-        search_query = request.GET.get('search', '')
+        search_query = request.GET.get('search', '').strip()
         if search_query:
             blogs = blogs.filter(
                 Q(body__icontains=search_query) | Q(title__icontains=search_query))
