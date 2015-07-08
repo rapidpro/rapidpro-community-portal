@@ -21,14 +21,14 @@ function loadSubNav(subnavType) {
         case "learn":
             subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
             subnavLinksArray = ["http://knowledge.rapidpro.io/knowledgebase", "https://www.youtube.com/channel/UCtGk7u6DLHjeWn0P4AEpBKA", "/"];
-            subnavTargetArray = ["_blank", "_blank", "_blank"];
+            subnavTargetArray = ["", "_blank", "_blank"];
             clearAllNavClasses();
             document.getElementById('nav_learn').className = 'selected';                           
             break;
         case "connect":
             subnavHeadersArray = ["User Forum", "Blog"];
             subnavLinksArray = ["http://knowledge.rapidpro.io/", "/blog/"];
-            subnavTargetArray = ["_blank", ""];
+            subnavTargetArray = ["", ""];
             clearAllNavClasses();
             document.getElementById('nav_connect').className = 'selected';
             break;
