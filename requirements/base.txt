@@ -2,7 +2,7 @@ psycopg2==2.6
 
 # Wagtail and what it pulls in
 BeautifulSoup4==4.3.2
-Django==1.8.2
+Django==1.8.3
 django-appconf==1.0.1
 django_compressor==1.5
 django-modelcluster==0.6.2
