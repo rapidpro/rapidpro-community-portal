@@ -3,7 +3,7 @@
 body{
   font-size:18px;
   font-family:"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:200;
+  font-weight:400;
   color:black;
 }
 
@@ -14,10 +14,10 @@ h1, h2, h3, h4 {
   font-weight:700;
 }
 
-h1{ font-size:200%; }
-h2{ font-size:180%; }
-h3{ font-size:150%; }
-h4{ font-size:120%; }
+h1{ font-size:180%; }
+h2{ font-size:160%; }
+h3{ font-size:130%; }
+h4{ font-size:110%; }
 
 header,footer{
   overflow:auto;
@@ -52,14 +52,14 @@ nav a{
   display:inline-block;
   padding:0 0.5em;
   color:white;
+  font-size: 0.8em;
 }
 
 nav a.selected{
   background-color: #00517A;
-  padding: 0.5em 0.5em 1.10em 0.5em;
+  padding: 0.75em 0.5em 1.5em 0.5em;
   margin-bottom: -1em;
   text-align: center;
-  box-sizing: border-box;
 }
 
 .main-nav {
@@ -67,7 +67,7 @@ nav a.selected{
 }
 
 .sub-nav{
-  font-size:80%;
+  font-size:90%;
   line-height:1.75em;
   background-color:#00517A;
   margin-top: -0.35em;
@@ -79,6 +79,7 @@ nav a.selected{
 
 .sub-nav .selected {
   color: #45B0E5;
+  padding: 0;
 }
 
 .skip-link{ display:none; }
@@ -201,12 +202,17 @@ ol{
 
 .rich-text p{
   padding-top:5px;
-  padding-bottom:5px;
-  font-size:0.9em;
+  padding-bottom:10px;
+  font-size:0.8em;
+  line-height: 1.7em;
+  letter-spacing: 0.4px;
 }
 
-.rich-text li, .rich-text dt, .rich-text dd {
-  font-size:0.9em;
+
+.rich-text li p, .rich-text li, .rich-text dt, .rich-text dt p, .rich-text dd, .rich-text dd p {
+  font-size:0.8em;
+  line-height: 1.9em;
+  letter-spacing: 0.4px;
 }
 
 .rich-text img.left{ margin: 0 1em 0 0; }
