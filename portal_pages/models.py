@@ -743,9 +743,7 @@ class BlogIndexPage(RoutablePageMixin, Page, TopImage):
     @property
     def tags(self):
         tags = Tag.objects.filter(
-            id__in=BlogPageTag.objects.filter(
-                content_object_id__in=(BlogPage.objects.live())).values('tag')
-        )
+                portal_pages_blogpagetag_items__isnull=False).order_by('name').distinct('name')
 
         return tags
 
