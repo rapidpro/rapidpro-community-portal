@@ -144,7 +144,8 @@ def submit_blog(request, blog_index):
             send_notification(blog.get_latest_revision().id, 'submitted', None)
         return HttpResponseRedirect(blog_index.url + blog_index.reverse_subpage('thanks'))
 
-    tags = Tag.objects.order_by('name')
+    tags = Tag.objects.filter(
+                portal_pages_blogpagetag_items__isnull=False).order_by('name').distinct('name')
     context = {
         'form': form,
         'tags': tags,
