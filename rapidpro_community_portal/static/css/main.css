@@ -113,6 +113,7 @@ nav a.selected{
   color:white;
   border-radius:4px;
   box-sizing: border-box;
+  font-weight: normal;
 }
 
 .hero, .top-image {
@@ -150,6 +151,7 @@ nav a.selected{
   color:#333;
   padding:1px 0.25em;
   font-size: 0.8em;
+  font-weight: normal;
 }
 
 .tags > a:hover{
