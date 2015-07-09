@@ -33,7 +33,7 @@
         <div class="page-width cushion" id="homepage-video">
             <h2>{{ self.youtube_video_title }}</h2>
             {{ self.youtube_blurb|richtext }}
-            <div class="responsive-object" style="padding-bottom: 56.25%;">
+            <div id="homepage-video-player-responsive-div" class="responsive-object">
                 <div id="homepage-video-player"></div>
             </div>
         </div>
@@ -81,10 +81,18 @@
         // after the API code downloads.
         var player;
         function onYouTubeIframeAPIReady() {
+            // height and width from youtube api documentation
+            height = 390;
+            width = 640;
             player = new YT.Player('homepage-video-player', {
-            height: '336',
+            height: height,
+            width: width,
             videoId: '{{ self.youtube_video_id }}'
             });
+            // based padding-bottom calculation from
+            // https://github.com/torchbox/wagtail/blob/master/wagtail/wagtailembeds/format.py#L8
+            var ratio = (height/width * 100).toString() + "%";
+            document.getElementById("homepage-video-player-responsive-div").style.paddingBottom = ratio;
         }
     </script>
     {% endif %}
