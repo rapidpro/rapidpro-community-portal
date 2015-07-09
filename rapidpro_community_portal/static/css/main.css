@@ -35,6 +35,7 @@ footer{
 a{
   text-decoration:none;
   color: #069;
+  font-weight: 700;
 }
 a:hover{ text-decoration:underline; }
 
