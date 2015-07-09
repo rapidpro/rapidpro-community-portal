@@ -264,6 +264,18 @@ CMSPage.content_panels = [
 ]
 
 
+class TechChangePage(Page, TopImage):
+    body = RichTextField(blank=True, default='')
+    tech_change_link = models.CharField(max_length=255)
+
+TechChangePage.content_panels = [
+    FieldPanel('title'),
+    FieldPanel('body'),
+    FieldPanel('tech_change_link'),
+    MultiFieldPanel(TopImage.panels, "hero image"),
+]
+
+
 # Marketplace index page
 
 class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
