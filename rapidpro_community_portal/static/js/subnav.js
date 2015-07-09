@@ -1,13 +1,11 @@
 function loadSubNav(subnavType) {
     subnavHeadersArray = [];
     subnavLinksArray = [];
+    subnavTargetArray = [];
     subnavSelected = "";
     if(window.location.pathname == "/stories/") {
         clearAllNavClasses();
         document.getElementById('nav_stories').className = 'selected';
-        subnavHeadersArray = [];
-        subnavLinksArray = [];
-        subnavTargetArray = [];
     }
     else if(window.location.pathname == "/blog/") {
         clearAllNavClasses();
@@ -17,11 +15,27 @@ function loadSubNav(subnavType) {
         }
         subnavSelected = "Blog";
     }
+    else if(window.location.pathname == "/videos/") {
+        clearAllNavClasses();
+        document.getElementById('nav_learn').className = 'selected';
+        if(subnavType == "") {
+            subnavType = "learn";
+        }
+        subnavSelected = "Videos";
+    }
+    else if(window.location.pathname == "/deployment-toolkit/") {
+        clearAllNavClasses();
+        document.getElementById('nav_learn').className = 'selected';
+        if(subnavType == "") {
+            subnavType = "learn";
+        }
+        subnavSelected = "Deployment Toolkit";
+    }
     switch(subnavType) {
         case "learn":
-            subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
-            subnavLinksArray = ["http://knowledge.rapidpro.io/knowledgebase", "https://www.youtube.com/channel/UCtGk7u6DLHjeWn0P4AEpBKA", "/"];
-            subnavTargetArray = ["", "_blank", "_blank"];
+            subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses", "Deployment Toolkit"];
+            subnavLinksArray = ["http://knowledge.rapidpro.io/knowledgebase", "/videos/", "/", "/deployment-toolkit/"];
+            subnavTargetArray = ["", "", "", ""];
             clearAllNavClasses();
             document.getElementById('nav_learn').className = 'selected';                           
             break;
