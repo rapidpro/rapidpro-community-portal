@@ -280,6 +280,22 @@ hr{
   margin: 20px auto;
 }
 
+
+/* begin wagtail-specific css */
+/* from http://docs.wagtail.io/en/v0.8.8/core_components/pages/writing_templates.html?highlight=responsive#responsive-embeds */
+
 .responsive-object {
-  padding-bottom: 0px !important; /* override wagtail embed div inline style */
+    position: relative;
 }
+
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* end wagtail-specific css */
