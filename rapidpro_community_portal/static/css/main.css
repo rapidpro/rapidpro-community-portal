@@ -97,7 +97,7 @@ nav a.selected{
 
 .sub-nav .selected {
   color: #45B0E5;
-  padding: 0;
+  padding: 0em 0.5em;
 }
 
 .skip-link{ display:none; }
