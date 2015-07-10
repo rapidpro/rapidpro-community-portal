@@ -29,7 +29,7 @@ function loadSubNav(subnavType) {
         if(subnavType == "") {
             subnavType = "learn";
         }
-        subnavSelected = "Deployment Toolkit";
+        subnavSelected = "Deployment&nbsp;Toolkit";
     }
     switch(subnavType) {
         case "learn":
