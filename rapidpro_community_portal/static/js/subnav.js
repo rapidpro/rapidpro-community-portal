@@ -19,21 +19,21 @@ function loadSubNav(subnavType) {
     }
     switch(subnavType) {
         case "learn":
-            subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
+            subnavHeadersArray = ["Knowledge&nbsp;Base", "Videos", "Online&nbsp;Courses"];
             subnavLinksArray = ["http://knowledge.rapidpro.io/knowledgebase", "https://www.youtube.com/channel/UCtGk7u6DLHjeWn0P4AEpBKA", "/"];
             subnavTargetArray = ["", "_blank", "_blank"];
             clearAllNavClasses();
-            document.getElementById('nav_learn').className = 'selected';                           
+            document.getElementById('nav_learn').className = 'selected';
             break;
         case "connect":
-            subnavHeadersArray = ["User Forum", "Blog"];
+            subnavHeadersArray = ["User&nbsp;Forum", "Blog"];
             subnavLinksArray = ["http://knowledge.rapidpro.io/", "/blog/"];
             subnavTargetArray = ["", ""];
             clearAllNavClasses();
             document.getElementById('nav_connect').className = 'selected';
             break;
     }
-    subnavHTML = "<a href='#'></a>";
+    subnavHTML = "";
     for (var i = 0; i < subnavHeadersArray.length; i++) {
         subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "' target='" + subnavTargetArray[i] + "'";
         if (subnavHeadersArray[i] == subnavSelected) {
