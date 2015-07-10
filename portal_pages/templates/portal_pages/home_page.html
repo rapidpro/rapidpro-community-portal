@@ -43,7 +43,7 @@
 
     <div class="spacer"></div>
 
-    <div class="page-width" >
+    <div class="page-width cushion">
         <div class="flex-layout">
             <section class="featured-case-study half">
                 {% if self.featured_case_study %}
@@ -85,9 +85,9 @@
             height = 390;
             width = 640;
             player = new YT.Player('homepage-video-player', {
-            height: height,
-            width: width,
-            videoId: '{{ self.youtube_video_id }}'
+                height: height,
+                width: width,
+                videoId: '{{ self.youtube_video_id }}'
             });
             // based padding-bottom calculation from
             // https://github.com/torchbox/wagtail/blob/master/wagtail/wagtailembeds/format.py#L8
