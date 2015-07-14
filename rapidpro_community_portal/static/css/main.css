@@ -35,6 +35,7 @@ footer{
 a{
   text-decoration:none;
   color: #069;
+  font-weight: 700;
 }
 a:hover{ text-decoration:underline; }
 
@@ -90,6 +91,7 @@ nav a.selected{
   background-color:#00517A;
   margin-top: -0.35em;
   font-weight: 700;
+  min-height: 30px;
 }
 .sub-nav .page-width{
   padding:0 9em;
@@ -97,7 +99,7 @@ nav a.selected{
 
 .sub-nav .selected {
   color: #45B0E5;
-  padding: 0;
+  padding: 0em 0.5em;
 }
 
 .skip-link{ display:none; }
@@ -112,6 +114,7 @@ nav a.selected{
   color:white;
   border-radius:4px;
   box-sizing: border-box;
+  font-weight: normal;
 }
 
 .hero, .top-image {
@@ -149,6 +152,7 @@ nav a.selected{
   color:#333;
   padding:1px 0.25em;
   font-size: 0.8em;
+  font-weight: normal;
 }
 
 .tags > a:hover{
@@ -280,6 +284,22 @@ hr{
   margin: 20px auto;
 }
 
+
+/* begin wagtail-specific css */
+/* from http://docs.wagtail.io/en/v0.8.8/core_components/pages/writing_templates.html?highlight=responsive#responsive-embeds */
+
 .responsive-object {
-  padding-bottom: 0px !important; /* override wagtail embed div inline style */
+    position: relative;
 }
+
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* end wagtail-specific css */

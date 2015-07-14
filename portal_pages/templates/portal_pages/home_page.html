@@ -33,7 +33,9 @@
         <div class="page-width cushion" id="homepage-video">
             <h2>{{ self.youtube_video_title }}</h2>
             {{ self.youtube_blurb|richtext }}
-            <div id="homepage-video-player"></div>
+            <div id="homepage-video-player-responsive-div" class="responsive-object">
+                <div id="homepage-video-player"></div>
+            </div>
         </div>
         <div class="spacer"></div>
     </section>
@@ -41,7 +43,7 @@
 
     <div class="spacer"></div>
 
-    <div class="page-width" >
+    <div class="page-width cushion">
         <div class="flex-layout">
             <section class="featured-case-study half">
                 {% if self.featured_case_study %}
@@ -79,10 +81,18 @@
         // after the API code downloads.
         var player;
         function onYouTubeIframeAPIReady() {
+            // height and width from youtube api documentation
+            height = 270;
+            width = 480;
             player = new YT.Player('homepage-video-player', {
-            height: '336',
-            videoId: '{{ self.youtube_video_id }}'
+                height: height,
+                width: width,
+                videoId: '{{ self.youtube_video_id }}'
             });
+            // based padding-bottom calculation from
+            // https://github.com/torchbox/wagtail/blob/master/wagtail/wagtailembeds/format.py#L8
+            var ratio = (height/width * 100).toString() + "%";
+            document.getElementById("homepage-video-player-responsive-div").style.paddingBottom = ratio;
         }
     </script>
     {% endif %}
