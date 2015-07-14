@@ -34,7 +34,7 @@ function loadSubNav(subnavType) {
     switch(subnavType) {
         case "learn":
             subnavHeadersArray = ["Knowledge&nbsp;Base", "Videos", "Online&nbsp;Courses", "Deployment&nbsp;Toolkit"];
-            subnavLinksArray = ["http://knowledge.rapidpro.io/knowledgebase", "/videos/", "/", "/deployment-toolkit/"];
+            subnavLinksArray = ["http://knowledge.rapidpro.io/knowledgebase", "/videos/", "/online-courses/", "/deployment-toolkit/"];
             subnavTargetArray = ["", "", "", ""];
             clearAllNavClasses();
             document.getElementById('nav_learn').className = 'selected';
