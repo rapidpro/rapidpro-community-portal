@@ -3,7 +3,7 @@ function loadSubNav(subnavType) {
     subnavLinksArray = [];
     subnavTargetArray = [];
     subnavSelected = "";
-    if(window.location.pathname == "/stories/") {
+    if(window.location.pathname.indexOf("/stories/")>=0) {
         clearAllNavClasses();
         document.getElementById('nav_stories').className = 'selected';
     }
@@ -31,7 +31,7 @@ function loadSubNav(subnavType) {
         }
         subnavSelected = "Deployment&nbsp;Toolkit";
     }
-    else if(window.location.pathname == "/online-courses/") {
+    else if(window.location.pathname.indexOf("/online-courses/")>=0) {
         clearAllNavClasses();
         document.getElementById('nav_learn').className = 'selected';
         if(subnavType == "") {
