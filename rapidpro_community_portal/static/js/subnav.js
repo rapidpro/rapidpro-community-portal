@@ -31,6 +31,14 @@ function loadSubNav(subnavType) {
         }
         subnavSelected = "Deployment&nbsp;Toolkit";
     }
+    else if(window.location.pathname == "/online-courses/") {
+        clearAllNavClasses();
+        document.getElementById('nav_learn').className = 'selected';
+        if(subnavType == "") {
+            subnavType = "learn";
+        }
+        subnavSelected = "Online&nbsp;Courses";
+    }
     switch(subnavType) {
         case "learn":
             subnavHeadersArray = ["Knowledge&nbsp;Base", "Videos", "Online&nbsp;Courses", "Deployment&nbsp;Toolkit"];
