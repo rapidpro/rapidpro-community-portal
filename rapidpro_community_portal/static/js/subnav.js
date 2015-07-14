@@ -7,7 +7,7 @@ function loadSubNav(subnavType) {
         clearAllNavClasses();
         document.getElementById('nav_stories').className = 'selected';
     }
-    else if(window.location.pathname == "/blog/") {
+    else if(window.location.pathname.indexOf("/blog/")>=0)  {
         clearAllNavClasses();
         document.getElementById('nav_connect').className = 'selected';
         if(subnavType == "") {
@@ -15,7 +15,7 @@ function loadSubNav(subnavType) {
         }
         subnavSelected = "Blog";
     }
-    else if(window.location.pathname == "/videos/") {
+    else if(window.location.pathname.indexOf("/videos/")>=0)  {
         clearAllNavClasses();
         document.getElementById('nav_learn').className = 'selected';
         if(subnavType == "") {
@@ -23,7 +23,7 @@ function loadSubNav(subnavType) {
         }
         subnavSelected = "Videos";
     }
-    else if(window.location.pathname == "/deployment-toolkit/") {
+    else if(window.location.pathname.indexOf("/deployment-toolkit/")>=0) {
         clearAllNavClasses();
         document.getElementById('nav_learn').className = 'selected';
         if(subnavType == "") {
