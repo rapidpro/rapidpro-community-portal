@@ -132,7 +132,6 @@ class UserFormTests(TestCase):
         self.assertEqual(resp.status_code, 302)
         expected_redirect = self.blog_index_page.url + self.blog_index_page.reverse_subpage('thanks')
         self.assertRedirects(resp, expected_redirect)
-        self.assertEqual(resp['Location'], 'http://testserver/%s/submit-thank-you/'% self.blog_index_page.slug)
         self.assertEqual(BlogPage.objects.all().count(), 1)
 
     def test_blog_form_invalid_honeypot(self):        
