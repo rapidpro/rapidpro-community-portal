@@ -18,7 +18,6 @@ from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, FlowJSONFileF
 
 
 def submit_marketplace_entry(request, marketplace_index):
-
     form = MarketplaceEntryForm(data=request.POST or None, label_suffix='')
 
     # If the user uploaded a logo we want the logo_form to validate it is a
@@ -51,8 +50,8 @@ def submit_marketplace_entry(request, marketplace_index):
                     service=Service.objects.get(id=service),
                     page=marketplace_entry
                 )
-            if request.POST['services_additional']:
-                for service_name in request.POST['services_additional'].split(","):
+            if request.POST.get('services_additional'):
+                for service_name in request.POST.get('services_additional').split(","):
                     service_name = service_name.lstrip().rstrip().capitalize()
                     service, created = Service.objects.get_or_create(name=service_name)
                     ServiceMarketplaceEntry.objects.create(
@@ -64,8 +63,8 @@ def submit_marketplace_entry(request, marketplace_index):
                     expertise=Expertise.objects.get(id=expertise),
                     page=marketplace_entry
                 )
-            if request.POST['expertise_additional']:
-                for expertise_name in request.POST['expertise_additional'].split(","):
+            if request.POST.get('expertise_additional'):
+                for expertise_name in request.POST.get('expertise_additional').split(","):
                     expertise_name = expertise_name.lstrip().rstrip().capitalize()
                     expertise, created = Expertise.objects.get_or_create(name=expertise_name)
                     ExpertiseMarketplaceEntry.objects.create(
@@ -126,8 +125,8 @@ def submit_blog(request, blog_index):
             for tag in request.POST.getlist('tags'):
                 BlogPageTag.objects.create(tag=Tag.objects.get(id=tag),
                                            content_object=blog)
-            if request.POST['tags_additional']:
-                for tag_name in request.POST['tags_additional'].split(","):
+            if request.POST.get('tags_additional'):
+                for tag_name in request.POST.get('tags_additional').split(","):
                     tag_name = tag_name.lstrip().rstrip()
                     tag, created = Tag.objects.get_or_create(name=tag_name)
                     BlogPageTag.objects.create(
@@ -172,8 +171,8 @@ def submit_case_study(request, case_study_index):
 
     if request.method == 'POST' and form.is_valid() and flow_json_file_form_valid:
         case_study_page = form.save(commit=False)
-        if request.POST['year_start'] and request.POST['month_start']:
-            full_date = request.POST['year_start'] + '-' + request.POST['month_start'] + '-01'
+        if request.POST.get('year_start') and request.POST.get('month_start'):
+            full_date = request.POST.get('year_start') + '-' + request.POST.get('month_start') + '-01'
             case_study_page.date = datetime.strptime(full_date, '%Y-%m-%d').date()
         case_study_page.slug = slugify(case_study_page.title)
         case_study = case_study_index.add_child(instance=case_study_page)
@@ -191,8 +190,8 @@ def submit_case_study(request, case_study_index):
                     focusarea=FocusArea.objects.get(id=focus_area),
                     page=case_study
                 )
-            if request.POST['focus_areas_additional']:
-                for focus_area_name in request.POST['focus_areas_additional'].split(","):                
+            if request.POST.get('focus_areas_additional'):
+                for focus_area_name in request.POST.get('focus_areas_additional').split(","):
                     focus_area_name = focus_area_name.lstrip().rstrip().capitalize()
                     focus_area, created = FocusArea.objects.get_or_create(name=focus_area_name)
                     FocusAreaCaseStudy.objects.create(
@@ -204,8 +203,8 @@ def submit_case_study(request, case_study_index):
                     organization=Organization.objects.get(id=organization),
                     page=case_study
                 )
-            if request.POST['organizations_additional']:
-                for organization_name in request.POST['organizations_additional'].split(","):
+            if request.POST.get('organizations_additional'):
+                for organization_name in request.POST.get('organizations_additional').split(","):
                     organization_name = organization_name.lstrip().rstrip().capitalize()
                     organization, created = Organization.objects.get_or_create(name=organization_name)
                     OrganizationCaseStudy.objects.create(
