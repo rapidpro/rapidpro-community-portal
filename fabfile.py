@@ -4,7 +4,7 @@ import time
 
 import yaml
 
-from fabric.api import env, execute, get, hide, lcd, local, put, require, run, settings, sudo, task
+from fabric.api import env, execute, get, hide, cd, lcd, local, put, require, run, settings, sudo, task
 from fabric.colors import red
 from fabric.contrib import files, project, console
 from fabric.contrib.console import confirm
@@ -315,3 +315,38 @@ def reset_local_media():
     media_target = os.path.join(PROJECT_ROOT, 'public')
     with settings():
         local("rsync -rvaz %s:%s %s" % (env.master, media_source, media_target))
+
+
+@task
+def refresh_environment():
+    require('environment')
+    if env.environment == 'production':
+        abort('Production cannot be refreshed!')
+
+    source_env = 'production'
+
+    db_name = '%s_%s' % (env.project, source_env)
+    dump_file_name = '%s.sql' % db_name
+    full_dump_file_path = os.path.join(env.project_root, dump_file_name)
+    src_env_host = envs[source_env]['host_string']
+
+    with settings(host_string=src_env_host):
+        sudo('pg_dump -Ox %s -U %s > %s' % (db_name, db_name, full_dump_file_path))
+
+    sudo('supervisorctl stop all')
+    db_name = db_user = '%s_%s' % (env.project, env.environment)
+    media_full_path = '%s/public/media' % env.project_root
+    with cd('/tmp'):
+        run('scp %s:%s %s' % (src_env_host, full_dump_file_path, dump_file_name))
+        sudo('dropdb %s_backup' % db_name, user='postgres')
+        sudo('psql -c "alter database %s rename to %s_backup"' % (db_name, db_name), user='postgres')
+        sudo('createdb -E UTF-8 -O %s %s' % (db_user, db_name), user='postgres')
+        sudo('psql -U %s -d %s -f %s' % (db_user, db_name, dump_file_name))
+        run('rsync -zPae ssh %s:%s .' % (src_env_host, media_full_path))
+        sudo('rm -rf %s.backup' % media_full_path)
+        sudo('mv %s %s.backup' % (media_full_path, media_full_path))
+        sudo('mv media %s' % media_full_path)
+        sudo('chown -R %s:%s %s' % (env.project, env.project, media_full_path))
+
+    manage_run("migrate")
+    sudo('supervisorctl start all')
