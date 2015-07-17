@@ -1,6 +1,7 @@
 import datetime
 
 from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from wagtail.wagtailcore.models import Page, Site
 
@@ -9,6 +10,8 @@ from portal_pages.models import (
     CaseStudyIndexPage, CaseStudyPage,
     BlogIndexPage, BlogPage
     )
+
+from portal_pages.forms import CaseStudyForm
 
 
 class UserFormTests(TestCase):
@@ -96,6 +99,37 @@ class UserFormTests(TestCase):
         self.assertEqual(form.errors['__all__'], ['Invalid submission'])
         self.assertEqual(MarketplaceEntryPage.objects.all().count(), 0)
 
+    def test_marketplace_entry_good_image(self):
+        test_file = open('portal_pages/tests/files/goodimage.jpg', 'rb')
+        good_image = SimpleUploadedFile(test_file.name, test_file.read())
+        self.marketplace_entry_form_data['file'] = good_image
+        resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
+        self.assertEqual(resp.status_code, 302)
+        expected_redirect = self.marketplace_index_page.url + self.marketplace_index_page.reverse_subpage('thanks')
+        self.assertRedirects(resp, expected_redirect)
+
+    def test_marketplace_entry_bad_image_type(self):
+        test_file = open('portal_pages/tests/files/badimage.bmp', 'rb') # File types accepted are GIF/JPG/PNG, this should error
+        good_image = SimpleUploadedFile(test_file.name, test_file.read())
+        self.marketplace_entry_form_data['file'] = good_image
+        resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
+        self.assertEqual(resp.status_code, 200)
+        logo_form = resp.context["logo_form"]
+        self.assertFalse(logo_form.is_valid())
+        self.assertEqual(logo_form.errors["file"], ["Not a supported image format. Supported formats: GIF, JPEG, PNG."])
+        self.assertTrue(logo_form.errors["file"][0] in str(resp.content)) # Check that the user sees this error message
+
+    def test_marketplace_entry_animated_gif(self):
+        test_file = open('portal_pages/tests/files/animated.gif', 'rb') # Animated gifs are not supported, this should error
+        good_image = SimpleUploadedFile(test_file.name, test_file.read())
+        self.marketplace_entry_form_data['file'] = good_image
+        resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
+        self.assertEqual(resp.status_code, 200)
+        logo_form = resp.context["logo_form"]
+        self.assertFalse(logo_form.is_valid())
+        self.assertEqual(logo_form.errors["file"], ["Animated GIFs are not supported."])
+        self.assertTrue(logo_form.errors["file"][0] in str(resp.content)) # Check that the user sees this error message
+
     def test_case_study_form_valid(self):
         # This should successfully add a single new case study
         resp = self.client.post(self.case_study_submission_url, self.case_study_form_data)
@@ -125,6 +159,28 @@ class UserFormTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context[0]['form'].errors['submitter_email'], ['Enter a valid email address.'])
         self.assertEqual(CaseStudyPage.objects.all().count(), 0)
+
+    def test_case_study_form(self):
+        # Add 2 Marketplace Entry Pages, one published, one unpublished.
+        # Only the published one should show up in the queryset
+        mpe_published = self.marketplace_index_page.add_child(
+                            instance=MarketplaceEntryPage(
+                                title="published",
+                                slug="published",
+                                date_start="2015-05-01",
+                                live=True,
+                            ))
+        mpe_unpublished = self.marketplace_index_page.add_child(
+                            instance=MarketplaceEntryPage(
+                                title="unpublished",
+                                slug="unpublished",
+                                date_start="2015-05-01",
+                                live=False,
+                            ))
+
+        form = CaseStudyForm()
+        self.assertEqual(form.fields['marketplace_entry'].queryset[0].name, "published")
+        self.assertEqual(len(form.fields['marketplace_entry'].queryset), 1)
 
     def test_blog_form_valid(self):
         # This should successfully add a single new blog post
