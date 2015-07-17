@@ -1,6 +1,8 @@
 from django import forms
 from django.template.loader import render_to_string
 
+from PIL import Image as PILImage
+
 from wagtail.wagtaildocs.models import Document
 from wagtail.wagtailimages.models import Image
 
@@ -103,27 +105,23 @@ class ImageForm(forms.ModelForm):
 
         file_types = ['image/png', 'image/jpeg', 'image/gif']
         file_exts = ['png', 'jpg', 'gif']
+        cleaned_file = cleaned_data.get("file")
 
-        if cleaned_data:
-            file_type = cleaned_data.get("file").content_type
-            file_ext = cleaned_data.get("file").name.split(".")[-1]
+        if cleaned_file:
+            file_type = cleaned_file.content_type
+            file_ext = cleaned_file.name.split(".")[-1]
         else:
-            file_type = ""
-            file_ext = ""
+            return cleaned_data
 
         if file_type == 'image/gif':
-            from PIL import Image
-            gif = Image.open(cleaned_data.get("file"))
+            gif = PILImage.open(cleaned_data.get("file"))
             try:
                 gif.seek(1)
             except EOFError:
-                isanimated = False
+                pass
             else:
-                isanimated = True
-
-            if isanimated:
                 raise forms.ValidationError(
-                        "Animated GIFs are not supported." # Wagtail does not support animated GIF format
+                    "Animated GIFs are not supported." # Wagtail does not support animated GIF format
                     )
 
         if file_type not in file_types or file_ext not in file_exts:
