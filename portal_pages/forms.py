@@ -100,21 +100,20 @@ class ImageForm(forms.ModelForm):
             'file'
         ]
 
-    def clean(self):
-        cleaned_data = super(ImageForm, self).clean()
+    def clean_file(self):
+        cleaned_file = self.cleaned_data.get("file")
 
         file_types = ['image/png', 'image/jpeg', 'image/gif']
         file_exts = ['png', 'jpg', 'gif']
-        cleaned_file = cleaned_data.get("file")
 
         if cleaned_file:
             file_type = cleaned_file.content_type
             file_ext = cleaned_file.name.split(".")[-1]
         else:
-            return cleaned_data
+            return cleaned_file
 
         if file_type == 'image/gif':
-            gif = PILImage.open(cleaned_data.get("file"))
+            gif = PILImage.open(cleaned_file)
             try:
                 gif.seek(1)
             except EOFError:
@@ -129,7 +128,7 @@ class ImageForm(forms.ModelForm):
                     "Not a supported image format. Supported formats: GIF, JPEG, PNG."
                 )
 
-        return cleaned_data
+        return cleaned_file
 
 
 class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
