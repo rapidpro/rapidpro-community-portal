@@ -103,8 +103,6 @@ class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
 
     required_css_class = 'required'
 
-    marketplace_entry = forms.ModelChoiceField(queryset=None, required=False)
-
     def __init__(self, *args, **kwargs):
         super(CaseStudyForm, self).__init__(*args, **kwargs)
         self.fields['marketplace_entry'].queryset = MarketplaceEntryPage.objects.live().order_by('title')
