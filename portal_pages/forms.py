@@ -98,6 +98,41 @@ class ImageForm(forms.ModelForm):
             'file'
         ]
 
+    def clean(self):
+        cleaned_data = super(ImageForm, self).clean()
+
+        file_types = ['image/png', 'image/jpeg', 'image/gif']
+        file_exts = ['png', 'jpg', 'gif']
+
+        if cleaned_data:
+            file_type = cleaned_data.get("file").content_type
+            file_ext = cleaned_data.get("file").name.split(".")[-1]
+        else:
+            file_type = ""
+            file_ext = ""
+
+        if file_type == 'image/gif':
+            from PIL import Image
+            gif = Image.open(cleaned_data.get("file"))
+            try:
+                gif.seek(1)
+            except EOFError:
+                isanimated = False
+            else:
+                isanimated = True
+
+            if isanimated:
+                raise forms.ValidationError(
+                        "Animated GIFs are not supported." # Wagtail does not support animated GIF format
+                    )
+
+        if file_type not in file_types or file_ext not in file_exts:
+            raise forms.ValidationError(
+                    "Not a supported image format. Supported formats: GIF, JPEG, PNG."
+                )
+
+        return cleaned_data
+
 
 class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
 
