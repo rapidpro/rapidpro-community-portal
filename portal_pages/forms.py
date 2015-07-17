@@ -135,6 +135,10 @@ class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
 
     required_css_class = 'required'
 
+    def __init__(self, *args, **kwargs):
+        super(CaseStudyForm, self).__init__(*args, **kwargs)
+        self.fields['marketplace_entry'].queryset = MarketplaceEntryPage.objects.live().order_by('title')
+
     class Meta:
         model = CaseStudyPage
         labels = {
