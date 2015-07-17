@@ -1,6 +1,7 @@
 import datetime
 
 from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from wagtail.wagtailcore.models import Page, Site
 
@@ -95,6 +96,37 @@ class UserFormTests(TestCase):
         self.assertTrue('__all__' in form.errors)
         self.assertEqual(form.errors['__all__'], ['Invalid submission'])
         self.assertEqual(MarketplaceEntryPage.objects.all().count(), 0)
+
+    def test_marketplace_entry_good_image(self):
+        test_file = open('portal_pages/tests/files/goodimage.jpg', 'rb')
+        good_image = SimpleUploadedFile(test_file.name, test_file.read())
+        self.marketplace_entry_form_data['file'] = good_image
+        resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
+        self.assertEqual(resp.status_code, 302)
+        expected_redirect = self.marketplace_index_page.url + self.marketplace_index_page.reverse_subpage('thanks')
+        self.assertRedirects(resp, expected_redirect)
+
+    def test_marketplace_entry_bad_image_type(self):
+        test_file = open('portal_pages/tests/files/badimage.bmp', 'rb') # File types accepted are GIF/JPG/PNG, this should error
+        good_image = SimpleUploadedFile(test_file.name, test_file.read())
+        self.marketplace_entry_form_data['file'] = good_image
+        resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
+        self.assertEqual(resp.status_code, 200)
+        logo_form = resp.context["logo_form"]
+        self.assertFalse(logo_form.is_valid())
+        self.assertEqual(logo_form.errors["file"], ["Not a supported image format. Supported formats: GIF, JPEG, PNG."])
+        self.assertTrue(logo_form.errors["file"][0] in str(resp.content)) # Check that the user sees this error message
+
+    def test_marketplace_entry_animated_gif(self):
+        test_file = open('portal_pages/tests/files/animated.gif', 'rb') # Animated gifs are not supported, this should error
+        good_image = SimpleUploadedFile(test_file.name, test_file.read())
+        self.marketplace_entry_form_data['file'] = good_image
+        resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
+        self.assertEqual(resp.status_code, 200)
+        logo_form = resp.context["logo_form"]
+        self.assertFalse(logo_form.is_valid())
+        self.assertEqual(logo_form.errors["file"], ["Animated GIFs are not supported."])
+        self.assertTrue(logo_form.errors["file"][0] in str(resp.content)) # Check that the user sees this error message
 
     def test_case_study_form_valid(self):
         # This should successfully add a single new case study

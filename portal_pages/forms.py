@@ -1,6 +1,8 @@
 from django import forms
 from django.template.loader import render_to_string
 
+from PIL import Image as PILImage
+
 from wagtail.wagtaildocs.models import Document
 from wagtail.wagtailimages.models import Image
 
@@ -97,6 +99,36 @@ class ImageForm(forms.ModelForm):
         fields = [
             'file'
         ]
+
+    def clean_file(self):
+        cleaned_file = self.cleaned_data.get("file")
+
+        file_types = ['image/png', 'image/jpeg', 'image/gif']
+        file_exts = ['png', 'jpg', 'gif']
+
+        if cleaned_file:
+            file_type = cleaned_file.content_type
+            file_ext = cleaned_file.name.split(".")[-1]
+        else:
+            return cleaned_file
+
+        if file_type == 'image/gif':
+            gif = PILImage.open(cleaned_file)
+            try:
+                gif.seek(1)
+            except EOFError:
+                pass
+            else:
+                raise forms.ValidationError(
+                    "Animated GIFs are not supported." # Wagtail does not support animated GIF format
+                    )
+
+        if file_type not in file_types or file_ext not in file_exts:
+            raise forms.ValidationError(
+                    "Not a supported image format. Supported formats: GIF, JPEG, PNG."
+                )
+
+        return cleaned_file
 
 
 class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
