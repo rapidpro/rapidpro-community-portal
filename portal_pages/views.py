@@ -177,10 +177,6 @@ def submit_case_study(request, case_study_index):
         case_study_page.slug = slugify(case_study_page.title)
         case_study = case_study_index.add_child(instance=case_study_page)
 
-        if request.POST.get('id_marketplace_entry'):
-            marketplace_entry_page = MarketplaceEntryPage.objects.get(id=request.POST.get('id_marketplace_entry'))
-            case_study.marketplace_entry = marketplace_entry_page
-
         if case_study:
             case_study.unpublish()
             if request.FILES:
