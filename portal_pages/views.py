@@ -177,6 +177,10 @@ def submit_case_study(request, case_study_index):
         case_study_page.slug = slugify(case_study_page.title)
         case_study = case_study_index.add_child(instance=case_study_page)
 
+        if request.POST.get('id_marketplace_entry'):
+            marketplace_entry_page = MarketplaceEntryPage.objects.get(id=request.POST.get('id_marketplace_entry'))
+            case_study.marketplace_entry = marketplace_entry_page
+
         if case_study:
             case_study.unpublish()
             if request.FILES:
@@ -233,7 +237,7 @@ def submit_case_study(request, case_study_index):
 
     focus_areas = FocusArea.objects.order_by('name')
     organizations = Organization.objects.order_by('name')
-    marketplace_entries = MarketplaceEntryPage.objects.order_by('title')
+    marketplace_entries = MarketplaceEntryPage.objects.live().order_by('title')
     countries = Country.objects.order_by('name')
     regions = Region.objects.order_by('name')
     base_year = datetime.today().year

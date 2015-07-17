@@ -110,7 +110,7 @@ class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
         }
         fields = [
             'title', 'summary', 'date',
-            'marketplace_entry', 'submitter_email'
+            'submitter_email'
         ]
 
 

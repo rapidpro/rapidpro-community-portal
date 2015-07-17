@@ -75,9 +75,13 @@
             </div>
 
             <br />
-            {{ form.marketplace_entry.label_tag }}
-            {{ form.marketplace_entry }}
-            {{ form.marketplace_entry.errors }}
+            <label for="title">Marketplace entry</label>
+            <select id="id_marketplace_entry" name="id_marketplace_entry">
+                <option value="" selected="selected">---------</option>
+                {% for entry in marketplace_entries %}
+                    <option value="{{ entry.id }}">{{ entry.title }}</option>
+                {% endfor %}
+            </select>
 
             <div class="label-info-header">Why isn't my Marketplace Entry listed?</div>
             <div class="label-info">
