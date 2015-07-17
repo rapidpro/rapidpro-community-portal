@@ -113,6 +113,7 @@ class UserFormTests(TestCase):
         resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
         self.assertEqual(resp.status_code, 200)
         logo_form = resp.context["logo_form"]
+        self.assertFalse(logo_form.is_valid())
         self.assertEqual(logo_form.errors["file"], ["Not a supported image format. Supported formats: GIF, JPEG, PNG."])
 
     def test_marketplace_entry_animated_gif(self):
@@ -122,6 +123,7 @@ class UserFormTests(TestCase):
         resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
         self.assertEqual(resp.status_code, 200)
         logo_form = resp.context["logo_form"]
+        self.assertFalse(logo_form.is_valid())
         self.assertEqual(logo_form.errors["file"], ["Animated GIFs are not supported."])
 
     def test_case_study_form_valid(self):
