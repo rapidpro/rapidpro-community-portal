@@ -1,18 +1,18 @@
 psycopg2==2.6
 
 # Wagtail and what it pulls in
-BeautifulSoup4==4.3.2
+BeautifulSoup4==4.4.0
 Django==1.8.3
 django-appconf==1.0.1
 django_compressor==1.5
 django-modelcluster==0.6.2
 django-sendfile==0.3.7
-django-taggit==0.14.0
+django-taggit==0.16.2
 django-treebeard==3.0
 html5lib==0.999
-Pillow==2.8.1
+Pillow==2.9.0
 requests==2.7.0
 six==1.9.0
-Unidecode==0.4.17
-wagtail==1.0b2
+Unidecode==0.4.18
+wagtail==1.0
 Willow==0.2.1
