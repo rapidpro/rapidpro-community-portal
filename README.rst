@@ -62,6 +62,21 @@ New requirements or South migrations are detected by parsing the VCS changes and
 will be installed/run automatically.
 
 
+Refreshing Staging Environment
+--------------------------------------
+
+The staging environment can be refreshed from current production via::
+
+    fab staging refresh_environment
+
+This command will take a dump of the current production database, ship it to staging, and
+install it there. Furthermore the media tree will be sync'd from production to staging, and the
+database migrated (since staging may have more recent code than produciton).
+
+After this command completes, go to https://rapidpro-staging.cakt.us/admin/sites/1/ and replace
+the production domain name with rapidpro-staging.cakt.us.
+
+
 UserVoice Templates
 ------------------------
 
