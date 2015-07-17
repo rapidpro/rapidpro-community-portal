@@ -1,37 +1,67 @@
 function loadSubNav(subnavType) {
     subnavHeadersArray = [];
-    subnavLinksArray = [];                    
-    if(window.location.pathname == "/stories/") {
+    subnavLinksArray = [];
+    subnavTargetArray = [];
+    subnavSelected = "";
+    if(window.location.pathname.indexOf("/stories/")>=0) {
         clearAllNavClasses();
         document.getElementById('nav_stories').className = 'selected';
-        subnavHeadersArray = [];
-        subnavLinksArray = [];
-        subnavTargetArray = [];
     }
-    else if(window.location.pathname == "/blog/") {
+    else if(window.location.pathname.indexOf("/blog/")>=0)  {
         clearAllNavClasses();
         document.getElementById('nav_connect').className = 'selected';
-        subnavType = "connect";
+        if(subnavType == "") {
+            subnavType = "connect";
+        }
+        subnavSelected = "Blog";
+    }
+    else if(window.location.pathname.indexOf("/videos/")>=0)  {
+        clearAllNavClasses();
+        document.getElementById('nav_learn').className = 'selected';
+        if(subnavType == "") {
+            subnavType = "learn";
+        }
+        subnavSelected = "Videos";
+    }
+    else if(window.location.pathname.indexOf("/deployment-toolkit/")>=0) {
+        clearAllNavClasses();
+        document.getElementById('nav_learn').className = 'selected';
+        if(subnavType == "") {
+            subnavType = "learn";
+        }
+        subnavSelected = "Deployment&nbsp;Toolkit";
+    }
+    else if(window.location.pathname.indexOf("/online-courses/")>=0) {
+        clearAllNavClasses();
+        document.getElementById('nav_learn').className = 'selected';
+        if(subnavType == "") {
+            subnavType = "learn";
+        }
+        subnavSelected = "Online&nbsp;Courses";
     }
     switch(subnavType) {
         case "learn":
-            subnavHeadersArray = ["Knowledge Base", "Videos", "Online Courses"];
-            subnavLinksArray = ["http://rapidpro1.uservoice.com/knowledgebase", "https://www.youtube.com/channel/UCtGk7u6DLHjeWn0P4AEpBKA", "/"];
-            subnavTargetArray = ["_blank", "_blank", "_blank"];
+            subnavHeadersArray = ["Knowledge&nbsp;Base", "Videos", "Online&nbsp;Courses", "Deployment&nbsp;Toolkit"];
+            subnavLinksArray = ["http://knowledge.rapidpro.io/knowledgebase", "/videos/", "/online-courses/", "/deployment-toolkit/"];
+            subnavTargetArray = ["", "", "", ""];
             clearAllNavClasses();
-            document.getElementById('nav_learn').className = 'selected';                           
+            document.getElementById('nav_learn').className = 'selected';
             break;
         case "connect":
-            subnavHeadersArray = ["User Forum", "Blog"];
-            subnavLinksArray = ["http://rapidpro1.uservoice.com/", "/blog/"];
-            subnavTargetArray = ["_blank", ""];
+            subnavHeadersArray = ["User&nbsp;Forum", "Blog"];
+            subnavLinksArray = ["http://knowledge.rapidpro.io/", "/blog/"];
+            subnavTargetArray = ["", ""];
             clearAllNavClasses();
             document.getElementById('nav_connect').className = 'selected';
             break;
     }
-    subnavHTML = "<a href='#'></a>";
+    subnavHTML = "";
     for (var i = 0; i < subnavHeadersArray.length; i++) {
-        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "' target='" + subnavTargetArray[i] + "'>" + subnavHeadersArray[i] + "</a>";
+        subnavHTML = subnavHTML + "<a href='" + subnavLinksArray[i] + "' target='" + subnavTargetArray[i] + "'";
+        if (subnavHeadersArray[i] == subnavSelected) {
+            subnavHTML = subnavHTML + "class='selected'";
+        }
+        subnavHTML = subnavHTML + ">" + subnavHeadersArray[i] + "</a>";
     }
     document.getElementById("subnav_right").innerHTML = subnavHTML;
 }

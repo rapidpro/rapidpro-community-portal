@@ -15,6 +15,17 @@ def make_unique(qs, unique_var):
 
 
 @register.filter
+def url_param_dict_to_list(url_items_dict):
+    """Turn this dictionary into a param list for the URL"""
+    params_list = ""
+    for key,value in url_items_dict:
+        if key != "page":
+            params_list += "&%s=%s" % (key, value)
+
+    return params_list
+
+
+@register.filter
 def remove_from_string(value, value_to_remove):
     """Remove a value from a list of values, ie. in order to unselect a Country from a filter of Countries"""
     if value.find("," + value_to_remove) >= 0:
@@ -47,7 +58,7 @@ def display_filter_list(context, items, request_list):
 
     link_items = []
     for item in items:
-        if item.name in request_vars:
+        if item.name in request_vars.split(","):
             item_class = "active"
             # Remove this active item in the list to toggle filter off
             request_vars_list = request_vars.lstrip(",").split(",")  # Strip out any leading comma

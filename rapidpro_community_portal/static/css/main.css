@@ -2,17 +2,21 @@
 
 body{
   font-size:18px;
-  font-family:Calibri,"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:200;
+  font-family:"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:400;
   color:black;
 }
 
 ::selection { background-color: #F33; color:white; }
 ::-moz-selection { background-color: #F33; color:white; }
 
+h1, h2, h3, h4 {
+  font-weight:700;
+}
+
 h1{ font-size:180%; }
-h2{ font-size:140%; }
-h3{ font-size:120%; }
+h2{ font-size:160%; }
+h3{ font-size:130%; }
 h4{ font-size:110%; }
 
 header,footer{
@@ -23,14 +27,15 @@ header{
   background-color:#069;
 }
 footer{
-  background-color:#aaa;
+  background-color:#00517A;
   padding-bottom:4em;
-  color:#777;
+  color:#FFF;
 }
 
 a{
   text-decoration:none;
   color: #069;
+  font-weight: 700;
 }
 a:hover{ text-decoration:underline; }
 
@@ -48,23 +53,53 @@ nav a{
   display:inline-block;
   padding:0 0.5em;
   color:white;
+  font-size: 0.8em;
+}
+
+.main-nav nav a {
+  padding-top: 0.75em;
 }
 
 nav a.selected{
   background-color: #00517A;
-  padding: 0.5em;
+  padding: 0.75em 0.5em 1.5em 0.5em;
+  margin-bottom: -1em;
   text-align: center;
-  border-radius: 4px;
-  box-sizing: border-box;
+}
+
+.apps-banner{
+  border-top: #006699 4px solid;
+  background-color: #FD8A57;
+  font-size:90%;
+  color: #FFF;
+  font-style: italic;
+  text-align: center;
+}
+
+.apps-banner a{
+  font-size:100%;
+  font-weight: 700;
+}
+
+.main-nav {
+  font-weight: 700;
 }
 
 .sub-nav{
-  font-size:80%;
+  font-size:90%;
   line-height:1.75em;
   background-color:#00517A;
+  margin-top: -0.35em;
+  font-weight: 700;
+  min-height: 30px;
 }
 .sub-nav .page-width{
   padding:0 9em;
+}
+
+.sub-nav .selected {
+  color: #45B0E5;
+  padding: 0em 0.5em;
 }
 
 .skip-link{ display:none; }
@@ -79,6 +114,7 @@ nav a.selected{
   color:white;
   border-radius:4px;
   box-sizing: border-box;
+  font-weight: normal;
 }
 
 .hero, .top-image {
@@ -115,6 +151,8 @@ nav a.selected{
   background-color:rgba(0, 0, 0, 0.1);
   color:#333;
   padding:1px 0.25em;
+  font-size: 0.8em;
+  font-weight: normal;
 }
 
 .tags > a:hover{
@@ -136,6 +174,10 @@ nav a.selected{
   background-color:#5d5d5d;
 }
 
+.filters label {
+  font-size: 0.8em;
+}
+
 .tagsheader, .addheader {
   background-image: url(../images/svg/listing.svg);
   background-size:auto 15px;
@@ -144,7 +186,7 @@ nav a.selected{
   line-height: 32px;
   padding-left: 32px;
   cursor: pointer;
-
+  font-size: 0.8em;
 }
 
 .addheader {
@@ -176,12 +218,23 @@ ol{
 }
 
 .homepage-video{
-  background-color:#eeeeee;
+  background-color:#00517A;
+  color: #FFF;
 }
 
 .rich-text p{
   padding-top:5px;
-  padding-bottom:5px;
+  padding-bottom:10px;
+  font-size:0.8em;
+  line-height: 1.7em;
+  letter-spacing: 0.4px;
+}
+
+
+.rich-text li p, .rich-text li, .rich-text dt, .rich-text dt p, .rich-text dd, .rich-text dd p {
+  font-size:0.8em;
+  line-height: 1.9em;
+  letter-spacing: 0.4px;
 }
 
 .rich-text img.left{ margin: 0 1em 0 0; }
@@ -189,6 +242,10 @@ ol{
 /* manually override floats in rtl because the admin offers "left" and "right" explicitly */
 html[dir="rtl"] .rich-text img.left{ margin: 0 0 0 1em; float:left;}
 html[dir="rtl"] .rich-text img.right{ margin: 0 1em 0 0; float:right;}
+
+.highlights .rich-text p {
+  font-weight: 600;
+}
 
 input[type="search"]{
   width:100%;
@@ -226,3 +283,23 @@ hr{
   border-bottom:solid 2px #ddd;
   margin: 20px auto;
 }
+
+
+/* begin wagtail-specific css */
+/* from http://docs.wagtail.io/en/v0.8.8/core_components/pages/writing_templates.html?highlight=responsive#responsive-embeds */
+
+.responsive-object {
+    position: relative;
+}
+
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* end wagtail-specific css */

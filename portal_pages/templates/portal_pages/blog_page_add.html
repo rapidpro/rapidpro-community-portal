@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags %}
+
+{% block extra-header %}
+    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+{% endblock %}
+
+{% block extra-css %}
+    <link href="{% static 'css/chosen.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+{% endblock %}
+
+{% block content %}
+<div class="page-width float-layout"><div class="cushion">
+
+    <form enctype="multipart/form-data" action="." method="post" onsubmit="return checkFormAndSubmit();">
+    {% csrf_token %}
+
+    <div class="two-thirds"><div class="cushion">
+
+        <div class="cushion">
+            {{ blog_index.submit_info|richtext }}
+        </div>
+
+        <div class="cushion">
+            {% if form.errors %}
+                <p class="cushion errorlabel">Please correct the errors below.</p>
+            {% endif %}
+
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {{ form.title.errors }}
+
+            {{ form.body.label_tag }}
+            {{ form.body }}
+            {{ form.body.errors }}
+
+            {{ form.submitter_email.label_tag }}
+            {{ form.submitter_email }}
+            {{ form.submitter_email.errors }}
+
+            {{ form.date.label_tag }}
+            {{ form.date }}
+            {{ form.date.errors }}
+
+            <br />
+            <label for="title">Tags</label>
+            <select id="tags" name="tags" multiple="multiple" data-placeholder="Select Tags">
+                {% for tag in tags %}
+                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+            <div class="addheader add_tag">Add a new tag not listed</div>
+            <div id="add_tag" class="collapsed" style="display:none;">
+                <label for="tags_additional">Enter additional tags separated by commas</label>
+                <input type="text" id="tags_additional" name="tags_additional" />
+            </div>
+
+        </div>
+
+        {{ form.honeypot }}
+
+        <div id="required_fields" class="cushion" style="display:none;">
+            <span class="errorlabel">
+                Please fill in all required* fields and enter valid information.
+            </span>
+        </div>
+
+        <div class="cushion">
+            <input type="submit" value="Add My Blog Post" />
+        </div>
+
+    </div></div>
+
+    </form>
+</div></div>
+
+{% endblock %}
+
+{% block extra-js %}
+
+    {{ form.media }}
+
+    <script>
+        $(".datepicker").datepicker({ minDate: 0 });
+        $('#tags').chosen({});
+        $("label[for='id_submitter_email']").addClass("required");
+
+        tinymce.init({
+            menubar : false,
+            plugins: ["link"],
+            toolbar: [
+            "undo redo | styleselect | bold italic bullist numlist | link" 
+            ],
+            content_css : "/static/css/main.css",
+            style_formats: [
+                {title: 'P', block: 'p'},
+                {title: 'H2', block: 'h2'},
+                {title: 'H3', block: 'h3'},
+                {title: 'H4', block: 'h4'},
+                {title: 'H5', block: 'h5'},
+                {title: 'H6', block: 'h6'},
+            ],
+            selector:'textarea'});
+        $(".addheader").click(function(e){ // toggle collapse/uncollapse
+            var divId = $(e.target).attr("class").split(" ")[1]; // ie. add_focus_area
+            if ($("#"+divId).hasClass("uncollapsed")) {
+                $("#"+divId).hide();
+                $("#"+divId).removeClass("uncollapsed");
+                $("#"+divId).addClass("collapsed");
+            }
+            else {
+                $("#"+divId).show();
+                $("#"+divId).removeClass("collapsed");
+                $("#"+divId).addClass("uncollapsed");
+            }
+        });
+        function checkFormAndSubmit() {
+            formPass = 1;
+            //Clear out the error labels
+            $("label[for='id_title']").removeClass("errorlabel");
+            $("label[for='id_body']").removeClass("errorlabel");
+            $("label[for='id_date']").removeClass("errorlabel");
+            $("label[for='id_submitter_email']").removeClass("errorlabel");
+
+            $("#required_fields").hide();
+            //Check for required fields
+            if ($("#id_title").val() == "") {
+                $("label[for='id_title']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if (tinymce.get("id_body").getContent() == "") {
+                $("label[for='id_body']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if ($("#id_submitter_email").val() == "") {
+                $("label[for='id_submitter_email']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if ($("#id_date").val() == "") {
+                $("label[for='id_date']").addClass("errorlabel");
+                formPass = 0;
+            }
+            if (formPass) {
+                return true;
+            }
+            else {
+                $("#required_fields").show();
+                return false;
+            }
+        }
+    </script>
+{% endblock %}

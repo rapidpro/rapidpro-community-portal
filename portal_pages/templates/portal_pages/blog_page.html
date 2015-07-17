@@ -22,7 +22,7 @@
         {% if self.blog_index %}
 
             <div class="cushion">
-                <h2>Tags</h2>
+                <h3>Tags</h3>
                 <div class="tags">
                     {% for tag in self.tags.all %}
                     <a href="{% pageurl self.blog_index %}?Tag={{ tag }}">
@@ -36,4 +36,21 @@
 
     </div>
 
+    <div id="disqus_thread"></div>
+
+{% endblock %}
+
+{% block extra-js %}
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'rapidprocommunity';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 {% endblock %}

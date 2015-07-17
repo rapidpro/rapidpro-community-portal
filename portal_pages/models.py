@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -168,7 +170,8 @@ class HomePage(Page):
     youtube_video_id = models.CharField(max_length=512, blank=True, default='')
     youtube_video_title = models.CharField(max_length=512, blank=True, default='')
     youtube_blurb = RichTextField(blank=True, default='')
-
+    get_started_now_page = models.ForeignKey(Page,
+                blank=True, null=True, on_delete=models.SET_NULL, related_name='homepages')
 
 HomePage.content_panels = [
     MultiFieldPanel(
@@ -203,12 +206,19 @@ HomePage.content_panels = [
         heading='Featured case study',
         classname='collapsible collapsed',
     ),
+    MultiFieldPanel(
+        [
+            PageChooserPanel('get_started_now_page'),
+        ],
+        heading='Get Started Now',
+        classname='collapsible collapsed',
+    ),
 ]
 
 
 class HomePageHeroImageItem(Orderable, models.Model):
     home_page = ParentalKey(HomePage, related_name='hero_items')
-    blurb = RichTextField()
+    blurb = models.CharField(max_length=255)
     target_page = models.ForeignKey(Page)
     hero_image = models.ForeignKey(Image)
 
@@ -250,6 +260,19 @@ class CMSPage(Page, TopImage):
 CMSPage.content_panels = [
     FieldPanel('title'),
     FieldPanel('body'),
+    MultiFieldPanel(TopImage.panels, "hero image"),
+]
+
+
+class TechChangePage(Page, TopImage):
+    body = RichTextField(blank=True, default='')
+    tech_change_link = models.CharField(max_length=255)
+
+TechChangePage.content_panels = [
+    FieldPanel('title'),
+    FieldPanel('body'),
+    FieldPanel('tech_change_link'),
+    MultiFieldPanel(TopImage.panels, "hero image"),
 ]
 
 
@@ -363,7 +386,7 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
                 marketplace_entries = marketplace_entries.filter(expertise_tags__expertise__name=expertise)
 
         # Search by search query
-        search_query = request.GET.get('search', '')
+        search_query = request.GET.get('search', '').strip()
         if search_query:
             marketplace_entries = marketplace_entries.filter(
                 Q(biography__icontains=search_query) | Q(title__icontains=search_query))
@@ -469,14 +492,37 @@ class ExpertiseMarketplaceEntry(Orderable, models.Model):
 # CaseStudy index page
 
 
-class CaseStudyIndexPage(Page, TopImage):
+class CaseStudyIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
+    submit_info = RichTextField(blank=True)
+    thanks_info = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
 
     subpage_types = ['portal_pages.CaseStudyPage']
+
+    @route(r'^$')
+    def base(self, request):
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            self.get_context(request)
+        )
+
+    @route(r'^submit-case-study/$')
+    def submit(self, request):
+        from .views import submit_case_study
+        return submit_case_study(request, self)
+
+    @route(r'^submit-thank-you/$')
+    def thanks(self, request):
+        return TemplateResponse(
+            request,
+            'portal_pages/thank_you.html',
+            { "thanks_info" : self.thanks_info }
+        )
 
     @property
     def countries(self):
@@ -562,7 +608,7 @@ class CaseStudyIndexPage(Page, TopImage):
                 casestudies = casestudies.filter(marketplace_entry__title=marketplace)
 
         # Search by search query
-        search_query = request.GET.get('search', '')
+        search_query = request.GET.get('search', '').strip()
         if search_query:
             casestudies = casestudies.filter(Q(summary__icontains=search_query) | Q(title__icontains=search_query))
 
@@ -585,6 +631,8 @@ CaseStudyIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
     MultiFieldPanel(TopImage.panels, "hero image"),
+    FieldPanel('submit_info', classname="full"),
+    FieldPanel('thanks_info', classname="full"),
 ]
 
 CaseStudyIndexPage.promote_panels = Page.promote_panels
@@ -603,6 +651,7 @@ class CaseStudyPage(Page, TopImage):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    submitter_email = models.EmailField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('summary'),
@@ -631,6 +680,7 @@ CaseStudyPage.content_panels = [
     InlinePanel(CaseStudyPage, 'regions', label="Regions"),
     InlinePanel(CaseStudyPage, 'countries', label="Countries"),
     InlinePanel(CaseStudyPage, 'organizations', label="Organisations"),
+    FieldPanel('submitter_email'),
 ]
 
 
@@ -673,8 +723,10 @@ class OrganizationCaseStudy(Orderable, models.Model):
 # Blog index page
 
 
-class BlogIndexPage(Page, TopImage):
+class BlogIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
+    submit_info = RichTextField(blank=True)
+    thanks_info = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
@@ -682,12 +734,31 @@ class BlogIndexPage(Page, TopImage):
 
     subpage_types = ['portal_pages.BlogPage']
 
+    @route(r'^$')
+    def base(self, request):
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            self.get_context(request)
+        )
+
+    @route(r'^submit-blog/$')
+    def submit(self, request):
+        from .views import submit_blog
+        return submit_blog(request, self)
+
+    @route(r'^submit-thank-you/$')
+    def thanks(self, request):
+        return TemplateResponse(
+            request,
+            'portal_pages/thank_you.html',
+            { "thanks_info" : self.thanks_info }
+        )
+
     @property
     def tags(self):
         tags = Tag.objects.filter(
-            id__in=BlogPageTag.objects.filter(
-                content_object_id__in=(BlogPage.objects.live())).values('tag')
-        )
+                portal_pages_blogpagetag_items__isnull=False).order_by('name').distinct('name')
 
         return tags
 
@@ -695,6 +766,7 @@ class BlogIndexPage(Page, TopImage):
     def blogs(self):
         # Get list of live blog pages that are descendants of this page
         blogs = BlogPage.objects.live().descendant_of(self)
+        blogs = blogs.filter(date__lte=datetime.today().date())
 
         # Order by most recent date first
         blogs = blogs.order_by('-date')
@@ -713,7 +785,7 @@ class BlogIndexPage(Page, TopImage):
                 blogs = blogs.filter(tags__name=tag)
 
         # Search by search query
-        search_query = request.GET.get('search', '')
+        search_query = request.GET.get('search', '').strip()
         if search_query:
             blogs = blogs.filter(
                 Q(body__icontains=search_query) | Q(title__icontains=search_query))
@@ -737,7 +809,9 @@ BlogIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
     MultiFieldPanel(TopImage.panels, "blog image"),
-]
+    FieldPanel('submit_info', classname="full"),
+    FieldPanel('thanks_info', classname="full"),
+ ]
 
 BlogIndexPage.promote_panels = Page.promote_panels
 
@@ -753,6 +827,7 @@ class BlogPage(Page, TopImage):
     body = RichTextField()
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField("Post date")
+    submitter_email = models.EmailField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('body'),
@@ -768,6 +843,7 @@ BlogPage.content_panels = [
     FieldPanel('date'),
     FieldPanel('body', classname="full"),
     MultiFieldPanel(TopImage.panels, "blog image"),
+    FieldPanel('submitter_email'),
 ]
 
 BlogPage.promote_panels = Page.promote_panels + [

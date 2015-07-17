@@ -45,7 +45,7 @@
                 <img class="full marketplace-logo" src="{{ img.url }}" />
             {% endif %}
 
-            <h2>Services</h2>
+            <h3>Services</h3>
             <div class="tags">
                 {% for service in self.services.all|make_unique:"service__name" %}
                 <a href="{% pageurl self.marketplace_index %}?service={{ service.service.name }}">
@@ -56,7 +56,7 @@
         </div>
 
         <div class="cushion">
-            <h2>Expertise</h2>
+            <h3>Expertise</h3>
             <div class="tags">
                 {% for expertise in self.expertise_tags.all|make_unique:"expertise__name" %}
                     <a href="{% pageurl self.marketplace_index %}?expertise={{ expertise.expertise.name }}">
