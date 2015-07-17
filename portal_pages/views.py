@@ -237,7 +237,6 @@ def submit_case_study(request, case_study_index):
 
     focus_areas = FocusArea.objects.order_by('name')
     organizations = Organization.objects.order_by('name')
-    marketplace_entries = MarketplaceEntryPage.objects.live().order_by('title')
     countries = Country.objects.order_by('name')
     regions = Region.objects.order_by('name')
     base_year = datetime.today().year
@@ -252,7 +251,6 @@ def submit_case_study(request, case_study_index):
         'flow_json_file_form': flow_json_file_form,
         'focus_areas': focus_areas,
         'organizations': organizations,
-        'marketplace_entries': marketplace_entries,
         'years': years,
         'months': months,
         'countries': countries,
