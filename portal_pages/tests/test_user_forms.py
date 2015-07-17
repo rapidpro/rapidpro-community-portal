@@ -10,6 +10,8 @@ from portal_pages.models import (
     BlogIndexPage, BlogPage
     )
 
+from portal_pages.forms import CaseStudyForm
+
 
 class UserFormTests(TestCase):
 
@@ -125,6 +127,28 @@ class UserFormTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context[0]['form'].errors['submitter_email'], ['Enter a valid email address.'])
         self.assertEqual(CaseStudyPage.objects.all().count(), 0)
+
+    def test_case_study_form(self):
+        # Add 2 Marketplace Entry Pages, one published, one unpublished.
+        # Only the published one should show up in the queryset
+        mpe_published = self.marketplace_index_page.add_child(
+                            instance=MarketplaceEntryPage(
+                                title="published",
+                                slug="published",
+                                date_start="2015-05-01",
+                                live=True,
+                            ))
+        mpe_unpublished = self.marketplace_index_page.add_child(
+                            instance=MarketplaceEntryPage(
+                                title="unpublished",
+                                slug="unpublished",
+                                date_start="2015-05-01",
+                                live=False,
+                            ))
+
+        form = CaseStudyForm()
+        self.assertEqual(form.fields['marketplace_entry'].queryset[0].name, "published")
+        self.assertEqual(len(form.fields['marketplace_entry'].queryset), 1)
 
     def test_blog_form_valid(self):
         # This should successfully add a single new blog post
