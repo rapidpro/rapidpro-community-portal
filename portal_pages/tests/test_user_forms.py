@@ -115,6 +115,7 @@ class UserFormTests(TestCase):
         logo_form = resp.context["logo_form"]
         self.assertFalse(logo_form.is_valid())
         self.assertEqual(logo_form.errors["file"], ["Not a supported image format. Supported formats: GIF, JPEG, PNG."])
+        self.assertTrue(logo_form.errors["file"][0] in str(resp.content)) # Check that the user sees this error message
 
     def test_marketplace_entry_animated_gif(self):
         test_file = open('portal_pages/tests/files/animated.gif', 'rb') # Animated gifs are not supported, this should error
@@ -125,6 +126,7 @@ class UserFormTests(TestCase):
         logo_form = resp.context["logo_form"]
         self.assertFalse(logo_form.is_valid())
         self.assertEqual(logo_form.errors["file"], ["Animated GIFs are not supported."])
+        self.assertTrue(logo_form.errors["file"][0] in str(resp.content)) # Check that the user sees this error message
 
     def test_case_study_form_valid(self):
         # This should successfully add a single new case study
