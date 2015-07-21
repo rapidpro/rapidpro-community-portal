@@ -208,4 +208,4 @@ LOGIN_REDIRECT_URL = 'wagtailadmin_home'
 # Used by Wagtail in sending emails for moderation
 BASE_URL = 'http://localhost:8000'
 
-DEFAULT_FROM_EMAIL = 'noreply@rapidpro.io'
+DEFAULT_FROM_EMAIL = 'noreply@community.rapidpro.io'
