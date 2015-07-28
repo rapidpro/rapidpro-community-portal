@@ -10,7 +10,16 @@ UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script
 UserVoice.push(['set', {
   accent_color: '#448dd6',
   trigger_color: 'white',
-  trigger_background_color: 'rgba(46, 49, 51, 0.6)'
+  trigger_background_color: 'rgba(46, 49, 51, 0.6)',
+  post_suggestion_enabled: false,
+  smartvote_enabled: false,
+  strings: {
+    contact_menu_label: 'Submit an idea',
+    contact_title: 'Submit an idea',
+    contact_skip_instant_answers_button: 'Skip and submit idea',
+    contact_message_placeholder: 'Give feedback',
+    contact_submit_button: 'Submit Idea'
+  }
 }]);
 
 // Identify the user and pass traits
@@ -22,7 +31,7 @@ UserVoice.push(['identify', {
   //id:         123, // Optional: Unique id of the user (if set, this should not change)
   //type:       'Owner', // Optional: segment your users by type
   //account: {
-  //  id:           123, // Optional: associate multiple users with a single account
+  //  id:           123, // Optional: associate multiple users with a single Account
   //  name:         'Acme, Co.', // Account name
   //  created_at:   1364406966, // Unix timestamp for the date the account was created
   //  monthly_rate: 9.99, // Decimal; monthly rate of the account
