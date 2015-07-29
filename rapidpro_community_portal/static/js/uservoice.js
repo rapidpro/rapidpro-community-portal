@@ -17,7 +17,7 @@ UserVoice.push(['set', {
     contact_menu_label: 'Submit an idea',
     contact_title: 'Submit an idea',
     contact_skip_instant_answers_button: 'Skip and submit idea',
-    contact_message_placeholder: 'Give feedback',
+    contact_message_placeholder: '',
     contact_submit_button: 'Submit Idea'
   }
 }]);
