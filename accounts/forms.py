@@ -1,5 +1,8 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordResetForm as BasePasswordResetForm
+
 
 from wagtail.wagtailusers import forms as wagtailuser_forms
 
@@ -28,3 +31,15 @@ class UserEditForm(wagtailuser_forms.UserEditForm):
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
         del self.fields['email']
+
+
+class PasswordResetForm(BasePasswordResetForm):
+
+    def get_users(self, email):
+        """Given an email, return matching user(s) who should receive a reset.
+
+        Override of Django default method since our email field IS the username.
+        """
+        active_users = get_user_model()._default_manager.filter(
+            username__iexact=email, is_active=True)
+        return (u for u in active_users if u.has_usable_password())
