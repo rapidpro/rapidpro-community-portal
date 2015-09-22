@@ -13,12 +13,22 @@ users:
         public_key:
             - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDAjwyvvD6fojZ47GDqEBR1uN8dEBtGTzyFnQ6rlJT01Lw628PhSY+XwZxG6RfQt2+cFVkYo9cGpHWyGM4hP65Ft1XNkOiXAsa9yoWykOAlqpOEMLEHZ0w5NsDP+uCextuVIEIaBu1pcvKgUlcSJlDhoCUF00DBbkYDpNKRY2f1AN49HdfXB+xGGKnb6xJtb4487fDsE10pGbPRWsvL2w2FzHFwt7a/1rQ03y6sFHZhURSW4jCwBKAvdNazVrL3A/cVXJEBa9Q1LSfvG18ILk8GOVT7gmQLLFOJAeSWK576PjIizBqB1wgIi3sSjCWS22BocONrifqQ9v/URA4E68R dray@caktusgroup.com
 
-    wbowling:
-        groups: [admin, login]    
-        public_key:
-            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVwfjfCM9j5ik6H2y5VxFrlJSLL19vjn3/vgU54icpNEV9zNKXhXgra4Z/4jbBfC4vz6OXNmR6yjTvG8AA3wpbM/WplNzbhIVYwkfNBldo2VOAp1BqmC+3L/kNfIKdIJPAA7Avy+I+1OwKSxmWrb7nnRTGL5R0K+eiQ4PUs8F7hGjO+GFze2XGf/S6vZ0sweoULKdbsrsumKt8cR2yh18IRUg0Rp5p8mCBqmoyiCifA8k59paasYYaMXKjkHmLfEqWag7zRdybsj/UAms1rmjIzw8FSK9SKGPGoTEGELahdh+fwd0Ol5moRj2ulLIgWzrobkJ5jKw1UY7Y/hrYQUH1 wbowling@MBP1.local
-
     emullaney:
         groups: [admin, login]    
         public_key:
             - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDAOcEedHPA4uE+PKvu1WgTOoal9KqAUiV+B5H7oouPQkVMytMAXrvVRUund5yKjGG94H1XpOQ9glbrqW+p5V1imiAKSAhnVtEi1aMDyUSlGH1wdm7JY79Uo1OaOlmxiH50sz1cY/5sSGYEyAyhsVdPJwvpAPfE/XfNSCodEpXTBqzH9Pw6p6j+XI1nkIBkSHWKuQ6AlFfrElyQjfjVxRpiZslPJAamgKDm1L4nlcqSIg8rZZPI1lsUQOOzLfyRKpZw8QbWHzvk2xuvrgcouZDRC8c4+bfUE2mLp8dJNoIFbJ8IWS1OYodgCKhGrUSHX+nSUlT/rHHqz7i2KBnVfylXwHcrpRs1GpiygFwo8afkMP326j5mjIxZyV4QxfJWOS9RJRqLPEW9HH6X4PX6O6Er8DZfwr+3HtRNqdg69KU58NJXnsVPKHD8SmcWipfCcodMC0bqNX2iJEhxn+8G5etyAh2eHdEiiyHuhQU3+oqfkRNDDbaIfthQeG7uptE4rfgn6j1hzcXac8llMfeufFS2ozV8DwOiUQsl0DG7ubCWvWVsb/a4cEu9d5I2hNkzYXZ1lC4Zcb69V71KImn0zKca6NZZi8mMJ6yjYSozygMGr11O4WOpnMr172c392UmImx8QynSCDwYh3Q9PdblKWfzckrfc3Ap4l4zY4FtmsYrzw== emullaney@caktus016
+
+    kbonky:
+        groups: [admin, login]    
+        public_key:
+            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDG+ZLwdjqdpcFxwUs356KUNUerbiyL94vKKadx7ELaSBE7RDa6NFA9QeKeHbLE9hbZSKkka1X91Qh+LQTBf/woPkUvxNUlUw3tIzid5yOE/yYqxMUElUOEsk5dsyfI/0PKpv6fHqbQOpHVf4uIOjYC9Z5bQV7xvIM65MDJN19HtK5xjEsjzoJlJ27vI32h/0j8SghsJsuDWx/tXSe0bZNuvlWcOIWGTwwS6/ynf1hwQW4av3ID6LR7/nQHTyjhcjvdKr4R3zg98HXAeDA0l6l7x4gCzVoBoUW9/NdPcfBHpdpO+1aQY8/PkM9TEoL/HrMdfMhb47cwNPSIsc5EDHooR00Zwrb+HsCWFvL//t2F7nA1ASHIO0VRf+580INPV3+FRtEPcvGlQeqRPJrcJY5HOkkpYmhw13mGsN8qbbpI1xyDrMEWfkAbybfm3xkdRj6H+0uqNFYwZmyyi/UxOBdUUs/N8PEJF82p13EsDGOvqpTD+BhObW8gf6mJfZovChFrB5DU4U+OAmWHMrf7Qm9J9V1MeqQ2I6ES7epBDazTGQf2I9+u7kRMwTuluEuIUdO6GcOnwlDC6hmZwRnDgKZt0lMijGFvlDn3FXoPjvhqq7bqtUXacU1WB1rawM+OYSIw+658RmrySrJiRaN+7bWOYiA/bdxjXsur7huNAz5Rxw== kbonky@gmail.com
+
+    evanmwheeler:
+        groups: [admin, login]    
+        public_key:
+            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCVfP6KLzkjlLBFUUHOGygJks8DvG3+94UPMelzzsJMKqxinqmOBy5JQ0vrRvmu8P2Cxw7FfFf1Lac+wKrHrtFopJzPg2YZI8cMmrX/uSmXBQ0c48q7XQgsz2XoqrFPp6FY3i157qpCdqIEXIiHvWSeAP3enNMmAiwNuzDm/bP2b+dtJF7qdzzLifYtKpPn80dt5SbcyjJqPnVME3UmE0Cx+G0gj52HbE2Xlc/18aSKp/byePCce3pvnd40hPfj5mgHBsPAIViy44hbJurBdoLgFKXO+NQOYyK7d8AeMs5ot7dxZx2YkoSDbf0jso0NZL3YBcS9otsb8PTUfbN/+L8B evanmwheeler+abacus@gmail.com
+
+    ivan:
+        groups: [admin, login]    
+        public_key:
+            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC13j22gSFRr2V/VigBwqPv25iyztsE+TdbFJhPDOgwILPKDlk2DoCTFXTQakcsWd79VaPl3AsCNOyQG+6GtFe4+3G841urF1C/OCKnAj+xenhKMuhHXGKNITgZVp3aGLLjoSYbewDVjvMpQaUVIcL7GgfSW4tSCEj2MFI8r1pj5+ejiqX4lCvj7h6Lu4CYM5mO8b0cN6iKwPNxzrB9M1I0KCETLBUMnnFz5O0y++RvVP7myJwls0bB8YaSce53l1q5E1lp7qaiixFi0CBZUVBQsKuHnRujHCzDCfBN07djRtI0ei2dWTHfe+TKkDwhUlQmuDig3kgVHGRoSQNIfgYB ivan@nb201404260935
