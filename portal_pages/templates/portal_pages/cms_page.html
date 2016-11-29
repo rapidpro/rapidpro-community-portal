@@ -4,6 +4,11 @@
 {% block content %}
     <div class="spacer"></div>
     <div class="cushion">
-    {{ self.body|richtext }}
+        {{ self.body|richtext }}
     </div>
+    {% if self.iframe %}
+        <div class="cushion">
+            {{ self.iframe|richtext }}
+        </div>
+    {% endif %}
 {% endblock %}
