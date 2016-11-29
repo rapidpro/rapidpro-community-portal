@@ -256,10 +256,12 @@ HighlightItem.panels = [
 
 class CMSPage(Page, TopImage):
     body = RichTextField(blank=True, default='')
+    iframe = models.CharField(max_length=255, blank=True, null=True) #Extremely unsafe: Fix it ASAP
 
 CMSPage.content_panels = [
     FieldPanel('title'),
     FieldPanel('body'),
+    FieldPanel('iframe'),
     MultiFieldPanel(TopImage.panels, "hero image"),
 ]
 
