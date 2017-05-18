@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models import Q
 from django.template.response import TemplateResponse
 
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.tags import ClusterTaggableManager
 from taggit.models import Tag, TaggedItemBase
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
@@ -672,6 +672,7 @@ class CaseStudyPage(Page, TopImage):
         blank=True,
         on_delete=models.SET_NULL
     )
+    countries_new = ParentalManyToManyField('portal_pages.Country', blank=True)
 
     @property
     def casestudy_index(self):
@@ -688,7 +689,7 @@ CaseStudyPage.content_panels = [
     DocumentChooserPanel('downloadable_package'),
     InlinePanel('focus_areas', label="Focus Areas"),
     InlinePanel('regions', label="Regions"),
-    InlinePanel('countries', label="Countries"),
+    FieldPanel('countries_new', widget=forms.CheckboxSelectMultiple),
     InlinePanel('organizations', label="Organisations"),
     FieldPanel('submitter_email'),
 ]
