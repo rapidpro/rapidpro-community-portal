@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import modelcluster.fields
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -21,10 +22,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('sort_order', models.IntegerField(editable=False, blank=True, null=True)),
                 ('title', models.CharField(max_length=255)),
-                ('blurb', wagtail.wagtailcore.fields.RichTextField()),
+                ('blurb', wagtail.core.fields.RichTextField()),
                 ('home_page', modelcluster.fields.ParentalKey(to='portal_pages.HomePage', related_name='highlights')),
-                ('icon', models.ForeignKey(to='wagtailimages.Image')),
-                ('target_page', models.ForeignKey(to='wagtailcore.Page')),
+                ('icon', models.ForeignKey(to='wagtailimages.Image', on_delete=django.db.models.deletion.CASCADE)),
+                ('target_page', models.ForeignKey(to='wagtailcore.Page', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['sort_order'],

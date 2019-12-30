@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -14,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='defaulttopimage',
             name='default_top_image',
-            field=models.ForeignKey(to='wagtailimages.Image'),
+            field=models.ForeignKey(to='wagtailimages.Image', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -22,6 +23,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='organizationcasestudy',
             name='organization',
-            field=models.ForeignKey(related_name='+', verbose_name=b'organisation', to='portal_pages.Organization'),
+            field=models.ForeignKey(related_name='+', verbose_name=b'organisation', to='portal_pages.Organization', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

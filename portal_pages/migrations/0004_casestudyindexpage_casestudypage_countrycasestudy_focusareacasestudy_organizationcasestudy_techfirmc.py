@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 import django.db.models.deletion
 import modelcluster.fields
 
@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CaseStudyIndexPage',
             fields=[
-                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, auto_created=True, to='wagtailcore.Page')),
-                ('intro', wagtail.wagtailcore.fields.RichTextField(blank=True)),
+                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, auto_created=True, to='wagtailcore.Page', on_delete=django.db.models.deletion.CASCADE)),
+                ('intro', wagtail.core.fields.RichTextField(blank=True)),
             ],
             options={
                 'abstract': False,
@@ -30,8 +30,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CaseStudyPage',
             fields=[
-                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, auto_created=True, to='wagtailcore.Page')),
-                ('summary', wagtail.wagtailcore.fields.RichTextField()),
+                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, auto_created=True, to='wagtailcore.Page', on_delete=django.db.models.deletion.CASCADE)),
+                ('summary', wagtail.core.fields.RichTextField()),
                 ('date', models.DateField(verbose_name='Post date')),
                 ('feed_image', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', blank=True, to='wagtailimages.Image')),
             ],
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('sort_order', models.IntegerField(blank=True, null=True, editable=False)),
-                ('country', models.ForeignKey(related_name='+', to='portal_pages.Country')),
+                ('country', models.ForeignKey(related_name='+', to='portal_pages.Country', on_delete=django.db.models.deletion.CASCADE)),
                 ('page', modelcluster.fields.ParentalKey(related_name='countries', to='portal_pages.CaseStudyPage')),
             ],
             options={
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('sort_order', models.IntegerField(blank=True, null=True, editable=False)),
-                ('focusarea', models.ForeignKey(related_name='+', to='portal_pages.FocusArea')),
+                ('focusarea', models.ForeignKey(related_name='+', to='portal_pages.FocusArea', on_delete=django.db.models.deletion.CASCADE)),
                 ('page', modelcluster.fields.ParentalKey(related_name='focus_areas', to='portal_pages.CaseStudyPage')),
             ],
             options={
@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('sort_order', models.IntegerField(blank=True, null=True, editable=False)),
-                ('organization', models.ForeignKey(related_name='+', to='portal_pages.Organization')),
+                ('organization', models.ForeignKey(related_name='+', to='portal_pages.Organization', on_delete=django.db.models.deletion.CASCADE)),
                 ('page', modelcluster.fields.ParentalKey(related_name='organizations', to='portal_pages.CaseStudyPage')),
             ],
             options={
@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('sort_order', models.IntegerField(blank=True, null=True, editable=False)),
                 ('page', modelcluster.fields.ParentalKey(related_name='tech_firms', to='portal_pages.CaseStudyPage')),
-                ('techfirm', models.ForeignKey(related_name='+', to='portal_pages.TechFirm')),
+                ('techfirm', models.ForeignKey(related_name='+', to='portal_pages.TechFirm', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,

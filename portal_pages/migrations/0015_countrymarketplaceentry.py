@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import modelcluster.fields
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -17,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('sort_order', models.IntegerField(blank=True, null=True, editable=False)),
-                ('country', models.ForeignKey(related_name='+', to='portal_pages.Country')),
+                ('country', models.ForeignKey(related_name='+', to='portal_pages.Country', on_delete=django.db.models.deletion.CASCADE)),
                 ('page', modelcluster.fields.ParentalKey(related_name='countries', to='portal_pages.MarketplaceEntryPage')),
             ],
             options={

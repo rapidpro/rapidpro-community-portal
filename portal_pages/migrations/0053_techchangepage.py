@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import django.db.models.deletion
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 
 
 class Migration(migrations.Migration):
@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TechChangePage',
             fields=[
-                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, auto_created=True, to='wagtailcore.Page', serialize=False)),
-                ('body', wagtail.wagtailcore.fields.RichTextField(default='', blank=True)),
+                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, auto_created=True, to='wagtailcore.Page', serialize=False, on_delete=django.db.models.deletion.CASCADE)),
+                ('body', wagtail.core.fields.RichTextField(default='', blank=True)),
                 ('tech_change_link', models.CharField(max_length=255)),
                 ('top_image', models.ForeignKey(related_name='+', null=True, to='wagtailimages.Image', blank=True, on_delete=django.db.models.deletion.SET_NULL)),
             ],

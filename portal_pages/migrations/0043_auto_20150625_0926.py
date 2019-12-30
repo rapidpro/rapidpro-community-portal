@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='organizationcasestudy',
             name='organization',
-            field=models.ForeignKey(to='portal_pages.Organization', related_name='+', verbose_name='organisation'),
+            field=models.ForeignKey(to='portal_pages.Organization', related_name='+', verbose_name='organisation', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

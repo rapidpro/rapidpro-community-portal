@@ -3,7 +3,7 @@ import datetime
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from wagtail.wagtailcore.models import Page, Site
+from wagtail.core.models import Page, Site
 
 from portal_pages.models import (
     MarketplaceIndexPage, MarketplaceEntryPage,

@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -16,8 +17,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MarketplaceIndexPage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, serialize=False, parent_link=True, to='wagtailcore.Page', primary_key=True)),
-                ('intro', wagtail.wagtailcore.fields.RichTextField(blank=True)),
+                ('page_ptr', models.OneToOneField(auto_created=True, serialize=False, parent_link=True, to='wagtailcore.Page', primary_key=True, on_delete=django.db.models.deletion.CASCADE)),
+                ('intro', wagtail.core.fields.RichTextField(blank=True)),
             ],
             options={
                 'abstract': False,

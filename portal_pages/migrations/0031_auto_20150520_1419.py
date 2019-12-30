@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import modelcluster.contrib.taggit
 import django.db.models.deletion
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 import modelcluster.fields
 
 
@@ -21,8 +21,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BlogIndexPage',
             fields=[
-                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, to='wagtailcore.Page', auto_created=True)),
-                ('intro', wagtail.wagtailcore.fields.RichTextField(blank=True)),
+                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, to='wagtailcore.Page', auto_created=True, on_delete=django.db.models.deletion.CASCADE)),
+                ('intro', wagtail.core.fields.RichTextField(blank=True)),
             ],
             options={
                 'abstract': False,
@@ -32,8 +32,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BlogPage',
             fields=[
-                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, to='wagtailcore.Page', auto_created=True)),
-                ('body', wagtail.wagtailcore.fields.RichTextField()),
+                ('page_ptr', models.OneToOneField(primary_key=True, parent_link=True, serialize=False, to='wagtailcore.Page', auto_created=True, on_delete=django.db.models.deletion.CASCADE)),
+                ('body', wagtail.core.fields.RichTextField()),
                 ('date', models.DateField(verbose_name='Post date')),
             ],
             options={
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('content_object', modelcluster.fields.ParentalKey(related_name='tagged_items', to='portal_pages.BlogPage')),
-                ('tag', models.ForeignKey(related_name='portal_pages_blogpagetag_items', to='taggit.Tag')),
+                ('tag', models.ForeignKey(related_name='portal_pages_blogpagetag_items', to='taggit.Tag', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,

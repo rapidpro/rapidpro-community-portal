@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -19,6 +20,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='highlightitem',
             name='target_page',
-            field=models.ForeignKey(blank=True, null=True, to='wagtailcore.Page'),
+            field=models.ForeignKey(blank=True, null=True, to='wagtailcore.Page', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

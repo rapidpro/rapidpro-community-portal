@@ -3,8 +3,8 @@ from django.template.loader import render_to_string
 
 from PIL import Image as PILImage
 
-from wagtail.wagtaildocs.models import Document
-from wagtail.wagtailimages.models import Image
+from wagtail.documents.models import Document
+from wagtail.images.models import Image
 
 from .models import MarketplaceEntryPage, CaseStudyPage, BlogPage
 

@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import modelcluster.fields
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -31,7 +32,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('sort_order', models.IntegerField(null=True, editable=False, blank=True)),
                 ('page', modelcluster.fields.ParentalKey(to='portal_pages.CaseStudyPage', related_name='regions')),
-                ('region', models.ForeignKey(to='portal_pages.Region', related_name='+')),
+                ('region', models.ForeignKey(to='portal_pages.Region', related_name='+', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -45,7 +46,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('sort_order', models.IntegerField(null=True, editable=False, blank=True)),
                 ('page', modelcluster.fields.ParentalKey(to='portal_pages.MarketplaceEntryPage', related_name='regions')),
-                ('region', models.ForeignKey(to='portal_pages.Region', related_name='+')),
+                ('region', models.ForeignKey(to='portal_pages.Region', related_name='+', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['sort_order'],

@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 import modelcluster.fields
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -19,9 +20,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
                 ('sort_order', models.IntegerField(null=True, blank=True, editable=False)),
-                ('blurb', wagtail.wagtailcore.fields.RichTextField()),
+                ('blurb', wagtail.core.fields.RichTextField()),
                 ('casestudy_page', modelcluster.fields.ParentalKey(to='portal_pages.CaseStudyPage', related_name='case_study_downloadable_package')),
-                ('downloadable_package', models.ForeignKey(to='wagtaildocs.Document')),
+                ('downloadable_package', models.ForeignKey(to='wagtaildocs.Document', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,

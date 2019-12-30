@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 import modelcluster.fields
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -17,8 +18,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HomePage',
             fields=[
-                ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, to='wagtailcore.Page', serialize=False, primary_key=True)),
-                ('home_content', wagtail.wagtailcore.fields.RichTextField()),
+                ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, to='wagtailcore.Page', serialize=False, primary_key=True, on_delete=django.db.models.deletion.CASCADE)),
+                ('home_content', wagtail.core.fields.RichTextField()),
             ],
             options={
                 'abstract': False,
@@ -30,10 +31,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('sort_order', models.IntegerField(editable=False, blank=True, null=True)),
-                ('blurb', wagtail.wagtailcore.fields.RichTextField()),
-                ('hero_image', models.ForeignKey(to='wagtailimages.Image')),
+                ('blurb', wagtail.core.fields.RichTextField()),
+                ('hero_image', models.ForeignKey(to='wagtailimages.Image', on_delete=django.db.models.deletion.CASCADE)),
                 ('home_page', modelcluster.fields.ParentalKey(related_name='hero_items', to='portal_pages.HomePage')),
-                ('target_page', models.ForeignKey(to='wagtailcore.Page')),
+                ('target_page', models.ForeignKey(to='wagtailcore.Page', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['sort_order'],

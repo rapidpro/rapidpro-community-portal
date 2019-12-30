@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm as BasePasswordResetForm
 
 
-from wagtail.wagtailusers import forms as wagtailuser_forms
+from wagtail.users import forms as wagtailuser_forms
 
 
 class UserCreationForm(wagtailuser_forms.UserCreationForm):

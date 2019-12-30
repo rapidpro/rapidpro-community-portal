@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import slugify
 
-from wagtail.wagtailadmin.utils import send_notification
+from wagtail.admin.utils import send_notification
 
 from .models import (
     Service, Expertise, Country, Region, ServiceMarketplaceEntry,

@@ -6,15 +6,15 @@ from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.core.exceptions import ValidationError
 
-from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailimages.models import Image
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, MultiFieldPanel
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailsearch import index
-from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
-from wagtail.wagtailsnippets.models import register_snippet
-from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
+from wagtail.core.models import Page, Orderable
+from wagtail.core.fields import RichTextField
+from wagtail.images.models import Image
+from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, MultiFieldPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
+from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.snippets.models import register_snippet
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
@@ -147,7 +147,7 @@ class TopImage(models.Model):
 @register_snippet
 class DefaultTopImage(models.Model):
     default_top_image = models.ForeignKey(
-        'wagtailimages.Image'
+        'wagtailimages.Image', on_delete=models.CASCADE
     )
 
     panels = [
@@ -219,8 +219,8 @@ HomePage.content_panels = [
 class HomePageHeroImageItem(Orderable, models.Model):
     home_page = ParentalKey(HomePage, related_name='hero_items')
     blurb = models.CharField(max_length=255)
-    target_page = models.ForeignKey(Page)
-    hero_image = models.ForeignKey(Image)
+    target_page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    hero_image = models.ForeignKey(Image, on_delete=models.CASCADE)
 
 HomePageHeroImageItem.panels = [
     FieldPanel('blurb'),
@@ -233,8 +233,8 @@ class HighlightItem(Orderable, models.Model):
     home_page = ParentalKey(HomePage, related_name='highlights')
     title = models.CharField(max_length=255)
     blurb = RichTextField()
-    icon = models.ForeignKey(Image)
-    target_page = models.ForeignKey(Page, blank=True, null=True)
+    icon = models.ForeignKey(Image, on_delete=models.CASCADE)
+    target_page = models.ForeignKey(Page, blank=True, null=True, on_delete=models.CASCADE)
     target_page_external = models.CharField(
         "External target page (leave blank if Target page is selected.)",
         max_length=255, blank=True)
@@ -460,7 +460,7 @@ MarketplaceEntryPage.content_panels = [
 
 
 class CountryMarketplaceEntry(Orderable, models.Model):
-    country = models.ForeignKey(Country, related_name="+")
+    country = models.ForeignKey(Country, related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(MarketplaceEntryPage, related_name='countries')
     panels = [
         FieldPanel('country'),
@@ -468,7 +468,7 @@ class CountryMarketplaceEntry(Orderable, models.Model):
 
 
 class RegionMarketplaceEntry(Orderable, models.Model):
-    region = models.ForeignKey(Region, related_name="+")
+    region = models.ForeignKey(Region, related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(MarketplaceEntryPage, related_name='regions')
     panels = [
         FieldPanel('region'),
@@ -476,7 +476,7 @@ class RegionMarketplaceEntry(Orderable, models.Model):
 
 
 class ServiceMarketplaceEntry(Orderable, models.Model):
-    service = models.ForeignKey(Service, related_name="+")
+    service = models.ForeignKey(Service, related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(MarketplaceEntryPage, related_name='services')
     panels = [
         FieldPanel('service'),
@@ -484,7 +484,7 @@ class ServiceMarketplaceEntry(Orderable, models.Model):
 
 
 class ExpertiseMarketplaceEntry(Orderable, models.Model):
-    expertise = models.ForeignKey(Expertise, related_name="+")
+    expertise = models.ForeignKey(Expertise, related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(MarketplaceEntryPage, related_name='expertise_tags')
     panels = [
         FieldPanel('expertise'),
@@ -691,7 +691,7 @@ CaseStudyPage.content_panels = [
 # https://github.com/torchbox/wagtail/issues/231
 
 class CountryCaseStudy(Orderable, models.Model):
-    country = models.ForeignKey(Country, related_name="+")
+    country = models.ForeignKey(Country, related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(CaseStudyPage, related_name='countries')
     panels = [
         FieldPanel('country'),
@@ -699,7 +699,7 @@ class CountryCaseStudy(Orderable, models.Model):
 
 
 class RegionCaseStudy(Orderable, models.Model):
-    region = models.ForeignKey(Region, related_name="+")
+    region = models.ForeignKey(Region, related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(CaseStudyPage, related_name='regions')
     panels = [
         FieldPanel('region'),
@@ -707,7 +707,7 @@ class RegionCaseStudy(Orderable, models.Model):
 
 
 class FocusAreaCaseStudy(Orderable, models.Model):
-    focusarea = models.ForeignKey(FocusArea, related_name="+")
+    focusarea = models.ForeignKey(FocusArea, related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(CaseStudyPage, related_name='focus_areas')
     panels = [
         FieldPanel('focusarea'),
@@ -715,7 +715,7 @@ class FocusAreaCaseStudy(Orderable, models.Model):
 
 
 class OrganizationCaseStudy(Orderable, models.Model):
-    organization = models.ForeignKey(Organization, verbose_name='organisation', related_name="+")
+    organization = models.ForeignKey(Organization, verbose_name='organisation', related_name="+", on_delete=models.CASCADE)
     page = ParentalKey(CaseStudyPage, related_name='organizations')
     panels = [
         FieldPanel('organization'),
