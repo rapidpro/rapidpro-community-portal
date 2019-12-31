@@ -11,7 +11,7 @@ pep8 = "*"
 factory_boy = "*"
 
 [packages]
-Django = "<2.0"
+Django = "*"
 Pillow = "*"
 Unidecode = "*"
 Willow = "*"
@@ -26,7 +26,7 @@ html5lib = "*"
 requests = "*"
 psycopg2 = "*"
 python3-memcached = "*"
-wagtail = "<2.1"
+wagtail = "<1.11"
 
 [requires]
 python_version = "3.8"
