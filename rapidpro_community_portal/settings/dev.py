@@ -4,11 +4,11 @@ from rapidpro_community_portal.settings.base import *  # noqa
 
 DEBUG = True
 
-INSTALLED_APPS += (
+INSTALLED_APPS += (  # noqa
     'debug_toolbar',
 )
 
-MIDDLEWARE += (
+MIDDLEWARE += (  # noqa
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 

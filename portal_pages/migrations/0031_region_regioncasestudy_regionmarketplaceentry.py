@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
-import modelcluster.fields
 import django.utils.timezone
+import modelcluster.fields
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):

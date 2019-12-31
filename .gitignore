@@ -19,3 +19,8 @@ secrets.sls*
 .env
 .envrc
 .venv/
+rapidpro_community_portal.egg-info/
+build/
+dist/
+~build/
+.tox/

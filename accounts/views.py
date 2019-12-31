@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import permission_required
-from django.utils.translation import ugettext as _
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import ugettext as _
 
 from wagtail.admin import messages
 from wagtail.users.views.users import change_user_perm

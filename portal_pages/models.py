@@ -1,24 +1,23 @@
 from datetime import datetime
 
+from django.core.exceptions import ValidationError
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.template.response import TemplateResponse
-from django.core.exceptions import ValidationError
-
-from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
-from wagtail.images.models import Image
-from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel, MultiFieldPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.search import index
-from wagtail.documents.edit_handlers import DocumentChooserPanel
-from wagtail.snippets.models import register_snippet
-from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 from taggit.models import Tag, TaggedItemBase
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.core.fields import RichTextField
+from wagtail.core.models import Orderable, Page
+from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.images.models import Image
+from wagtail.search import index
+from wagtail.snippets.models import register_snippet
 
 
 """
@@ -170,8 +169,9 @@ class HomePage(Page):
     youtube_video_id = models.CharField(max_length=512, blank=True, default='')
     youtube_video_title = models.CharField(max_length=512, blank=True, default='')
     youtube_blurb = RichTextField(blank=True, default='')
-    get_started_now_page = models.ForeignKey(Page,
-                blank=True, null=True, on_delete=models.SET_NULL, related_name='homepages')
+    get_started_now_page = models.ForeignKey(Page, blank=True, null=True,
+                                             on_delete=models.SET_NULL, related_name='homepages')
+
 
 HomePage.content_panels = [
     MultiFieldPanel(
@@ -222,6 +222,7 @@ class HomePageHeroImageItem(Orderable, models.Model):
     target_page = models.ForeignKey(Page, on_delete=models.CASCADE)
     hero_image = models.ForeignKey(Image, on_delete=models.CASCADE)
 
+
 HomePageHeroImageItem.panels = [
     FieldPanel('blurb'),
     PageChooserPanel('target_page'),
@@ -245,6 +246,7 @@ class HighlightItem(Orderable, models.Model):
         if page_count != 1:
             raise ValidationError('Please complete either target page or target page external, but not both.')
 
+
 HighlightItem.panels = [
     FieldPanel('title'),
     PageChooserPanel('target_page'),
@@ -256,7 +258,8 @@ HighlightItem.panels = [
 
 class CMSPage(Page, TopImage):
     body = RichTextField(blank=True, default='')
-    iframe = models.CharField(max_length=255, blank=True, null=True) #Extremely unsafe: Fix it ASAP
+    iframe = models.CharField(max_length=255, blank=True, null=True)  # Extremely unsafe: Fix it ASAP
+
 
 CMSPage.content_panels = [
     FieldPanel('title'),
@@ -269,6 +272,7 @@ CMSPage.content_panels = [
 class TechChangePage(Page, TopImage):
     body = RichTextField(blank=True, default='')
     tech_change_link = models.CharField(max_length=255)
+
 
 TechChangePage.content_panels = [
     FieldPanel('title'),
@@ -309,7 +313,7 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
         return TemplateResponse(
             request,
             'portal_pages/thank_you.html',
-            {"thanks_info" : self.thanks_info}
+            {"thanks_info": self.thanks_info}
         )
 
     @property
@@ -404,9 +408,10 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
             marketplace_entries = paginator.page(paginator.num_pages)
 
         # Update template context
-        context = super(MarketplaceIndexPage, self).get_context(request)
+        context = super().get_context(request)
         context['marketplace_entries'] = marketplace_entries
         return context
+
 
 MarketplaceIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -444,6 +449,7 @@ class MarketplaceEntryPage(Page, ContactFields, TopImage):
     @property
     def name(self):
         return self.title
+
 
 MarketplaceEntryPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -523,7 +529,7 @@ class CaseStudyIndexPage(RoutablePageMixin, Page, TopImage):
         return TemplateResponse(
             request,
             'portal_pages/thank_you.html',
-            { "thanks_info" : self.thanks_info }
+            {"thanks_info": self.thanks_info}
         )
 
     @property
@@ -625,9 +631,10 @@ class CaseStudyIndexPage(RoutablePageMixin, Page, TopImage):
             casestudies = paginator.page(paginator.num_pages)
 
         # Update template context
-        context = super(CaseStudyIndexPage, self).get_context(request)
+        context = super().get_context(request)
         context['casestudies'] = casestudies
         return context
+
 
 CaseStudyIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -670,6 +677,7 @@ class CaseStudyPage(Page, TopImage):
     def casestudy_index(self):
         # Find closest ancestor which is a casestudy index
         return self.get_ancestors().type(CaseStudyIndexPage).last()
+
 
 CaseStudyPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -715,7 +723,8 @@ class FocusAreaCaseStudy(Orderable, models.Model):
 
 
 class OrganizationCaseStudy(Orderable, models.Model):
-    organization = models.ForeignKey(Organization, verbose_name='organisation', related_name="+", on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, verbose_name='organisation', related_name="+",
+                                     on_delete=models.CASCADE)
     page = ParentalKey(CaseStudyPage, related_name='organizations')
     panels = [
         FieldPanel('organization'),
@@ -754,13 +763,12 @@ class BlogIndexPage(RoutablePageMixin, Page, TopImage):
         return TemplateResponse(
             request,
             'portal_pages/thank_you.html',
-            { "thanks_info" : self.thanks_info }
+            {"thanks_info": self.thanks_info}
         )
 
     @property
     def tags(self):
-        tags = Tag.objects.filter(
-                portal_pages_blogpagetag_items__isnull=False).order_by('name').distinct('name')
+        tags = Tag.objects.filter(portal_pages_blogpagetag_items__isnull=False).order_by('name').distinct('name')
 
         return tags
 
@@ -803,9 +811,10 @@ class BlogIndexPage(RoutablePageMixin, Page, TopImage):
             blogs = paginator.page(paginator.num_pages)
 
         # Update template context
-        context = super(BlogIndexPage, self).get_context(request)
+        context = super().get_context(request)
         context['blogs'] = blogs
         return context
+
 
 BlogIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -813,7 +822,7 @@ BlogIndexPage.content_panels = [
     MultiFieldPanel(TopImage.panels, "blog image"),
     FieldPanel('submit_info', classname="full"),
     FieldPanel('thanks_info', classname="full"),
- ]
+]
 
 BlogIndexPage.promote_panels = Page.promote_panels
 
@@ -839,6 +848,7 @@ class BlogPage(Page, TopImage):
     def blog_index(self):
         # Find closest ancestor which is a blog index
         return self.get_ancestors().type(BlogIndexPage).last()
+
 
 BlogPage.content_panels = [
     FieldPanel('title', classname="full title"),

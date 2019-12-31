@@ -2,11 +2,10 @@ from django import forms
 from django.template.loader import render_to_string
 
 from PIL import Image as PILImage
-
 from wagtail.documents.models import Document
 from wagtail.images.models import Image
 
-from .models import MarketplaceEntryPage, CaseStudyPage, BlogPage
+from .models import BlogPage, CaseStudyPage, MarketplaceEntryPage
 
 
 class HoneyForm(forms.Form):
@@ -57,13 +56,13 @@ class SpamProtectedForm(forms.Form):
     HONEYPOT_CSS_CLASS = "topyenoh"
 
     def __init__(self, *args, **kwargs):
-        super(SpamProtectedForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.honeypot_form = HoneyForm(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
         if not self.honeypot_form.is_valid():
             raise forms.ValidationError("Invalid submission")
-        return super(SpamProtectedForm, self).clean(*args, **kwargs)
+        return super().clean(*args, **kwargs)
 
     @property
     def honeypot(self):
@@ -119,14 +118,11 @@ class ImageForm(forms.ModelForm):
             except EOFError:
                 pass
             else:
-                raise forms.ValidationError(
-                    "Animated GIFs are not supported." # Wagtail does not support animated GIF format
-                    )
+                # Wagtail does not support animated GIF format
+                raise forms.ValidationError("Animated GIFs are not supported.")
 
         if file_type not in file_types or file_ext not in file_exts:
-            raise forms.ValidationError(
-                    "Not a supported image format. Supported formats: GIF, JPEG, PNG."
-                )
+            raise forms.ValidationError("Not a supported image format. Supported formats: GIF, JPEG, PNG.")
 
         return cleaned_file
 
@@ -136,13 +132,14 @@ class CaseStudyForm(SpamProtectedForm, forms.ModelForm):
     required_css_class = 'required'
 
     def __init__(self, *args, **kwargs):
-        super(CaseStudyForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['marketplace_entry'].queryset = MarketplaceEntryPage.objects.live().order_by('title')
 
     class Meta:
         model = CaseStudyPage
         labels = {
-            'submitter_email': 'Your email address, in case we need to contact you. We will not share this email address with anyone.'
+            'submitter_email':
+                'Your email address, in case we need to contact you. We will not share this email address with anyone.'
         }
         fields = [
             'title', 'summary', 'date',
@@ -162,15 +159,13 @@ class FlowJSONFileForm(forms.ModelForm):
         ]
 
     def clean(self):
-        cleaned_data = super(FlowJSONFileForm, self).clean()
+        cleaned_data = super().clean()
 
         file_type = cleaned_data.get("file").content_type
         file_ext = cleaned_data.get("file").name.split(".")[-1]
 
         if file_type != 'application/octet-stream' or file_ext != 'json':
-            raise forms.ValidationError(
-                    "Please upload a valid JSON file for the Flow JSON File."
-                )
+            raise forms.ValidationError("Please upload a valid JSON file for the Flow JSON File.")
 
         return cleaned_data
 
@@ -183,7 +178,8 @@ class BlogForm(SpamProtectedForm, forms.ModelForm):
         model = BlogPage
         labels = {
             'date': 'Blog Date',
-            'submitter_email': 'Your email address, in case we need to contact you. We will not share this email address with anyone.'
+            'submitter_email':
+                'Your email address, in case we need to contact you. We will not share this email address with anyone.'
         }
         fields = [
             'title', 'body', 'date',

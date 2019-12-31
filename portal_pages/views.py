@@ -1,20 +1,31 @@
 from datetime import datetime
 
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.template.defaultfilters import slugify
 
 from wagtail.admin.utils import send_notification
 
+from .forms import BlogForm, CaseStudyForm, FlowJSONFileForm, ImageForm, MarketplaceEntryForm
 from .models import (
-    Service, Expertise, Country, Region, ServiceMarketplaceEntry,
-    CountryMarketplaceEntry, RegionMarketplaceEntry, ExpertiseMarketplaceEntry,
-    CountryCaseStudy, RegionCaseStudy, FocusAreaCaseStudy, OrganizationCaseStudy,
-    FocusArea, Organization, MarketplaceEntryPage, MarketplaceIndexPage,
-    Tag, BlogPageTag
-    )
-
-from .forms import MarketplaceEntryForm, ImageForm, CaseStudyForm, FlowJSONFileForm, BlogForm
+    BlogPageTag,
+    Country,
+    CountryCaseStudy,
+    CountryMarketplaceEntry,
+    Expertise,
+    ExpertiseMarketplaceEntry,
+    FocusArea,
+    FocusAreaCaseStudy,
+    MarketplaceIndexPage,
+    Organization,
+    OrganizationCaseStudy,
+    Region,
+    RegionCaseStudy,
+    RegionMarketplaceEntry,
+    Service,
+    ServiceMarketplaceEntry,
+    Tag,
+)
 
 
 def submit_marketplace_entry(request, marketplace_index):
@@ -143,8 +154,7 @@ def submit_blog(request, blog_index):
             send_notification(blog.get_latest_revision().id, 'submitted', None)
         return HttpResponseRedirect(blog_index.url + blog_index.reverse_subpage('thanks'))
 
-    tags = Tag.objects.filter(
-                portal_pages_blogpagetag_items__isnull=False).order_by('name').distinct('name')
+    tags = Tag.objects.filter(portal_pages_blogpagetag_items__isnull=False).order_by('name').distinct('name')
     context = {
         'form': form,
         'tags': tags,
@@ -240,7 +250,7 @@ def submit_case_study(request, case_study_index):
     months = ['January', 'February', 'March', 'April',
               'May', 'June', 'July', 'August',
               'September', 'October', 'November', 'December']
-    months = [('%02d' % x, y) for x, y in list(enumerate(months,1))] # months = [('01', 'Jan'), ('02', 'Feb')], ...
+    months = [('%02d' % x, y) for x, y in list(enumerate(months, 1))]  # months = [('01', 'Jan'), ('02', 'Feb')], ...
     marketplace_index = MarketplaceIndexPage.objects.live()[0]
     context = {
         'form': form,

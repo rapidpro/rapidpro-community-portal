@@ -1,5 +1,6 @@
 # Django settings for rapidpro_community_portal project.
 import os
+from pathlib import Path
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
@@ -96,7 +97,6 @@ ROOT_URLCONF = 'rapidpro_community_portal.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'rapidpro_community_portal.wsgi.application'
 
-from pathlib import Path
 SETTINGS_DIR = Path(__file__).parent
 PACKAGE_DIR = SETTINGS_DIR.parent
 TEMPLATES = [

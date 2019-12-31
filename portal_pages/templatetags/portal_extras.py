@@ -1,4 +1,5 @@
 from django import template
+
 from ..models import DefaultTopImage
 
 register = template.Library()
@@ -18,7 +19,7 @@ def make_unique(qs, unique_var):
 def url_param_dict_to_list(url_items_dict):
     """Turn this dictionary into a param list for the URL"""
     params_list = ""
-    for key,value in url_items_dict:
+    for key, value in url_items_dict:
         if key != "page":
             params_list += "&%s=%s" % (key, value)
 
@@ -38,7 +39,7 @@ def remove_from_string(value, value_to_remove):
 
 @register.filter
 def add_spacing(value):
-    return value.replace(">","> ")
+    return value.replace(">", "> ")
 
 
 @register.inclusion_tag('portal_pages/tags/filter_list.html', takes_context=True)

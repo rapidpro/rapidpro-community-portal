@@ -1,8 +1,7 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm as BasePasswordResetForm
-
+from django.utils.translation import ugettext_lazy as _
 
 from wagtail.users import forms as wagtailuser_forms
 
