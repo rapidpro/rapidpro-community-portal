@@ -1,0 +1,62 @@
+version: '2.1'
+
+services:
+  backend:
+    image: unicef/rapidpro-community-portal:latest
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_NAME: postgres
+      DB_PORT: 5432
+      DB_PASSWORD: ''
+      DEBUG: 1
+      CSRF_COOKIE_SECURE: ''
+      SECURE_SSL_REDIRECT: ''
+      SESSION_COOKIE_HTTPONLY: ''
+      SESSION_COOKIE_SECURE: ''
+      # CELERY_RESULT_BACKEND: redis://redis:6379/3
+      # CELERY_BROKER_URL: redis://redis:6379/2
+      # REDIS_URL: redis://redis:6379/1
+      # STATIC_ROOT: /var/rapidpro_community_portal/static/
+      # MEDIA_ROOT: /var/rapidpro_community_portal/media/
+      # MEDIA_URL: http://localhost:8082/media/
+    command: uwsgi
+
+    volumes:
+      - "./src:/code"
+      - "./volumes/backend/var/rapidpro_community_portal/:/var/rapidpro_community_portal"
+    depends_on:
+      - db
+      - redis
+    container_name: rapidpro_community_portal
+    labels:
+      - traefik.backend=backend
+      - traefik.frontend.rule=PathPrefix:/
+      - traefik.priority=1
+      - traefik.enable=true
+      - traefik.port=8000
+
+  proxy:
+    image: traefik:v1.7
+    command: --api --docker
+    ports:
+      - "8082:80"
+      - "8080:8080"
+    container_name: rapidpro_community_portal_proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  db:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: rapidpro_community_portal_production
+    volumes:
+      - "./volumes/db2/data:/var/lib/postgresql/data"
+    container_name: rapidpro_community_portal_db
+
+  redis:
+    image: redis
+    container_name: rapidpro_community_portal_redis
+    hostname: redis
+    command: ["redis-server", "--appendonly", "yes"]

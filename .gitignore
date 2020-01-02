@@ -9,8 +9,7 @@
 .coverage
 .vagrant
 */settings/local.py
-public/static/
-public/media/
+src/public/
 conf/pillar/*/deploy
 secrets.sls*
 *.log

@@ -2,8 +2,8 @@ from rapidpro_community_portal.settings.staging import *  # noqa
 
 # There should be only minor differences from staging
 
-DATABASES['default']['NAME'] = 'rapidpro_community_portal_production'  # noqa
-DATABASES['default']['USER'] = 'rapidpro_community_portal_production'  # noqa
+DATABASES['default']['NAME'] = os.environ.get('DB_NAME', 'rapidpro_community_portal_production')  # noqa
+DATABASES['default']['USER'] = os.environ.get('DB_USER', 'rapidpro_community_portal_production')  # noqa
 
 EMAIL_SUBJECT_PREFIX = '[Rapidpro_Community_Portal Prod] '
 

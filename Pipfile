@@ -23,10 +23,12 @@ django-modelcluster = "*"
 django-sendfile = "*"
 django-taggit = "*"
 django-treebeard = "*"
+dj-static = "*"
 html5lib = "*"
 requests = "*"
 psycopg2 = "*"
 python3-memcached = "*"
+uwsgi = "*"
 wagtail = "*"
 
 [requires]

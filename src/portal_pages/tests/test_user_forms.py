@@ -104,7 +104,7 @@ class UserFormTests(TestCase):
         self.assertEqual(MarketplaceEntryPage.objects.all().count(), 0)
 
     def test_marketplace_entry_good_image(self):
-        test_file = open('portal_pages/tests/files/goodimage.jpg', 'rb')
+        test_file = open('src/portal_pages/tests/files/goodimage.jpg', 'rb')
         good_image = SimpleUploadedFile(test_file.name, test_file.read())
         self.marketplace_entry_form_data['file'] = good_image
         resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
@@ -114,7 +114,7 @@ class UserFormTests(TestCase):
 
     def test_marketplace_entry_bad_image_type(self):
         # File types accepted are GIF/JPG/PNG, this should error
-        test_file = open('portal_pages/tests/files/badimage.bmp', 'rb')
+        test_file = open('src/portal_pages/tests/files/badimage.bmp', 'rb')
         good_image = SimpleUploadedFile(test_file.name, test_file.read())
         self.marketplace_entry_form_data['file'] = good_image
         resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
@@ -127,7 +127,7 @@ class UserFormTests(TestCase):
 
     def test_marketplace_entry_animated_gif(self):
         # Animated gifs are not supported, this should error
-        test_file = open('portal_pages/tests/files/animated.gif', 'rb')
+        test_file = open('src/portal_pages/tests/files/animated.gif', 'rb')
         good_image = SimpleUploadedFile(test_file.name, test_file.read())
         self.marketplace_entry_form_data['file'] = good_image
         resp = self.client.post(self.marketplace_submission_url, self.marketplace_entry_form_data)
