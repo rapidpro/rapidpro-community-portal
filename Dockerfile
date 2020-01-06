@@ -86,7 +86,7 @@ ENV UWSGI_PROTOCOL=http \
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/code \
-    DJANGO_SETTINGS_MODULE=rapidpro_community_portal.settings.production
+    DJANGO_SETTINGS_MODULE=rapidpro_community_portal.settings
 
-RUN SECRET_KEY=not-so-secret-key-just-for-collectstatic DISABLE_JWT_LOGIN=1 django-admin collectstatic --noinput
+# RUN SECRET_KEY=not-so-secret-key-just-for-collectstatic DISABLE_JWT_LOGIN=1 django-admin collectstatic --noinput
 EXPOSE 8000

@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-debug-toolbar = "*"
 coverage = "*"
 flake8 = "*"
 pep8 = "*"
@@ -19,6 +18,9 @@ Willow = "*"
 beautifulsoup4 = "*"
 django-appconf = "*"
 django-compressor = "*"
+django-debug-toolbar = "*"
+django-environ = "*"
+django-extensions = "*"
 django-modelcluster = "*"
 django-sendfile = "*"
 django-taggit = "*"

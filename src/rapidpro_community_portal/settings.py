@@ -2,25 +2,21 @@
 import os
 from pathlib import Path
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
+import environ
 
-DEBUG = True
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+
+env = environ.Env()
+environ.Env.read_env()
+
+PROJECT_ROOT = env.str('PROJECT_ROOT', os.path.abspath(os.path.join(BASE_DIR, os.pardir)))
+DEBUG = env.bool('DEBUG', False)
 
 ADMINS = (
     ('RapidPro Dev Team', 'rapidpro-team@caktusgroup.com'),
 )
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rapidpro_community_portal',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
-}
+DATABASES = {'default': env.db()}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -66,9 +62,9 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -193,7 +189,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'basic',
-            'filename': os.path.join(PROJECT_ROOT, 'rapidpro_community_portal.log'),
+            'filename': os.path.join(BASE_DIR, 'rapidpro_community_portal.log'),
             'maxBytes': 10 * 1024 * 1024,  # 10 MB
             'backupCount': 10,
         },
@@ -211,7 +207,25 @@ LOGGING = {
     }
 }
 
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', 'localhost').split(';') + ['0.0.0.0']
+
+CACHE_HOST = env.bool('CACHE_HOST', '127.0.0.1:11211')
+BROKER_HOST = env.bool('BROKER_HOST', '127.0.0.1:5672')
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': CACHE_HOST
+    }
+}
+
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
+SESSION_COOKIE_HTTPONLY = env.bool('SESSION_COOKIE_HTTPONLY', True)
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', True)
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
+
+
 # Application settings
+COMPRESS_ENABLED = env.bool('COMPRESS_ENABLED', True)
 COMPRESS_PRECOMPILERS = (
     ('text/less', 'lessc {infile} {outfile}'),
     ('text/x-scss', 'django_libsass.SassCompiler'),
@@ -225,9 +239,19 @@ LOGIN_REDIRECT_URL = 'wagtailadmin_home'
 BASE_URL = 'http://localhost:8000'
 
 DEFAULT_FROM_EMAIL = 'noreply@community.rapidpro.io'
+EMAIL_SUBJECT_PREFIX = env.str('EMAIL_SUBJECT_PREFIX', '[Rapidpro_Community_Portal] ')
 
 WAGTAILADMIN_RICH_TEXT_EDITORS = {
     'default': {
         'WIDGET': 'wagtail.admin.rich_text.HalloRichTextArea'
     }
 }
+
+CELERY_TASK_ALWAYS_EAGER = env.bool('CELERY_TASK_ALWAYS_EAGER', False)
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = env.bool('CELERY_EAGER_PROPAGATES_EXCEPTIONS', False)
+
+if DEBUG:  # pragma: no cover
+
+    INSTALLED_APPS += ('debug_toolbar', )
+    MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware', )
+    DEBUG_TOOLBAR_CONFIG = {'SHOW_TEMPLATE_CONTEXT': True}

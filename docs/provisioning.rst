@@ -8,11 +8,12 @@ Overview
 Rapidpro_Community_Portal is deployed on the following stack.
 
 - OS: python:3.8.1-alpine
-- Python: 2.7
+- Python: 3.8
 - Database: Postgres 12.1
 - Application Server: uWSGI
 - Frontend Server: Nginx
 - Cache: Memcached
+
 
 Initial Setup
 ------------------------
@@ -77,30 +78,6 @@ user record (under the parent ``users:`` key) should match the format::
 
 Additional developers can be added later, but you will need to create at least one user for
 yourself.
-
-
-Managing Secrets
-------------------------
-
-Secret information such as passwords and API keys should never be committed to the
-source repository. Instead, each environment manages its secrets in ``conf/pillar/<environment>/secrets.sls``.
-These ``secrets.sls`` files are excluded from the source control and need to be passed
-to the developers out of band. There are example files given in ``conf/pillar/<environment>/secrets.ex``.
-They have the format::
-
-    secrets:
-      DB_PASSWORD: XXXXXX
-
-Each key/value pair given in the ``secrets`` dictionary will be added to the OS environment
-and can retrieved in the Python code via::
-
-    import os
-
-    password = os.environ['DB_PASSWORD']
-
-Secrets for other environments will not be available. That is, the staging server
-will not have access to the production secrets. As such there is no need to namespace the
-secrets by their environment.
 
 
 Environment Variables
@@ -231,48 +208,6 @@ auth simply add a section called ``http_auth`` in the relevant ``conf/pillar/<en
 This should be a list of key/value pairs. The keys will serve as the usernames and
 the values will be the password. As with all password usage please pick a strong
 password.
-
-
-Celery
-________________________
-
-Many Django projects make use of `Celery <http://celery.readthedocs.org/en/latest/>`_
-for handling long running task outside of request/response cycle. Enabling a worker
-makes use of `Django setup for Celery <http://celery.readthedocs.org/en/latest/django/first-steps-with-django.html>`_.
-As documented you should create/import your Celery app in ``rapidpro_community_portal/__init__.py`` so that you
-can run the worker via::
-
-    celery -A rapidpro_community_portal worker
-
-Additionally you will need to configure the project settings for Celery::
-
-    # rapidpro_community_portal.settings.staging.py
-    import os
-    from rapidpro_community_portal.settings.base import *
-
-    # Other settings would be here
-    BROKER_URL = 'amqp://rapidpro_community_portal_staging:%(BROKER_PASSWORD)s@%(BROKER_HOST)s/rapidpro_community_portal_staging' % os.environ
-
-You will also need to add the ``BROKER_URL`` to the ``rapidpro_community_portal.settings.production`` so
-that the vhost is set correctly. These are the minimal settings to make Celery work. Refer to the
-`Celery documentation <http://docs.celeryproject.org/en/latest/configuration.html>`_ for additional
-configuration options.
-
-``BROKER_HOST`` defaults to ``127.0.0.1:5672``. If the queue server is configured on a separate host
-that will need to be reflected in the ``BROKER_URL`` setting. This is done by setting the ``BROKER_HOST``
-environment variable in the ``env`` dictionary of ``conf/pillar/<environment>/env.sls``.
-
-To add the states you should add the ``worker`` role when provisioning the minion.
-At least one server in the stack should be provisioned with the ``queue`` role as well.
-This will use RabbitMQ as the broker by default. The
-RabbitMQ user will be named rapidpro_community_portal_<environment> and the vhost will be named rapidpro_community_portal_<environment>
-for each environment. It requires that you add a password for the RabbitMQ user to each of
-the ``conf/pillar/<environment>/secrets.sls``::
-
-    secrets:
-      BROKER_PASSWORD: thisisapasswordforrabbitmq
-
-The worker will run also run the ``beat`` process which allows for running periodic tasks.
 
 
 SSL

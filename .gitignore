@@ -23,3 +23,5 @@ build/
 dist/
 ~build/
 .tox/
+volumes/
+public/
