@@ -285,9 +285,9 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
     submit_info = RichTextField(blank=True)
     thanks_info = RichTextField(blank=True)
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('intro'),
-    )
+    ]
 
     subpage_types = ['portal_pages.MarketplaceEntryPage']
 
@@ -452,10 +452,10 @@ MarketplaceEntryPage.content_panels = [
     ImageChooserPanel('logo_image'),
     MultiFieldPanel(TopImage.panels, "branding banner"),
     MultiFieldPanel(ContactFields.panels, "Contact"),
-    InlinePanel(MarketplaceEntryPage, 'services', label="Services"),
-    InlinePanel(MarketplaceEntryPage, 'expertise_tags', label="Expertise"),
-    InlinePanel(MarketplaceEntryPage, 'regions', label="Regions of Experience"),
-    InlinePanel(MarketplaceEntryPage, 'countries', label="Countries of Experience"),
+    InlinePanel('services', label="Services"),
+    InlinePanel('expertise_tags', label="Expertise"),
+    InlinePanel('regions', label="Regions of Experience"),
+    InlinePanel('countries', label="Countries of Experience"),
 ]
 
 
@@ -499,9 +499,9 @@ class CaseStudyIndexPage(RoutablePageMixin, Page, TopImage):
     submit_info = RichTextField(blank=True)
     thanks_info = RichTextField(blank=True)
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('intro'),
-    )
+    ]
 
     subpage_types = ['portal_pages.CaseStudyPage']
 
@@ -655,9 +655,9 @@ class CaseStudyPage(Page, TopImage):
     )
     submitter_email = models.EmailField(blank=True)
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('summary'),
-    )
+    ]
 
     marketplace_entry = models.ForeignKey(
         'portal_pages.MarketplaceEntryPage',
@@ -678,10 +678,10 @@ CaseStudyPage.content_panels = [
     FieldPanel('marketplace_entry', classname="full"),
     MultiFieldPanel(TopImage.panels, "hero image"),
     DocumentChooserPanel('downloadable_package'),
-    InlinePanel(CaseStudyPage, 'focus_areas', label="Focus Areas"),
-    InlinePanel(CaseStudyPage, 'regions', label="Regions"),
-    InlinePanel(CaseStudyPage, 'countries', label="Countries"),
-    InlinePanel(CaseStudyPage, 'organizations', label="Organisations"),
+    InlinePanel('focus_areas', label="Focus Areas"),
+    InlinePanel('regions', label="Regions"),
+    InlinePanel('countries', label="Countries"),
+    InlinePanel('organizations', label="Organisations"),
     FieldPanel('submitter_email'),
 ]
 
@@ -730,9 +730,9 @@ class BlogIndexPage(RoutablePageMixin, Page, TopImage):
     submit_info = RichTextField(blank=True)
     thanks_info = RichTextField(blank=True)
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('intro'),
-    )
+    ]
 
     subpage_types = ['portal_pages.BlogPage']
 
@@ -831,9 +831,9 @@ class BlogPage(Page, TopImage):
     date = models.DateField("Post date")
     submitter_email = models.EmailField(blank=True)
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('body'),
-    )
+    ]
 
     @property
     def blog_index(self):

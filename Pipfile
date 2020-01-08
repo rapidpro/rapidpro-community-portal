@@ -1,0 +1,32 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+django-debug-toolbar = "*"
+coverage = "*"
+flake8 = "*"
+pep8 = "*"
+factory_boy = "*"
+
+[packages]
+Django = "*"
+Pillow = "*"
+Unidecode = "*"
+Willow = "*"
+beautifulsoup4 = "*"
+django-appconf = "*"
+django-compressor = "*"
+django-modelcluster = "*"
+django-sendfile = "*"
+django-taggit = "*"
+django-treebeard = "*"
+html5lib = "*"
+requests = "*"
+psycopg2 = "*"
+python3-memcached = "*"
+wagtail = "<1.11"
+
+[requires]
+python_version = "3.8"

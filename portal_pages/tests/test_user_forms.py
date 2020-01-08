@@ -169,6 +169,7 @@ class UserFormTests(TestCase):
                                 slug="published",
                                 date_start="2015-05-01",
                                 live=True,
+                                biography='<p>bio test</p>',
                             ))
         mpe_unpublished = self.marketplace_index_page.add_child(
                             instance=MarketplaceEntryPage(
@@ -176,6 +177,7 @@ class UserFormTests(TestCase):
                                 slug="unpublished",
                                 date_start="2015-05-01",
                                 live=False,
+                                biography='<p>bio test</p>',
                             ))
 
         form = CaseStudyForm()
