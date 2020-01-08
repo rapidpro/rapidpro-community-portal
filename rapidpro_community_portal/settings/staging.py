@@ -4,7 +4,6 @@ os.environ.setdefault('CACHE_HOST', '127.0.0.1:11211')
 os.environ.setdefault('BROKER_HOST', '127.0.0.1:5672')
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
 DATABASES['default']['NAME'] = 'rapidpro_community_portal_staging'
 DATABASES['default']['USER'] = 'rapidpro_community_portal_staging'

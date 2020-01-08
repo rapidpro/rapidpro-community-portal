@@ -16,3 +16,6 @@ secrets.sls*
 *.log
 *.sql
 .idea
+.env
+.envrc
+.venv/
