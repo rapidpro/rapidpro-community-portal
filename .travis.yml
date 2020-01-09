@@ -1,0 +1,35 @@
+dist: bionic
+language: python
+sudo: false
+
+python:
+  - 3.8
+
+env:
+  - DJANGO=2.2
+
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+
+services:
+  - redis-server
+
+install:
+  - pip install tox codecov
+
+script:
+  - tox -e "py${TRAVIS_PYTHON_VERSION//.}-d${DJANGO//.}" -- py.test tests -v
+
+before_script:
+  - psql -c "CREATE DATABASE rapidpro_community_portal;" -U postgres
+
+before_success:
+  - coverage erase
+
+after_success:
+  - coverage combine
+  - codecov

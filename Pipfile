@@ -9,6 +9,7 @@ coverage = "*"
 flake8 = "*"
 pep8 = "*"
 factory_boy = "*"
+flake8-html = "*"
 
 [packages]
 Django = "*"
@@ -22,11 +23,13 @@ django-modelcluster = "*"
 django-sendfile = "*"
 django-taggit = "*"
 django-treebeard = "*"
+dj-static = "*"
 html5lib = "*"
 requests = "*"
 psycopg2 = "*"
 python3-memcached = "*"
-wagtail = "<1.11"
+uwsgi = "*"
+wagtail = "*"
 
 [requires]
 python_version = "3.8"

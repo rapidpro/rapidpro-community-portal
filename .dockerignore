@@ -1,0 +1,10 @@
+.git
+.tox
+.venv
+build/
+db/
+dist/
+docs/
+mockups/
+volumes/
+~build/

@@ -9,8 +9,7 @@
 .coverage
 .vagrant
 */settings/local.py
-public/static/
-public/media/
+src/public/
 conf/pillar/*/deploy
 secrets.sls*
 *.log
@@ -19,3 +18,8 @@ secrets.sls*
 .env
 .envrc
 .venv/
+rapidpro_community_portal.egg-info/
+build/
+dist/
+~build/
+.tox/

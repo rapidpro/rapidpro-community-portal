@@ -7,16 +7,12 @@ Overview
 
 Rapidpro_Community_Portal is deployed on the following stack.
 
-- OS: Ubuntu 14.04 LTS
+- OS: python:3.8.1-alpine
 - Python: 2.7
-- Database: Postgres 9.3
-- Application Server: Gunicorn
+- Database: Postgres 12.1
+- Application Server: uWSGI
 - Frontend Server: Nginx
 - Cache: Memcached
-
-These services can configured to run together on a single machine or on different machines.
-`Supervisord <http://supervisord.org/>`_ manages the application server process.
-
 
 Initial Setup
 ------------------------
