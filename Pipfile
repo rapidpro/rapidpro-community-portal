@@ -9,6 +9,7 @@ flake8 = "*"
 pep8 = "*"
 factory_boy = "*"
 flake8-html = "*"
+isort = "*"
 
 [packages]
 Django = "*"
