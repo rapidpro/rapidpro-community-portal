@@ -1,30 +1,22 @@
-version: '2.1'
+version: '3.3'
 
 services:
   backend:
     image: unicef/rapidpro-community-portal:latest
     environment:
-      DB_HOST: db
-      DB_USER: postgres
-      DB_NAME: postgres
-      DB_PORT: 5432
-      DB_PASSWORD: ''
-      DEBUG: 1
+      DATABASE_URL: psql://postgres:pass@db:5432/postgres
+      DEBUG: ''
       CSRF_COOKIE_SECURE: ''
       SECURE_SSL_REDIRECT: ''
       SESSION_COOKIE_HTTPONLY: ''
       SESSION_COOKIE_SECURE: ''
-      # CELERY_RESULT_BACKEND: redis://redis:6379/3
-      # CELERY_BROKER_URL: redis://redis:6379/2
-      # REDIS_URL: redis://redis:6379/1
-      # STATIC_ROOT: /var/rapidpro_community_portal/static/
-      # MEDIA_ROOT: /var/rapidpro_community_portal/media/
-      # MEDIA_URL: http://localhost:8082/media/
+      PROJECT_ROOT: '/var/www/rapidpro_community_portal/'
+      COMPRESS_ENABLED: 'true'
     command: uwsgi
 
     volumes:
       - "./src:/code"
-      - "./volumes/backend/var/rapidpro_community_portal/:/var/rapidpro_community_portal"
+      - "./volumes/backend/var/rapidpro_community_portal/:/var/www/rapidpro_community_portal"
     depends_on:
       - db
       - redis
