@@ -1,7 +1,12 @@
-
-
 Rapidpro Community Portal
-==========================
+=================================
+
+
+.. image::
+   https://api.travis-ci.org/rapidsms/rapidsms.org.png?branch=master
+   :alt: Build Status
+   :target: https://travis-ci.org/rapidsms/rapidsms.org
+
 
 Below you will find basic setup and deployment instructions for the rapidpro_community_portal
 project. To begin you should have the following applications installed on your
@@ -16,7 +21,7 @@ local development system::
 
 
 Getting Started
-------------------------
+----------------------------------
 
 First clone the repository from Github and switch to the new directory::
 
@@ -44,10 +49,36 @@ You should now be able to run the development server::
     python manage.py runserver
 
 
-UserVoice Templates
-------------------------
 
-Sign on to http://rapidpro1.uservoice.com/
+Running the tests
+----------------------------------
+
+You can run the tests via::
+
+    python manage.py test src/
+
+
+
+Create images
+----------------------------------
+create docker image and push on github::
+
+    update version in Makefile
+    make release
+
+
+Run docker-compose
+----------------------------------
+run docker-compose using images::
+
+    docker-compose pull
+    docker-compose up
+
+
+UserVoice Templates
+----------------------------------
+
+Sign on to http://rapidpro.uservoice.com/
 Click Admin Console (next to the user avatar)
 Click Web Portal (from the gear)
 Click Appearance and features
