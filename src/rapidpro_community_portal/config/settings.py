@@ -89,8 +89,8 @@ if AZURE_ACCOUNT_KEY:
     STATIC_LOCATION = 'static'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-    STATICFILES_STORAGE = 'rapidpro_community_portal.storages.AzureStaticStorage'
-    DEFAULT_FILE_STORAGE = 'rapidpro_community_portal.storages.AzureMediaStorage'
+    STATICFILES_STORAGE = 'rapidpro_community_portal.config.storages.AzureStaticStorage'
+    DEFAULT_FILE_STORAGE = 'rapidpro_community_portal.config.storages.AzureMediaStorage'
     AZURE_CONNECTION_TIMEOUT_SECS = 120
     AZURE_URL_EXPIRATION_SECS = 7200
 
@@ -108,10 +108,10 @@ MIDDLEWARE = (
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 )
 
-ROOT_URLCONF = 'rapidpro_community_portal.urls'
+ROOT_URLCONF = 'rapidpro_community_portal.config.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'rapidpro_community_portal.wsgi.application'
+WSGI_APPLICATION = 'rapidpro_community_portal.config.wsgi.application'
 
 SETTINGS_DIR = Path(__file__).parent
 PACKAGE_DIR = SETTINGS_DIR.parent
@@ -174,8 +174,8 @@ INSTALLED_APPS = (
     'wagtail.sites',
     'wagtail.contrib.routable_page',
     # project apps
-    'accounts',
-    'portal_pages',
+    'rapidpro_community_portal.apps.accounts',
+    'rapidpro_community_portal.apps.portal_pages',
     'rapidpro_community_portal',
 )
 

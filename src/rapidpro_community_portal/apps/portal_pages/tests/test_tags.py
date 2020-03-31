@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from accounts.models import RapidProUser
-from accounts.tests import factories
-from portal_pages.templatetags.portal_extras import make_unique
+from rapidpro_community_portal.apps.accounts.models import RapidProUser
+from rapidpro_community_portal.apps.accounts.tests import factories
+from rapidpro_community_portal.apps.portal_pages.templatetags.portal_extras import make_unique
 
 USER_MODEL = get_user_model()
 

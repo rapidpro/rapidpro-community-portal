@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 from wagtail.admin import messages
 from wagtail.users.views.users import change_user_perm
 
-from accounts.forms import UserCreationForm, UserEditForm
+from rapidpro_community_portal.apps.accounts.forms import UserCreationForm, UserEditForm
 
 User = get_user_model()
 
