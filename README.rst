@@ -1,22 +1,27 @@
-
-
 Rapidpro Community Portal
-==========================
+=================================
+
+
+.. image::
+   https://api.travis-ci.org/rapidsms/rapidsms.org.png?branch=master
+   :alt: Build Status
+   :target: https://travis-ci.org/rapidsms/rapidsms.org
+
 
 Below you will find basic setup and deployment instructions for the rapidpro_community_portal
 project. To begin you should have the following applications installed on your
 local development system::
 
-- Python >= 3.4
-- `pip <http://www.pip-installer.org/>`_ >= 1.5
+- Python >= 3.8
+- `pip <http://www.pip-installer.org/>`_ >= 19
 - `virtualenv <http://www.virtualenv.org/>`_ >= 1.10
-- `virtualenvwrapper <http://pypi.python.org/pypi/virtualenvwrapper>`_ >= 3.0
-- Postgres >= 9.1
-- git >= 1.7
+- `virtualenvwrapper <http://pypi.python.org/pypi/virtualenvwrapper>`_ >= 16.0
+- Postgres >= 12
+- git >= 12.7
 
 
 Getting Started
-------------------------
+----------------------------------
 
 First clone the repository from Github and switch to the new directory::
 
@@ -26,19 +31,13 @@ First clone the repository from Github and switch to the new directory::
 To setup your local environment you should create a virtualenv and install the
 necessary requirements::
 
-    mkvirtualenv rapidpro-community-portal -p /usr/bin/python3.8
-    $VIRTUAL_ENV/bin/pip install --find-links=file://$PWD/requirements/sdists -r $PWD/requirements/dev.txt
+    pipenv shell
+    pipenv sync --dev
 
-Then create a local settings file and set your ``DJANGO_SETTINGS_MODULE`` to use it::
+Create an .env file in the project home copying .env-template file and fill it properly::
 
-    cp rapidpro_community_portal/settings/local.example.py rapidpro_community_portal/settings/local.py
-    echo "export DJANGO_SETTINGS_MODULE=rapidpro_community_portal.settings.local" >> $VIRTUAL_ENV/bin/postactivate
-    echo "unset DJANGO_SETTINGS_MODULE" >> $VIRTUAL_ENV/bin/postdeactivate
+    cp .env-template .env
 
-Exit the virtualenv and reactivate it to activate the settings just changed::
-
-    deactivate
-    workon rapidpro-community-portal
 
 Create the Postgres database and run the initial migrate, which will also execute any required migrations::
 
@@ -50,34 +49,36 @@ You should now be able to run the development server::
     python manage.py runserver
 
 
-Deployment
-------------------------
 
-You can deploy changes to a particular environment with
-the ``deploy`` command::
+Running the tests
+----------------------------------
 
-    fab staging deploy
+You can run the tests via::
+
+    python manage.py test src/
 
 
-Refreshing Staging Environment
---------------------------------------
 
-The staging environment can be refreshed from current production via::
+Create images
+----------------------------------
+create docker image and push on github::
 
-    fab staging refresh_environment
+    update version in Makefile
+    make release
 
-This command will take a dump of the current production database, ship it to staging, and
-install it there. Furthermore the media tree will be sync'd from production to staging, and the
-database migrated (since staging may have more recent code than produciton).
 
-After this command completes, go to https://rapidpro-staging.cakt.us/admin/sites/1/ and replace
-the production domain name with rapidpro-staging.cakt.us.
+Run docker-compose
+----------------------------------
+run docker-compose using images::
+
+    docker-compose pull
+    docker-compose up
 
 
 UserVoice Templates
-------------------------
+----------------------------------
 
-Sign on to http://rapidpro1.uservoice.com/
+Sign on to http://rapidpro.uservoice.com/
 Click Admin Console (next to the user avatar)
 Click Web Portal (from the gear)
 Click Appearance and features

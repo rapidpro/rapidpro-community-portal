@@ -4,11 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-debug-toolbar = "*"
 coverage = "*"
 flake8 = "*"
 pep8 = "*"
 factory_boy = "*"
+flake8-html = "*"
+isort = "*"
 
 [packages]
 Django = "*"
@@ -18,15 +19,22 @@ Willow = "*"
 beautifulsoup4 = "*"
 django-appconf = "*"
 django-compressor = "*"
+django-debug-toolbar = "*"
+django-environ = "*"
+django-extensions = "*"
 django-modelcluster = "*"
 django-sendfile = "*"
+django-storages = {extras = ["azure"],version = "*"}
 django-taggit = "*"
 django-treebeard = "*"
+dj-static = "*"
 html5lib = "*"
 requests = "*"
 psycopg2 = "*"
 python3-memcached = "*"
-wagtail = "<1.11"
+sentry-sdk = "*"
+uwsgi = "*"
+wagtail = "*"
 
 [requires]
 python_version = "3.8"

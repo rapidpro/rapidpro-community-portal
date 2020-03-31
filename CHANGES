@@ -1,0 +1,11 @@
+ Release 1.1
+----------------
+* upgrade to django 2
+* upgrade to wagtail 2
+* code lint: flake8 isort
+* structure refactoring
+
+
+ Release 1.0
+----------------
+* handover release
