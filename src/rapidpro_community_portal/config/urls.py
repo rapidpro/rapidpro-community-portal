@@ -8,7 +8,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
-from accounts import forms as accounts_forms, urls as accounts_urls
+from rapidpro_community_portal.apps.accounts import forms as accounts_forms, urls as accounts_urls
 
 # from wagtail.search.urls import frontend as wagtailsearch_frontend_urls
 

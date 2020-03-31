@@ -5,8 +5,8 @@ from django.test import TestCase
 
 from wagtail.core.models import Page, Site
 
-from portal_pages.forms import CaseStudyForm
-from portal_pages.models import (
+from rapidpro_community_portal.apps.portal_pages.forms import CaseStudyForm
+from rapidpro_community_portal.apps.portal_pages.models import (
     BlogIndexPage,
     BlogPage,
     CaseStudyIndexPage,
