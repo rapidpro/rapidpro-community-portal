@@ -96,8 +96,10 @@ if AZURE_ACCOUNT_KEY:
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'zy)@smb_q+s&hc97uv#)*-+arl#l0yy&3(7k937f6v7+k_6ckz'
+CORS_ORIGIN_ALLOW_ALL=True
 
 MIDDLEWARE = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -158,6 +160,7 @@ INSTALLED_APPS = (
     # External apps
     'storages',
     'compressor',
+    'corsheaders',
     'taggit',
     'modelcluster',
     'django.contrib.admin',
