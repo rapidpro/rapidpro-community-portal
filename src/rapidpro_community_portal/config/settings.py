@@ -86,10 +86,7 @@ if AZURE_ACCOUNT_KEY:
     AZURE_SSL = True
     AZURE_AUTO_SIGN = True
     MEDIA_LOCATION = 'media'
-    STATIC_LOCATION = 'static'
-    STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-    STATICFILES_STORAGE = 'rapidpro_community_portal.config.storages.AzureStaticStorage'
     DEFAULT_FILE_STORAGE = 'rapidpro_community_portal.config.storages.AzureMediaStorage'
     AZURE_CONNECTION_TIMEOUT_SECS = 120
     AZURE_URL_EXPIRATION_SECS = 7200
@@ -97,9 +94,12 @@ if AZURE_ACCOUNT_KEY:
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'zy)@smb_q+s&hc97uv#)*-+arl#l0yy&3(7k937f6v7+k_6ckz'
 CORS_ORIGIN_ALLOW_ALL=True
+CORS_ALLOW_CREDENTIALS = True
+
 
 MIDDLEWARE = (
     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
