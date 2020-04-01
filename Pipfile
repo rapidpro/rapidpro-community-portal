@@ -19,6 +19,8 @@ Willow = "*"
 beautifulsoup4 = "*"
 django-appconf = "*"
 django-compressor = "*"
+django-cors-headers = "*"
+django-cors-middleware = "*"
 django-debug-toolbar = "*"
 django-environ = "*"
 django-extensions = "*"
@@ -35,7 +37,7 @@ python3-memcached = "*"
 sentry-sdk = "*"
 uwsgi = "*"
 wagtail = "*"
-django-cors-headers = "*"
+
 
 [requires]
 python_version = "3.8"
