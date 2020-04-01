@@ -86,7 +86,7 @@ ENV UWSGI_PROTOCOL=http \
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/code \
-    DJANGO_SETTINGS_MODULE=rapidpro_community_portal.settings
+    DJANGO_SETTINGS_MODULE=rapidpro_community_portal.config.settings
 
-# RUN SECRET_KEY=not-so-secret-key-just-for-collectstatic DISABLE_JWT_LOGIN=1 django-admin collectstatic --noinput
+RUN DATABASE_URL='psql://postgres:pass@db:5432/postgres' django-admin collectstatic --noinput
 EXPOSE 8000
