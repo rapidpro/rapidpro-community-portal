@@ -35,6 +35,7 @@ python3-memcached = "*"
 sentry-sdk = "*"
 uwsgi = "*"
 wagtail = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.8"
