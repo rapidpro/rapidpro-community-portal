@@ -26,7 +26,7 @@ def create(request):
             messages.success(request, _("User '{0}' created.").format(user), buttons=[
                 messages.button(reverse('wagtailusers_users_edit', args=(user.id,)), _('Edit'))
             ])
-            return redirect('wagtailusers_users_index')
+            return redirect('wagtailusers_users:index')
         else:
             messages.error(request, _("The user could not be created due to errors."))
     else:
@@ -52,7 +52,7 @@ def edit(request, user_id):
             messages.success(request, _("User '{0}' updated.").format(user), buttons=[
                 messages.button(reverse('wagtailusers_users_edit', args=(user.id,)), _('Edit'))
             ])
-            return redirect('wagtailusers_users_index')
+            return redirect('wagtailusers_users:index')
         else:
             messages.error(request, _("The user could not be saved due to errors."))
     else:

@@ -12,11 +12,10 @@ class UserCreationForm(wagtailuser_forms.UserCreationForm):
 
     https://github.com/torchbox/wagtail/issues/158
     """
-    username = forms.EmailField(required=True, label=_("Email"))
+    username = forms.EmailField(required=True, label=_("Username: email"))
 
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
-        del self.fields['email']
 
 
 class UserEditForm(wagtailuser_forms.UserEditForm):
@@ -25,11 +24,10 @@ class UserEditForm(wagtailuser_forms.UserEditForm):
 
     https://github.com/torchbox/wagtail/issues/158
     """
-    username = forms.EmailField(required=True, label=_("Email"))
+    username = forms.EmailField(required=True, label=_("Username: email"))
 
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
-        del self.fields['email']
 
 
 class PasswordResetForm(BasePasswordResetForm):
