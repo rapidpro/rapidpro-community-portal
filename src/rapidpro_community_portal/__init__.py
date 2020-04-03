@@ -1,2 +1,2 @@
 NAME = 'rapidpro-community-portal'
-VERSION = __version__ = '1.4'
+VERSION = __version__ = '1.5'

@@ -92,7 +92,7 @@ if AZURE_ACCOUNT_KEY:
     AZURE_URL_EXPIRATION_SECS = 7200
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'zy)@smb_q+s&hc97uv#)*-+arl#l0yy&3(7k937f6v7+k_6ckz'
+SECRET_KEY = env.str('SECRET_KEY', 'zy)@smb_q+s&hc97uv#)*-+arl#l0yy&3(7k937f6v7+k_6ckz')
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ALLOW_CREDENTIALS = True
 
