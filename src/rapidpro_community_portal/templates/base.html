@@ -1,5 +1,5 @@
 {% load compress static wagtailuserbar %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags matomo %}
 {% load portal_extras %}
 
 <!DOCTYPE html>
@@ -91,9 +91,8 @@
             <script type="text/javascript" src="{% static 'js/subnav.js' %}"></script>
         {% endblock %}
 
-        {% block google-js %}
-            <script type="text/javascript" src="{% static 'js/googleanalytics.js' %}"></script>
-        {% endblock %}
+        {% matomo %}
+
 
         {% block extra-js %}
         {% endblock %}
