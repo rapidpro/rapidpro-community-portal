@@ -37,7 +37,7 @@ python3-memcached = "*"
 sentry-sdk = "*"
 uwsgi = "*"
 wagtail = "*"
-
+wagtail-blocks = "*"
 
 [requires]
 python_version = "3.8"

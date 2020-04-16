@@ -180,6 +180,8 @@ INSTALLED_APPS = (
     'rapidpro_community_portal.apps.accounts',
     'rapidpro_community_portal.apps.portal_pages',
     'rapidpro_community_portal',
+    'wagtailfontawesome',
+    'wagtail_blocks',
 )
 
 AUTH_USER_MODEL = 'accounts.RapidProUser'
