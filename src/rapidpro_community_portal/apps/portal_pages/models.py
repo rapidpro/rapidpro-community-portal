@@ -9,16 +9,16 @@ from django.template.response import TemplateResponse
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 from taggit.models import Tag, TaggedItemBase
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
-from wagtail.core.fields import RichTextField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import Image
-from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
+from rapidpro_community_portal.apps.portal_pages.blocks import STREAMFIELD_BLOCK_LIST
 
 """
 The following models may be shared across multiple other models
@@ -259,13 +259,14 @@ HighlightItem.panels = [
 class CMSPage(Page, TopImage):
     body = RichTextField(blank=True, default='')
     iframe = models.CharField(max_length=255, blank=True, null=True)  # Extremely unsafe: Fix it ASAP
-
+    content = StreamField(STREAMFIELD_BLOCK_LIST, blank=True, null=True)
 
 CMSPage.content_panels = [
     FieldPanel('title'),
     FieldPanel('body'),
     FieldPanel('iframe'),
     MultiFieldPanel(TopImage.panels, "hero image"),
+    StreamFieldPanel('content'),
 ]
 
 
@@ -288,10 +289,6 @@ class MarketplaceIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
     submit_info = RichTextField(blank=True)
     thanks_info = RichTextField(blank=True)
-
-    search_fields = Page.search_fields + [
-        index.SearchField('intro'),
-    ]
 
     subpage_types = ['portal_pages.MarketplaceEntryPage']
 
@@ -505,10 +502,6 @@ class CaseStudyIndexPage(RoutablePageMixin, Page, TopImage):
     submit_info = RichTextField(blank=True)
     thanks_info = RichTextField(blank=True)
 
-    search_fields = Page.search_fields + [
-        index.SearchField('intro'),
-    ]
-
     subpage_types = ['portal_pages.CaseStudyPage']
 
     @route(r'^$')
@@ -662,10 +655,6 @@ class CaseStudyPage(Page, TopImage):
     )
     submitter_email = models.EmailField(blank=True)
 
-    search_fields = Page.search_fields + [
-        index.SearchField('summary'),
-    ]
-
     marketplace_entry = models.ForeignKey(
         'portal_pages.MarketplaceEntryPage',
         null=True,
@@ -738,10 +727,6 @@ class BlogIndexPage(RoutablePageMixin, Page, TopImage):
     intro = RichTextField(blank=True)
     submit_info = RichTextField(blank=True)
     thanks_info = RichTextField(blank=True)
-
-    search_fields = Page.search_fields + [
-        index.SearchField('intro'),
-    ]
 
     subpage_types = ['portal_pages.BlogPage']
 
@@ -839,10 +824,7 @@ class BlogPage(Page, TopImage):
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField("Post date")
     submitter_email = models.EmailField(blank=True)
-
-    search_fields = Page.search_fields + [
-        index.SearchField('body'),
-    ]
+    content = StreamField(STREAMFIELD_BLOCK_LIST, blank=True, null=True)
 
     @property
     def blog_index(self):
@@ -856,6 +838,7 @@ BlogPage.content_panels = [
     FieldPanel('body', classname="full"),
     MultiFieldPanel(TopImage.panels, "blog image"),
     FieldPanel('submitter_email'),
+    StreamFieldPanel('content'),
 ]
 
 BlogPage.promote_panels = Page.promote_panels + [
