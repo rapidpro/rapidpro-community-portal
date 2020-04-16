@@ -1,0 +1,9 @@
+{% load wagtailcore_tags portal_extras %}
+
+{% block streamblock %}
+    <div class="video_embed">
+
+        <h3>{{ value.title }}</h3>
+        {% embed value.embed.url max_width=value.max_width %}
+    </div>
+{% endblock streamblock %}

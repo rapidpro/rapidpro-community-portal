@@ -11,6 +11,8 @@
             <p>{{ self.date }}</p>
         {% endif %}
 
+        {% include "portal_pages/includes/content_streamfield.html" with streamfield=page.content %}
+
         {% if self.body %}
             <p>{{ self.body|richtext }}</p>
         {% endif %}

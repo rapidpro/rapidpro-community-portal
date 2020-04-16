@@ -6,6 +6,8 @@
     <div class="cushion">
         {{ self.body|richtext }}
     </div>
+    {% include "portal_pages/includes/content_streamfield.html" with streamfield=page.content %}
+
     {% if self.iframe %}
         <div class="cushion">
             {{ self.iframe|richtext }}

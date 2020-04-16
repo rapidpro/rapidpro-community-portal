@@ -1,0 +1,17 @@
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% load static %}
+
+<link href="{% static 'wagtail_blocks/bootstrap.min.css' %}?v={{ VERSION }}" rel="stylesheet"/>
+
+<div class="container">
+    <div class="row text-center text-lg-left">
+        <div class="imagebox" id="{{ block_id }}">
+            <a href="#{{ block_id }}">
+                <img src="{{ value.image.file.url }}" class="category-banner img-responsive">
+
+            </a>
+        </div>
+        <div>{{ value.text }}</div>
+    </div>
+</div>
