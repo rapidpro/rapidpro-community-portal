@@ -36,11 +36,13 @@ setup(
     license='BSD',
     include_package_data=True,
     classifiers=[
-        'Framework :: Django',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',
         'Framework :: Django',
         'Framework :: Django :: 2.2',
+        'Framework :: Wagtail'
+        'Framework :: Wagtail :: 2',
+        'Framework :: Flake8',
     ],
 )
