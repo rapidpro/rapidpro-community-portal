@@ -261,6 +261,7 @@ class CMSPage(Page, TopImage):
     iframe = models.CharField(max_length=255, blank=True, null=True)  # Extremely unsafe: Fix it ASAP
     content = StreamField(STREAMFIELD_BLOCK_LIST, blank=True, null=True)
 
+
 CMSPage.content_panels = [
     FieldPanel('title'),
     FieldPanel('body'),

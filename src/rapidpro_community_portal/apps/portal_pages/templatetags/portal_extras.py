@@ -106,7 +106,6 @@ def randomize_image(page):
     return top_image
 
 
-
 @register.simple_tag(name='embed')
 def embed_tag(url, max_width=None):
     try:

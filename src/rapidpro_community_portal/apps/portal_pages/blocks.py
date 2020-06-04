@@ -1,8 +1,6 @@
 from django.utils.encoding import force_text
 
 from wagtail.core.blocks import CharBlock, IntegerBlock, RawHTMLBlock, RichTextBlock, StructBlock
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail_blocks.blocks import (
     ChartBlock,
@@ -45,4 +43,3 @@ STREAMFIELD_BLOCK_LIST = [
     ('thumbnail_gallery', ThumbnailGalleryBlock()),
     ('image_slider', ImageSliderBlock()),
 ]
-
